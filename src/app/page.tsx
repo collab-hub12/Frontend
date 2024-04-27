@@ -18,7 +18,7 @@ export default function Home() {
             <h1 className='flex font-bold text-3xl'>Create account</h1>
             <p className='flex text-base'>
               Already have an account?
-              <span className='text-[#9C9C9D] pl-1'> Login</span>
+              <span className='text-grey pl-1'> Login</span>
             </p>
           </div>
           <div className='flex flex-col items-center w-full px-10 gap-4'>

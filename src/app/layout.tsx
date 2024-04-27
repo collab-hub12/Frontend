@@ -3,6 +3,12 @@ import "../styles/globals.css";
 import { Card } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/custom/Navbar";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <ThemeProvider>
-        <body>
+        <body className={inter.className}>
           <Navbar />
           <Card className='min-h-screen border-none rounded-none flex'>
             {children}

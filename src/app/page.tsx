@@ -1,3 +1,4 @@
+"use client";
 import { ModeToggle } from "@/components/mode-toggle";
 import Image from "next/image";
 import React from "react";
@@ -5,8 +6,11 @@ import { Usages } from "../../public/assets";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className='flex justify-between w-full items-center'>
       <Card className='w-full flex m-10'>
@@ -33,7 +37,9 @@ export default function Home() {
               <div className='flex gap-2 w-full'>
                 <Input type='password' placeholder='Password' />
               </div>
-              <Button className='py-6'>Create Account</Button>
+              <Link href='/initially'>
+                <Button className='py-6 w-full'>Create Account</Button>
+              </Link>
             </form>
             <p>or</p>
             <Button variant='outline' className='w-full py-6'>

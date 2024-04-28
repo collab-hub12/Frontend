@@ -117,7 +117,7 @@ export const columns: ColumnDef<TeamsData>[] = [
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
             <DropdownMenuItem>Edit Team</DropdownMenuItem>
-            <Link href='/teams'>
+            <Link href='/work'>
               <DropdownMenuItem>Enter Team</DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />

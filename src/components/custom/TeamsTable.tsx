@@ -49,39 +49,27 @@ import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 
-const data: Organisation[] = [
+const data: TeamsData[] = [
   {
     id: "m5gr84i9",
-    org_name: "Amazon",
+    team_name: "Frontend Team",
   },
   {
     id: "3u1reuv4",
-    org_name: "Google",
+    team_name: "Backend Team",
   },
   {
     id: "derv1ws0",
-    org_name: "VNG",
-  },
-  {
-    id: "5kma53ae",
-    org_name: "BuilBear",
-  },
-  {
-    id: "bhqecj4p",
-    org_name: "Minutes Live",
-  },
-  {
-    id: "bhqecj4p",
-    org_name: "Fypen",
+    team_name: "Devops Team",
   },
 ];
 
-export type Organisation = {
+export type TeamsData = {
   id: string;
-  org_name: string;
+  team_name: string;
 };
 
-export const columns: ColumnDef<Organisation>[] = [
+export const columns: ColumnDef<TeamsData>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -90,7 +78,7 @@ export const columns: ColumnDef<Organisation>[] = [
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Organisation ID
+          Team ID
           <CaretSortIcon className='ml-2 h-4 w-4' />
         </Button>
       );
@@ -98,20 +86,20 @@ export const columns: ColumnDef<Organisation>[] = [
     cell: ({ row }) => <div className='lowercase'>{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "org_name",
+    accessorKey: "team_name",
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Organisation Name
+          Team Name
           <CaretSortIcon className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='uppercase'>{row.getValue("org_name")}</div>
+      <div className='uppercase'>{row.getValue("team_name")}</div>
     ),
   },
   {
@@ -128,12 +116,12 @@ export const columns: ColumnDef<Organisation>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
-            <DropdownMenuItem>Edit Organisation</DropdownMenuItem>
+            <DropdownMenuItem>Edit Team</DropdownMenuItem>
             <Link href='/teams'>
-              <DropdownMenuItem>Enter Organisation</DropdownMenuItem>
+              <DropdownMenuItem>Enter Team</DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete Organisation</DropdownMenuItem>
+            <DropdownMenuItem>Delete Team</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -141,7 +129,7 @@ export const columns: ColumnDef<Organisation>[] = [
   },
 ];
 
-export function OrganisationTable() {
+export function TeamsTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -174,12 +162,12 @@ export function OrganisationTable() {
       <div className='flex justify-between items-center gap-4 py-4'>
         <div>
           <Input
-            placeholder='Filter Organisation Names'
+            placeholder='Filter Team Names'
             value={
-              (table.getColumn("org_name")?.getFilterValue() as string) ?? ""
+              (table.getColumn("team_name")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-              table.getColumn("org_name")?.setFilterValue(event.target.value)
+              table.getColumn("team_name")?.setFilterValue(event.target.value)
             }
             className='max-w-sm'
           />
@@ -187,7 +175,7 @@ export function OrganisationTable() {
         <div className='flex items-center gap-4'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant='outline'>Create Organisation</Button>
+              <Button variant='outline'>Create Team</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:text-white'>
               <div className='flex flex-col w-full'>
@@ -197,20 +185,20 @@ export function OrganisationTable() {
                   </AlertDialogCancel>
                 </div>
                 <form className='p-10 flex flex-col gap-2'>
-                  <label>Organisation ID</label>
-                  <Input placeholder='Organisation ID' />
-                  <label>Organisation Name</label>
-                  <Input placeholder='Organisation Name' />
+                  <label>Team ID</label>
+                  <Input placeholder='Team ID' />
+                  <label>Team Name</label>
+                  <Input placeholder='Team Name' />
                 </form>
                 <div className='flex justify-center items-center'>
-                  <AlertDialogAction>Create Organisation</AlertDialogAction>
+                  <AlertDialogAction>Create Team</AlertDialogAction>
                 </div>
               </div>
             </AlertDialogContent>
           </AlertDialog>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant='outline'>Join Organisation</Button>
+              <Button variant='outline'>Join Team</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:text-white'>
               <div className='flex flex-col w-full'>
@@ -220,44 +208,17 @@ export function OrganisationTable() {
                   </AlertDialogCancel>
                 </div>
                 <form className='p-10 flex flex-col gap-2'>
-                  <label>Organisation ID</label>
-                  <Input placeholder='Organisation ID' />
-                  <label>Organisation Name</label>
-                  <Input placeholder='Organisation Name' />
+                  <label>Team ID</label>
+                  <Input placeholder='Team ID' />
+                  <label>Team Name</label>
+                  <Input placeholder='Team Name' />
                 </form>
                 <div className='flex justify-center items-center'>
-                  <AlertDialogAction>Join Organisation</AlertDialogAction>
+                  <AlertDialogAction>Join Team</AlertDialogAction>
                 </div>
               </div>
             </AlertDialogContent>
           </AlertDialog>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant='outline' className='ml-auto'>
-                Filter <ChevronDownIcon className='ml-2 h-4 w-4' />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align='end'>
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className='capitalize'
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
       <div className='rounded-md border dark:border-slate-800 '>

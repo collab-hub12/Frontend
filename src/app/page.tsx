@@ -28,8 +28,8 @@ export default function Home() {
           <div className='flex flex-col items-center w-full px-10 gap-4'>
             <form className='flex flex-col gap-4 w-full'>
               <div className='flex gap-2 w-full'>
-                <Input type='email' placeholder='First Name' />
-                <Input type='email' placeholder='Last Name' />
+                <Input placeholder='First Name' />
+                <Input placeholder='Last Name' />
               </div>
               <div className='flex gap-2 w-full'>
                 <Input type='email' placeholder='Email' />

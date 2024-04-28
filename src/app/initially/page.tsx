@@ -10,7 +10,7 @@ export default function Initially() {
         <div className='flex flex-col'>
           <h1 className='text-3xl font-semibold'>Hello there Bishakh!</h1>
           <p className='text-grey '>
-            Here's the list of organisations you have joined
+            Here&apos;s the list of organisations you have joined
           </p>
         </div>
         <Avatar>

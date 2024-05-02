@@ -1,7 +1,9 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
 import { Usages } from "../../../public/assets";
 import Member from "@/components/custom/Member";
+import KanbanBoard from "@/components/custom/KanbanBoard";
 
 export default function Work() {
   return (
@@ -17,6 +19,9 @@ export default function Work() {
       </div>
       <div>
         <Member />
+      </div>
+      <div>
+        <KanbanBoard />
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/custom/Navbar";
 import { Inter } from "next/font/google";
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",

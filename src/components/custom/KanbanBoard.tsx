@@ -15,6 +15,16 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
+import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { X } from "lucide-react";
+import { Input } from "../ui/input";
 
 const defaultCols: Column[] = [
   {
@@ -117,69 +127,90 @@ function KanbanBoard() {
   );
 
   return (
-    <div
-      className='
-
+    <>
+      <div className='flex items-end justify-end gap-4 py-10'>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant='outline'>Create Task</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className='dark:text-white'>
+            <div className='flex flex-col w-full'>
+              <div className='flex justify-end w-full'>
+                <AlertDialogCancel className='border-none'>
+                  <X />
+                </AlertDialogCancel>
+              </div>
+              <form className='p-10 flex flex-col gap-2'>
+                <label>Team ID</label>
+                <Input placeholder='Team ID' />
+                <label>Team Name</label>
+                <Input placeholder='Team Name' />
+              </form>
+              <div className='flex justify-center items-center'>
+                <AlertDialogAction>Create Task</AlertDialogAction>
+              </div>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+      <div
+        className='
         flex
-        min-h-screen
         w-full
         items-center
         overflow-x-auto
         overflow-y-hidden
     '
-    >
-      <DndContext
-        sensors={sensors}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
       >
-        <div className='flex gap-4 justify-between w-full'>
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
           <div className='flex gap-4 justify-between w-full'>
-            <SortableContext items={columnsId}>
-              {columns.map((col) => (
+            <div className='flex gap-4 justify-between w-full'>
+              <SortableContext items={columnsId}>
+                {columns.map((col) => (
+                  <ColumnContainer
+                    key={col.id}
+                    column={col}
+                    createTask={createTask}
+                    deleteTask={deleteTask}
+                    updateTask={updateTask}
+                    tasks={tasks.filter((task) => task.columnId === col.id)}
+                  />
+                ))}
+              </SortableContext>
+            </div>
+          </div>
+
+          {createPortal(
+            <DragOverlay>
+              {activeColumn && (
                 <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  deleteColumn={deleteColumn}
-                  updateColumn={updateColumn}
+                  column={activeColumn}
                   createTask={createTask}
                   deleteTask={deleteTask}
                   updateTask={updateTask}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
+                  tasks={tasks.filter(
+                    (task) => task.columnId === activeColumn.id
+                  )}
                 />
-              ))}
-            </SortableContext>
-          </div>
-        </div>
-
-        {createPortal(
-          <DragOverlay>
-            {activeColumn && (
-              <ColumnContainer
-                column={activeColumn}
-                deleteColumn={deleteColumn}
-                updateColumn={updateColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            )}
-            {activeTask && (
-              <TaskCard
-                task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            )}
-          </DragOverlay>,
-          document.body
-        )}
-      </DndContext>
-    </div>
+              )}
+              {activeTask && (
+                <TaskCard
+                  task={activeTask}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                />
+              )}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      </div>
+    </>
   );
 
   function createTask(columnId: Id) {

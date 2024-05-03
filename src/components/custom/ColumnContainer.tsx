@@ -7,8 +7,8 @@ import { Card } from "../ui/card";
 
 interface Props {
   column: Column;
-  deleteColumn: (id: Id) => void;
-  updateColumn: (id: Id, title: string) => void;
+  // deleteColumn: (id: Id) => void;
+  // updateColumn: (id: Id, title: string) => void;
 
   createTask: (columnId: Id) => void;
   updateTask: (id: Id, content: string) => void;
@@ -18,10 +18,8 @@ interface Props {
 
 function ColumnContainer({
   column,
-  deleteColumn,
-  updateColumn,
-  createTask,
   tasks,
+  createTask,
   deleteTask,
   updateTask,
 }: Props) {
@@ -31,14 +29,7 @@ function ColumnContainer({
     return tasks.map((task) => task.id);
   }, [tasks]);
 
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { setNodeRef, transform, transition, isDragging } = useSortable({
     id: column.id,
     data: {
       type: "Column",

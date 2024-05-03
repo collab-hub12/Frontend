@@ -2,8 +2,37 @@ import { useState } from "react";
 import { Id, Task } from "../../utilities/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TrashIcon } from "lucide-react";
+import { TrashIcon, X } from "lucide-react";
 import { Card } from "../ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { Input } from "../ui/input";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
 
 interface Props {
   task: Task;
@@ -13,7 +42,7 @@ interface Props {
 
 function TaskCard({ task, deleteTask, updateTask }: Props) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   const {
     setNodeRef,
@@ -48,41 +77,11 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
         style={style}
         className='
         opacity-30
-      bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative
+      bg-mainBackgroundColor h-[50px] min-h-[50px] px-4 py-3 items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab 
       '
       />
     );
   }
-
-  if (editMode) {
-    return (
-      <Card
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-        className='p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset ring-gray-400 hover:dark:ring-slate-300 cursor-grab relative'
-      >
-        <textarea
-          className='
-        h-[90%]
-        w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
-        '
-          value={task.content}
-          autoFocus
-          placeholder='Task content here'
-          onBlur={toggleEditMode}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.shiftKey) {
-              toggleEditMode();
-            }
-          }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
-        />
-      </Card>
-    );
-  }
-
   return (
     <Card
       ref={setNodeRef}
@@ -90,7 +89,7 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      className='bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset ring-gray-500 hover:dark:ring-slate-500 cursor-grab relative task'
+      className='bg-mainBackgroundColor px-4 py-3 items-center justify-between flex text-left rounded-xl hover:ring-2 hover:ring-inset ring-gray-500 hover:dark:ring-slate-500 cursor-grab'
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -98,20 +97,27 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
         setMouseIsOver(false);
       }}
     >
-      <p className='my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap'>
+      <p className='w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap flex items-center'>
         {task.content}
       </p>
-
-      {mouseIsOver && (
-        <button
-          onClick={() => {
-            deleteTask(task.id);
-          }}
-          className='stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100'
-        >
-          <TrashIcon />
-        </button>
-      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant='ghost' className='h-8 w-8 p-0'>
+            <span className='sr-only'>Open menu</span>
+            <DotsHorizontalIcon className='h-4 w-4' />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end'>
+          <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
+          <DropdownMenuItem>See Task</DropdownMenuItem>
+          <DropdownMenuItem>Edit Task</DropdownMenuItem>
+          <Link href='/work'>
+            <DropdownMenuItem>Enter Task</DropdownMenuItem>
+          </Link>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Delete Task</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </Card>
   );
 }

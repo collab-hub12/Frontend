@@ -184,30 +184,26 @@ function KanbanBoard() {
               </SortableContext>
             </div>
           </div>
-
-          {createPortal(
-            <DragOverlay>
-              {activeColumn && (
-                <ColumnContainer
-                  column={activeColumn}
-                  createTask={createTask}
-                  deleteTask={deleteTask}
-                  updateTask={updateTask}
-                  tasks={tasks.filter(
-                    (task) => task.columnId === activeColumn.id
-                  )}
-                />
-              )}
-              {activeTask && (
-                <TaskCard
-                  task={activeTask}
-                  deleteTask={deleteTask}
-                  updateTask={updateTask}
-                />
-              )}
-            </DragOverlay>,
-            document.body
-          )}
+          <DragOverlay>
+            {activeColumn && (
+              <ColumnContainer
+                column={activeColumn}
+                createTask={createTask}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+                tasks={tasks.filter(
+                  (task) => task.columnId === activeColumn.id
+                )}
+              />
+            )}
+            {activeTask && (
+              <TaskCard
+                task={activeTask}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+              />
+            )}
+          </DragOverlay>
         </DndContext>
       </div>
     </>

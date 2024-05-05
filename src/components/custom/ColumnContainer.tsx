@@ -48,7 +48,7 @@ function ColumnContainer({
       <Card
         ref={setNodeRef}
         // style={style}
-        className='
+        className="
       opacity-40
       border-2
       border-slate-200
@@ -58,7 +58,7 @@ function ColumnContainer({
       rounded-md
       flex
       flex-col
-      '
+      "
       ></Card>
     );
   }
@@ -67,18 +67,18 @@ function ColumnContainer({
     <Card
       ref={setNodeRef}
       style={style}
-      className='
+      className="
   w-[350px]
   h-[500px]
   max-h-[500px]
   rounded-md
   flex
   flex-col
-  '
+  "
     >
       {/* Column title */}
       <div
-        className='
+        className="
       cursor-grab
       rounded-none
       p-3
@@ -87,13 +87,13 @@ function ColumnContainer({
       flex
       items-center
       justify-center
-      '
+      "
       >
         {column.title}
       </div>
 
       {/* Column task container */}
-      <div className='flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto'>
+      <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard

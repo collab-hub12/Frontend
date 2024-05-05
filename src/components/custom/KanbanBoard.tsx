@@ -1,6 +1,6 @@
 "use client";
-import { useMemo, useState } from "react";
-import { Column, Id, Task } from "../../utilities/types";
+import { useId, useMemo, useState } from "react";
+import { defaultCols, defaultTasks } from "@/mock/data";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -13,6 +13,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+
 import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
 import { Button } from "../ui/button";
@@ -25,90 +26,10 @@ import {
 } from "../ui/alert-dialog";
 import { X } from "lucide-react";
 import { Input } from "../ui/input";
-
-const defaultCols: Column[] = [
-  {
-    id: "inprogress",
-    title: "In Progress",
-  },
-  {
-    id: "notstarted",
-    title: "Not Started",
-  },
-  {
-    id: "inreview",
-    title: "In Review",
-  },
-  {
-    id: "done",
-    title: "Done",
-  },
-];
-
-const defaultTasks: Task[] = [
-  {
-    id: "1",
-    columnId: "inporgress",
-    content: "Task 1",
-  },
-  {
-    id: "2",
-    columnId: "notstarted",
-    content: "Task 2",
-  },
-  {
-    id: "3",
-    columnId: "inreview",
-    content: "Task 3",
-  },
-  {
-    id: "4",
-    columnId: "done",
-    content: "Task 4",
-  },
-  {
-    id: "5",
-    columnId: "done",
-    content: "Task 5",
-  },
-  {
-    id: "6",
-    columnId: "inprogress",
-    content: "Task 6",
-  },
-  {
-    id: "7",
-    columnId: "inprogress",
-    content: "Task 7",
-  },
-  {
-    id: "8",
-    columnId: "inreview",
-    content: "Task 8",
-  },
-  {
-    id: "9",
-    columnId: "inreview",
-    content: "Task 9",
-  },
-  {
-    id: "10",
-    columnId: "inprogress",
-    content: "Task 10",
-  },
-  {
-    id: "11",
-    columnId: "inreview",
-    content: "Task 11",
-  },
-  {
-    id: "12",
-    columnId: "done",
-    content: "Task 12",
-  },
-];
+import { Column, Id, Task } from "@/utilities/types";
 
 function KanbanBoard() {
+  const id = useId();
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -128,25 +49,25 @@ function KanbanBoard() {
 
   return (
     <>
-      <div className='flex items-end justify-end gap-4 py-10'>
+      <div className="flex items-end justify-end gap-4 py-10">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant='outline'>Create Task</Button>
+            <Button variant="outline">Create Task</Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className='dark:text-white'>
-            <div className='flex flex-col w-full'>
-              <div className='flex justify-end w-full'>
-                <AlertDialogCancel className='border-none'>
+          <AlertDialogContent className="dark:text-white">
+            <div className="flex flex-col w-full">
+              <div className="flex justify-end w-full">
+                <AlertDialogCancel className="border-none">
                   <X />
                 </AlertDialogCancel>
               </div>
-              <form className='p-10 flex flex-col gap-2'>
+              <form className="p-10 flex flex-col gap-2">
                 <label>Team ID</label>
-                <Input placeholder='Team ID' />
+                <Input placeholder="Team ID" />
                 <label>Team Name</label>
-                <Input placeholder='Team Name' />
+                <Input placeholder="Team Name" />
               </form>
-              <div className='flex justify-center items-center'>
+              <div className="flex justify-center items-center">
                 <AlertDialogAction>Create Task</AlertDialogAction>
               </div>
             </div>
@@ -154,38 +75,44 @@ function KanbanBoard() {
         </AlertDialog>
       </div>
       <div
-        className='
+        className="
         flex
         w-full
         items-center
         overflow-x-auto
         overflow-y-hidden
-    '
+    "
       >
         <DndContext
+          id={id}
           sensors={sensors}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           onDragOver={onDragOver}
         >
-          <div className='flex gap-4 justify-between w-full'>
-            <div className='flex gap-4 justify-between w-full'>
-              <SortableContext items={columnsId}>
-                {columns.map((col) => (
-                  <ColumnContainer
-                    key={col.id}
-                    column={col}
-                    createTask={createTask}
-                    deleteTask={deleteTask}
-                    updateTask={updateTask}
-                    tasks={tasks.filter((task) => task.columnId === col.id)}
-                  />
-                ))}
+          <div className="flex gap-4 justify-between w-full">
+            <div className="flex gap-4 justify-between w-full">
+              <SortableContext id={id} items={columnsId}>
+                {columns.map((col) => {
+                  const tasksFil = tasks.filter(
+                    (task) => task.columnId === col.id
+                  );
+                  return (
+                    <ColumnContainer
+                      key={col.id}
+                      column={col}
+                      createTask={createTask}
+                      deleteTask={deleteTask}
+                      updateTask={updateTask}
+                      tasks={tasksFil}
+                    />
+                  );
+                })}
               </SortableContext>
             </div>
           </div>
 
-          {createPortal(
+          {
             <DragOverlay>
               {activeColumn && (
                 <ColumnContainer
@@ -205,9 +132,8 @@ function KanbanBoard() {
                   updateTask={updateTask}
                 />
               )}
-            </DragOverlay>,
-            document.body
-          )}
+            </DragOverlay>
+          }
         </DndContext>
       </div>
     </>
@@ -297,7 +223,7 @@ function KanbanBoard() {
 
       const overColumnIndex = columns.findIndex((col) => col.id === overId);
 
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
+      return [...arrayMove(columns, activeColumnIndex, overColumnIndex)];
     });
   }
 

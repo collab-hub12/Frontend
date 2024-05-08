@@ -22,17 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ClerkProvider>
-        <ThemeProvider>
-          <body className={`${inter.className} min-h-screen flex flex-col`}>
-            <Navbar />
-            {/* <div className='flex-1 bg-red-200'>{children}</div> */}
-            <Card className="flex-1 border-none rounded-none flex">
-              {children}
-            </Card>
-          </body>
-        </ThemeProvider>
-      </ClerkProvider>
+      <ThemeProvider>
+        <body className={`${inter.className} min-h-screen flex flex-col`}>
+          <Navbar />
+          {/* <div className='flex-1 bg-red-200'>{children}</div> */}
+          <Card className="flex-1 border-none rounded-none flex">
+            {children}
+          </Card>
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

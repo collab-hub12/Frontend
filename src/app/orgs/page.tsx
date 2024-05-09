@@ -1,8 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
-import { Usages } from "../../../public/assets";
 import { OrganisationTable } from "@/components/custom/OrganisationTable";
-import { UserButton } from "@clerk/nextjs";
 
 export default function Orgs() {
   return (
@@ -14,7 +11,6 @@ export default function Orgs() {
             Here&apos;s the list of organisations you have joined
           </p>
         </div>
-        <UserButton />
       </div>
       <OrganisationTable />
     </div>

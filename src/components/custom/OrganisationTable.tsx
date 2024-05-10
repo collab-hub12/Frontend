@@ -48,7 +48,7 @@ import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Org } from "@/utilities/types";
-import { createOrg } from "@/action/org.action";
+import { createOrg } from "@/actions/org.action";
 
 export const columns: ColumnDef<Org>[] = [
   {

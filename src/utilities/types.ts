@@ -19,3 +19,13 @@ export type Org = {
   location: string,
   createdAt?: string
 }
+export type Team = {
+  id?: number,
+  name: string
+}
+
+export type WithRoles = {
+  org_id: number,
+  team_id?: number,
+  room_id?: number,
+}

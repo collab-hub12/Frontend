@@ -1,9 +1,10 @@
 import React from "react";
 import { OrganisationTable } from "@/components/custom/OrganisationTable";
-import { getOrgDetails, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Org } from "@/utilities/types";
+import { getOrgDetails } from "@/actions/org.action";
 
 export default async function Orgs() {
   const data = await getSession();

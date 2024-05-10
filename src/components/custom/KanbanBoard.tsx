@@ -13,8 +13,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-
-import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
 import { Button } from "../ui/button";
 import {
@@ -80,8 +78,7 @@ function KanbanBoard() {
         w-full
         items-center
         overflow-x-auto
-        overflow-y-hidden
-    "
+        overflow-y-hidden"
       >
         <DndContext
           id={id}

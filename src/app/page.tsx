@@ -5,11 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getSession();
+  console.log(session);
+
   if (session) redirect("/orgs");
 
   const LoginHandler = async () => {

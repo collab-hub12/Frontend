@@ -19,6 +19,15 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "storage-techfiesta24.blr1.cdn.digitaloceanspaces.com",
+      },
+    ],
+    domains: ["lh3.googleusercontent.com"],
+  },
 };
 
 export default nextConfig;

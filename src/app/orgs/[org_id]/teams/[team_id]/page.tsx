@@ -3,8 +3,9 @@ import React from "react";
 import Member from "@/components/custom/Member";
 import KanbanBoard from "@/components/custom/KanbanBoard";
 import { UserButton } from "@clerk/nextjs";
+import { ProtectedRoute } from "@/components/protectedRoute";
 
-export default function Work() {
+function Work() {
   return (
     <div className="flex flex-col p-10 w-full gap-4">
       <div className="flex justify-between">
@@ -22,3 +23,5 @@ export default function Work() {
     </div>
   );
 }
+
+export default ProtectedRoute(Work);

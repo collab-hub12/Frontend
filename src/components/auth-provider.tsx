@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "@/utilities/axios";
 
@@ -16,10 +17,11 @@ type User = {
   name: string;
   email: string;
   picture: string;
-  roles: Role[];
+  roles?: Role[];
 };
 
 type ThemeProviderState = {
+  isAuth: boolean;
   user?: User;
   isLoading: boolean;
 };
@@ -32,16 +34,17 @@ export const AuthProvider = ({ children, ...props }: ProviderProps) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await api.get("/users", { withCredentials: true });
-      console.log(data);
-      setUser(data);
+      try {
+        const { data } = await api.get("/users");
+        setUser(data);
+      } catch {}
       setIsLoading(false);
     };
     getSession();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading }}>
+    <AuthContext.Provider value={{ isAuth: !!user, user, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

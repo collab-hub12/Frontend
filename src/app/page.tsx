@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 import React from "react";
 import { Usages } from "../../public/assets";
@@ -6,11 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
+  if (session) redirect("/orgs");
+
   const LoginHandler = async () => {
-    window.location.href = "http://127.0.0.1:8000/api/auth/google/callback";
+    "use server";
+    redirect(`${process.env.BACKEND_URL}/auth/google/callback`);
   };
+
   return (
     <div className="flex justify-between w-full items-center">
       <Card className="w-full flex m-10">
@@ -42,19 +48,17 @@ export default function Home() {
               </Link>
             </form>
             <p>or</p>
-            <Button
-              variant="outline"
-              className="w-full py-6"
-              onClick={() => LoginHandler()}
-            >
-              <span className="px-4">Continue with Google</span>
-              <img
-                className="w-6 h-6"
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                loading="lazy"
-                alt="google logo"
-              ></img>
-            </Button>
+            <form action={LoginHandler}>
+              <Button variant="outline" className="w-full py-6" type="submit">
+                <span className="px-4">Continue with Google</span>
+                <img
+                  className="w-6 h-6"
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  loading="lazy"
+                  alt="google logo"
+                ></img>
+              </Button>
+            </form>
           </div>
         </div>
       </Card>

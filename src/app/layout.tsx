@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/custom/Navbar";
 import { Inter } from "next/font/google";
-import { AuthProvider } from "@/components/auth-provider";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -23,15 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ThemeProvider>
-        <AuthProvider>
-          <body className={`${inter.className} min-h-screen flex flex-col`}>
-            <Navbar />
-            {/* <div className='flex-1 bg-red-200'>{children}</div> */}
-            <Card className="flex-1 border-none rounded-none flex">
-              {children}
-            </Card>
-          </body>
-        </AuthProvider>
+        <body className={`${inter.className} min-h-screen flex flex-col`}>
+          <Navbar />
+          {/* <div className='flex-1 bg-red-200'>{children}</div> */}
+          <Card className="flex-1 border-none rounded-none flex">
+            {children}
+          </Card>
+        </body>
       </ThemeProvider>
     </html>
   );

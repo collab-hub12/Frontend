@@ -51,8 +51,21 @@ export default async function Teams() {
           <h1 className="text-l font-semibold">
             - {(orgDetailResponse as Org)?.location}
           </h1>
+          <h1 className="text-3xl font-semibold">
+            {(orgDetailResponse as Org)?.org_name}
+          </h1>
+          <h1 className="text-xl font-semibold">
+            {(orgDetailResponse as Org)?.org_desc}
+          </h1>
+          <h1 className="text-l font-semibold">
+            - {(orgDetailResponse as Org)?.location}
+          </h1>
         </div>
       </div>
+      <TeamsTable
+        data={teamDetailsResponse as Team[]}
+        org_id={withRoles?.org_id!}
+      />
       <TeamsTable
         data={teamDetailsResponse as Team[]}
         org_id={withRoles?.org_id!}

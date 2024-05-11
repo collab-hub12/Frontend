@@ -2,16 +2,18 @@ import React from "react";
 import { OrganisationTable } from "@/components/custom/OrganisationTable";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import { Org } from "@/utilities/types";
-import { getOrgDetails } from "@/actions/org.action";
-
+import { getOrgDetails } from "@/lib/orgs.query";
+import { getUsers } from "@/lib/users.query";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default async function Orgs() {
   const data = await getSession();
   if (!data) {
     redirect("/");
   }
-  const orgDetails = await getOrgDetails();
+  const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);
+
+  console.log(data);
 
   return (
     <div className="flex flex-col p-10 w-full">
@@ -22,13 +24,12 @@ export default async function Orgs() {
             Here&apos;s the list of organisations you have joined
           </p>
         </div>
-        <Image
-          width="40"
-          height="40"
-          className="w-10 h-10 rounded-full"
-          src={data?.picture}
-          alt="Rounded avatar"
-        />
+        <Avatar>
+          <AvatarImage src={data?.picture} alt="ok" />
+          <AvatarFallback>
+            {data?.name.substr(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
       </div>
       <OrganisationTable data={orgDetails as Org[]} />
     </div>

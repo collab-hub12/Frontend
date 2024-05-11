@@ -11,6 +11,7 @@ export type Task = {
   content: string;
 };
 
+
 export type Org = {
   id?: number,
   org_name: string,

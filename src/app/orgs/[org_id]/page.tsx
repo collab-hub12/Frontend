@@ -7,6 +7,10 @@ import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
 import { Org, Team } from "@/utilities/types";
 import { getTeamDetails } from "@/lib/teams.query";
 import { TeamsTable } from "@/components/custom/TeamsTable";
+import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
+import { Org, Team } from "@/utilities/types";
+import { getTeamDetails } from "@/lib/teams.query";
+import { TeamsTable } from "@/components/custom/TeamsTable";
 
 export default async function Teams() {
   const headersList = headers();

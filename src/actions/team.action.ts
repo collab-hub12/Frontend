@@ -1,15 +1,25 @@
+"use server"
 import {getCookieValue} from "@/lib/session";
+import {CreateTeamSchema} from "@/schema/team.schema";
+import {revalidatePath} from "next/cache";
 
-export async function getTeamDetails(org_id: number) {
-    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/`, {
-        method: 'GET',
-        headers: {
-            Cookie: `jwt=${getCookieValue('jwt')}`
-        },
-        next: {revalidate: 1}
-    })
-    const data = await response.json()
-    if (!Array.isArray(data))
-        return null;
-    return data;
+export async function createTeam(org_id: number, formData: FormData) {
+    try {
+        const teamDetails = CreateTeamSchema.parse({
+            team_name: formData.get('team_name'),
+        })
+
+        await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams`, {
+            method: 'POST',
+            body: JSON.stringify(teamDetails),
+            headers: {
+                Cookie: `jwt=${getCookieValue('jwt')}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+    }
+    revalidatePath(`/orgs/${org_id}`)
 }

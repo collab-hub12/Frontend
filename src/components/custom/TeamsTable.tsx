@@ -49,6 +49,7 @@ import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Team } from "@/utilities/types";
+import { createTeam } from "@/actions/team.action";
 
 export const columns: ColumnDef<Team>[] = [
   {
@@ -67,7 +68,7 @@ export const columns: ColumnDef<Team>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "team_name",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -79,9 +80,7 @@ export const columns: ColumnDef<Team>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="uppercase">{row.getValue("team_name")}</div>
-    ),
+    cell: ({ row }) => <div className="uppercase">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "customisation",
@@ -112,9 +111,11 @@ export const columns: ColumnDef<Team>[] = [
 
 type propType = {
   data: Team[];
+  org_id: number;
 };
 
-export function TeamsTable({ data }: propType) {
+export function TeamsTable({ data, org_id }: propType) {
+  const createTeamwithOrgId = createTeam.bind(null, org_id);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -148,11 +149,9 @@ export function TeamsTable({ data }: propType) {
         <div>
           <Input
             placeholder="Filter Team Names"
-            value={
-              (table.getColumn("team_name")?.getFilterValue() as string) ?? ""
-            }
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("team_name")?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -169,15 +168,19 @@ export function TeamsTable({ data }: propType) {
                     <X />
                   </AlertDialogCancel>
                 </div>
-                <form className="p-10 flex flex-col gap-2">
-                  <label>Team ID</label>
-                  <Input placeholder="Team ID" />
+                <form
+                  action={createTeamwithOrgId}
+                  className="p-10 flex flex-col gap-2"
+                >
                   <label>Team Name</label>
-                  <Input placeholder="Team Name" />
+                  <Input name="team_name" placeholder="Team Name" />
+
+                  <div className="flex justify-center items-center">
+                    <AlertDialogAction type="submit">
+                      Create Team
+                    </AlertDialogAction>
+                  </div>
                 </form>
-                <div className="flex justify-center items-center">
-                  <AlertDialogAction>Create Team</AlertDialogAction>
-                </div>
               </div>
             </AlertDialogContent>
           </AlertDialog>

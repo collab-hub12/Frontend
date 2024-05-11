@@ -4,14 +4,17 @@ import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Org } from "@/utilities/types";
-import { getOrgDetails } from "@/actions/org.action";
+import { getOrgDetails } from "@/lib/orgs.query";
+import { getUsers } from "@/lib/users.query";
 
 export default async function Orgs() {
   const data = await getSession();
   if (!data) {
     redirect("/");
   }
-  const orgDetails = await getOrgDetails();
+  const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);
+
+  //console.log(users);
 
   return (
     <div className="flex flex-col p-10 w-full">

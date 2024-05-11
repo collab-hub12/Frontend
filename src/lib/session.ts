@@ -20,7 +20,7 @@ function getUrl(withRoles: WithRoles) {
 
 export async function getSession(withRoles?: WithRoles) {
 
-    const fetch_url = withRoles ? getUrl(withRoles) : `${process.env.BACKEND_URL}/users`
+    const fetch_url = withRoles ? getUrl(withRoles) : `${process.env.BACKEND_URL}/auth`
 
     const response = await fetch(fetch_url, {
         method: 'GET',
@@ -29,7 +29,6 @@ export async function getSession(withRoles?: WithRoles) {
         },
         next: {revalidate: 1}
     })
-
     const data = await response.json()
     if (!data.email) return null;
     return data;

@@ -163,7 +163,7 @@ type propType = {
   data: User[];
 };
 
-export function Member() {
+export function JoinedUser() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -192,6 +192,8 @@ export function Member() {
   });
 
   const rowsPerPage = 3;
+  const [startIndex, setStartIndex] = React.useState(0);
+  const [endIndex, setEndIndex] = React.useState(rowsPerPage);
 
   return (
     <div className='w-full'>
@@ -209,29 +211,56 @@ export function Member() {
           />
         </div>
       </div>
-      <div className='rounded-md border dark:border-slate-800 h-[300px] overflow-auto'>
+      <div className='rounded-md border dark:border-slate-800 h-[300px]'>
         <Table className='relative w-full'>
+          <TableHeader className='flex items-center w-full'>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow
+                key={headerGroup.id}
+                className='flex items-center w-full dark:border-slate-800 sticky top-0'
+              >
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      className='flex items-center w-full justify-center dark:border-slate-800 sticky top-0'
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className='flex items-center justify-between w-full dark:border-slate-800 h-[60px]'
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className='flex items-center justify-start dark:border-slate-800'
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table
+                .getRowModel()
+                .rows.slice(startIndex, endIndex)
+                .map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className='flex items-center w-full dark:border-slate-800 h-[60px]'
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className='flex items-center w-full justify-center dark:border-slate-800'
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
             ) : (
               <TableRow>
                 <TableCell
@@ -244,6 +273,39 @@ export function Member() {
             )}
           </TableBody>
         </Table>
+        <div className='pb-2'>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className={
+                    startIndex === 0
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex - rowsPerPage);
+                    setEndIndex(endIndex - rowsPerPage);
+                  }}
+                />
+              </PaginationItem>
+
+              <PaginationItem>
+                <PaginationNext
+                  className={
+                    endIndex === 6
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex + rowsPerPage);
+                    setEndIndex(endIndex + rowsPerPage);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </div>
     </div>
   );

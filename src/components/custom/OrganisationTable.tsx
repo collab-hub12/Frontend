@@ -49,6 +49,13 @@ import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Org } from "@/utilities/types";
 import { createOrg } from "@/actions/org.action";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 export const columns: ColumnDef<Org>[] = [
   {
@@ -56,46 +63,46 @@ export const columns: ColumnDef<Org>[] = [
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
+          variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Organisation ID
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <CaretSortIcon className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className='lowercase'>{row.getValue("id")}</div>,
   },
   {
     accessorKey: "org_name",
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
+          variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Organisation Name
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <CaretSortIcon className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="uppercase">{row.getValue("org_name")}</div>
+      <div className='uppercase'>{row.getValue("org_name")}</div>
     ),
   },
   {
     accessorKey: "customisation",
-    header: () => <div className="text-right">Customisation</div>,
+    header: () => <div className='text-right'>Customisation</div>,
     cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
+            <Button variant='ghost' className='h-8 w-8 p-0'>
+              <span className='sr-only'>Open menu</span>
+              <DotsHorizontalIcon className='h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
             <DropdownMenuItem>Edit Organisation</DropdownMenuItem>
             <Link href={`/orgs/${row.getValue("id")}`}>
@@ -142,46 +149,50 @@ export function OrganisationTable({ data }: propType) {
     },
   });
 
+  const rowsPerPage = 3;
+  const [startIndex, setStartIndex] = React.useState(0);
+  const [endIndex, setEndIndex] = React.useState(rowsPerPage);
+
   return (
-    <div className="w-full">
-      <div className="flex justify-between items-center gap-4 py-4">
+    <div className='w-full'>
+      <div className='flex justify-between items-center gap-4 py-4'>
         <div>
           <Input
-            placeholder="Filter Organisation Names"
+            placeholder='Filter Organisation Names'
             value={
               (table.getColumn("org_name")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
               table.getColumn("org_name")?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className='max-w-sm'
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className='flex items-center gap-4'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline">Create Organisation</Button>
+              <Button variant='outline'>Create Organisation</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white">
-              <div className="flex flex-col w-full">
-                <div className="flex justify-end w-full">
-                  <AlertDialogCancel className="border-none">
+            <AlertDialogContent className='dark:text-white'>
+              <div className='flex flex-col w-full'>
+                <div className='flex justify-end w-full'>
+                  <AlertDialogCancel className='border-none'>
                     <X />
                   </AlertDialogCancel>
                 </div>
-                <form action={createOrg} className="p-10 flex flex-col gap-2">
+                <form action={createOrg} className='p-10 flex flex-col gap-2'>
                   <label>Organisation Name</label>
-                  <Input name="org_name" placeholder="Organisation Name" />
+                  <Input name='org_name' placeholder='Organisation Name' />
                   <label>Description</label>
                   <Input
-                    name="org_desc"
-                    placeholder="Organisation Description"
+                    name='org_desc'
+                    placeholder='Organisation Description'
                   />
                   <label>Location</label>
-                  <Input name="location" placeholder="Organisation Location" />
+                  <Input name='location' placeholder='Organisation Location' />
 
-                  <div className="flex justify-center items-center">
-                    <AlertDialogAction type="submit">
+                  <div className='flex justify-center items-center'>
+                    <AlertDialogAction type='submit'>
                       Create Organisation
                     </AlertDialogAction>
                   </div>
@@ -189,37 +200,14 @@ export function OrganisationTable({ data }: propType) {
               </div>
             </AlertDialogContent>
           </AlertDialog>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline">Join Organisation</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white">
-              <div className="flex flex-col w-full">
-                <div className="flex justify-end w-full">
-                  <AlertDialogCancel className="border-none">
-                    <X />
-                  </AlertDialogCancel>
-                </div>
-                <form className="p-10 flex flex-col gap-2">
-                  <label>Organisation ID</label>
-                  <Input placeholder="Organisation ID" />
-                  <label>Organisation Name</label>
-                  <Input placeholder="Organisation Name" />
-                </form>
-                <div className="flex justify-center items-center">
-                  <AlertDialogAction>Join Organisation</AlertDialogAction>
-                </div>
-              </div>
-            </AlertDialogContent>
-          </AlertDialog>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Filter <ChevronDownIcon className="ml-2 h-4 w-4" />
+              <Button variant='outline' className='ml-auto'>
+                Filter <ChevronDownIcon className='ml-2 h-4 w-4' />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align='end'>
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
@@ -227,7 +215,7 @@ export function OrganisationTable({ data }: propType) {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      className="capitalize"
+                      className='capitalize'
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
                         column.toggleVisibility(!!value)
@@ -241,19 +229,19 @@ export function OrganisationTable({ data }: propType) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md border dark:border-slate-800 ">
-        <Table className="flex flex-col w-full">
-          <TableHeader className="flex items-center w-full">
+      <div className='rounded-md border dark:border-slate-800 h-auto'>
+        <Table className='flex flex-col w-full'>
+          <TableHeader className='flex items-center w-full'>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="flex items-center w-full dark:border-slate-800"
+                className='flex items-center w-full dark:border-slate-800'
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="flex items-center w-full justify-center dark:border-slate-800"
+                      className='flex items-center w-full justify-center dark:border-slate-800'
                     >
                       {header.isPlaceholder
                         ? null
@@ -273,12 +261,12 @@ export function OrganisationTable({ data }: propType) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="flex items-center w-full dark:border-slate-800"
+                  className='flex items-center w-full dark:border-slate-800 h-[60px]'
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="flex items-center w-full justify-center dark:border-slate-800"
+                      className='flex items-center w-full justify-center dark:border-slate-800'
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -292,7 +280,7 @@ export function OrganisationTable({ data }: propType) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className='h-24 text-center'
                 >
                   No results.
                 </TableCell>
@@ -300,6 +288,39 @@ export function OrganisationTable({ data }: propType) {
             )}
           </TableBody>
         </Table>
+        <div className='pb-2 flex justify-end items-end'>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className={
+                    startIndex === 0
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex - rowsPerPage);
+                    setEndIndex(endIndex - rowsPerPage);
+                  }}
+                />
+              </PaginationItem>
+
+              <PaginationItem>
+                <PaginationNext
+                  className={
+                    endIndex === 6
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex + rowsPerPage); //10
+                    setEndIndex(endIndex + rowsPerPage); //10 + 10 = 20
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </div>
     </div>
   );

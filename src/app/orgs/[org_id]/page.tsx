@@ -4,16 +4,19 @@ import { getSession } from "@/lib/session";
 import { headers } from "next/headers";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
-import { Org, Team } from "@/utilities/types";
+import { MemberofOrg, Org, Team, User } from "@/utilities/types";
 import { getTeamDetails } from "@/lib/teams.query";
 import { TeamsTable } from "@/components/custom/TeamsTable";
+import { JoinedUser } from "@/components/custom/JoinedUser";
+import Member from "@/components/custom/Member";
+import SearchMember from "@/components/ui/SearchMember";
 
-export default async function Teams() {
-  const headersList = headers();
-  const pathname = headersList.get("x-pathname");
-  const withRoles = parseUrlPath(pathname!);
-  const data = await getSession(withRoles!);
-  console.log(data);
+export default async function Teams({
+  params,
+}: {
+  params: { org_id: number };
+}) {
+  const data = await getSession({ org_id: params.org_id });
 
   if (!data) {
     redirect("/");
@@ -21,9 +24,9 @@ export default async function Teams() {
   // get current org detail & team details concurrently
   const [orgDetailResponse, teamDetailsResponse, memberDetailsOfOrg] =
     await Promise.all([
-      getCurrentOrg(withRoles?.org_id!),
-      getTeamDetails(withRoles?.org_id!),
-      getMemberOfOrg(withRoles?.org_id!),
+      getCurrentOrg(params.org_id),
+      getTeamDetails(params.org_id),
+      getMemberOfOrg(params.org_id),
     ]);
 
   if (orgDetailResponse?.error === "Forbidden") {
@@ -51,25 +54,20 @@ export default async function Teams() {
           <h1 className="text-l font-semibold">
             - {(orgDetailResponse as Org)?.location}
           </h1>
-          <h1 className="text-3xl font-semibold">
-            {(orgDetailResponse as Org)?.org_name}
-          </h1>
-          <h1 className="text-xl font-semibold">
-            {(orgDetailResponse as Org)?.org_desc}
-          </h1>
-          <h1 className="text-l font-semibold">
-            - {(orgDetailResponse as Org)?.location}
-          </h1>
         </div>
       </div>
       <TeamsTable
         data={teamDetailsResponse as Team[]}
-        org_id={withRoles?.org_id!}
+        org_id={params.org_id!}
       />
-      <TeamsTable
-        data={teamDetailsResponse as Team[]}
-        org_id={withRoles?.org_id!}
-      />
+      <div className="flex gap-4 w-full">
+        <div className="flex basis-[50%] w-full">
+          <JoinedUser data={memberDetailsOfOrg as User[]} />
+        </div>
+        <div className="flex flex-col basis-[50%] w-full">
+          <Member />
+        </div>
+      </div>
     </div>
   );
 }

@@ -8,7 +8,6 @@ export async function createTeam(org_id: number, formData: FormData) {
         const teamDetails = CreateTeamSchema.parse({
             team_name: formData.get('team_name'),
         })
-
         await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams`, {
             method: 'POST',
             body: JSON.stringify(teamDetails),

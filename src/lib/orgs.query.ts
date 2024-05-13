@@ -6,10 +6,11 @@ export async function getMemberOfOrg(org_id: number) {
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },
-        next: {revalidate: 1}
+        cache: "no-store"
     })
     const data = await response.json()
-    return data;
+
+    return data?.map((d: any) => {return {isAdmin: d?.is_admin, ...d.user}})
 }
 
 export async function getOrgDetails() {
@@ -30,8 +31,12 @@ export async function getCurrentOrg(org_id: number) {
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },
-        next: {revalidate: 1}
+        cache: "no-store"
     })
     const data = await response.json()
+
+
     return data;
 }
+
+

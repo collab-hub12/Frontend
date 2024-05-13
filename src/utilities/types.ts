@@ -11,6 +11,17 @@ export type Task = {
   content: string;
 };
 
+export type MemberofOrg = {
+  isAdmin: boolean;
+  user: User
+
+};
+export type User = {
+  isAdmin: boolean,
+  email: string,
+  name: string,
+  picture: string
+}
 
 export type Org = {
   id?: number,

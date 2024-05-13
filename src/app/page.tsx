@@ -7,17 +7,12 @@ import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import { LoginHandler } from "@/actions/auth.action";
 
 export default async function Home() {
   const session = await getSession();
-  console.log(session);
 
   if (session) redirect("/orgs");
-
-  const LoginHandler = async () => {
-    "use server";
-    redirect(`${process.env.BACKEND_URL}/auth/google/callback`);
-  };
 
   return (
     <div className="flex justify-between w-full items-center">

@@ -38,116 +38,73 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-} from "../ui/alert-dialog";
-import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
-import { SquareX, X } from "lucide-react";
-import Link from "next/link";
-import { Org } from "@/utilities/types";
-import { createOrg } from "@/actions/org.action";
+import { User } from "@/utilities/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Usages } from "../../../public/assets";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
 
-const data: User[] = [
-  {
-    username: "Bishakh Neogi",
-    user_email: "bneogi102002@gmail.com",
-  },
-  {
-    username: "Irshit Mukherjee",
-    user_email: "irshit@gmail.com",
-  },
-  {
-    username: "Soham Pal",
-    user_email: "soham@gmail.com",
-  },
-  {
-    username: "Anurag Tiwari",
-    user_email: "anurag@gmail.com",
-  },
-  {
-    username: "Shreya Dhar",
-    user_email: "shreya@gmail.com",
-  },
-  {
-    username: "Neelakshi Das",
-    user_email: "bluecoder2003@gmail.com",
-  },
-];
-export type User = {
-  username: string;
-  user_email: string;
-};
 export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: "username",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
-          variant='ghost'
+          variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Username
-          <CaretSortIcon className='ml-2 h-4 w-4' />
+          <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => (
       <>
-        <div className='flex gap-2 items-center'>
+        <div className="flex gap-2 items-center">
           <Avatar>
-            <AvatarImage src={Usages.Avatar} alt='ok' />
-            <AvatarFallback>BN</AvatarFallback>
+            <AvatarImage src={row.getValue("picture")} alt="ok" />
+            <AvatarFallback>{}</AvatarFallback>
           </Avatar>
-          <div className='uppercase'>{row.getValue("username")}</div>
         </div>
       </>
     ),
   },
   {
-    accessorKey: "user_email",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
-          variant='ghost'
+          variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           User Email
-          <CaretSortIcon className='ml-2 h-4 w-4' />
+          <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='lowercase'>{row.getValue("user_email")}</div>
+      <div className="lowercase">{row.getValue("email")}</div>
       //   <div className='lowercase'>bneogi102002@gmail.com</div>
     ),
   },
   {
     accessorKey: "customisation",
-    header: () => <div className='text-right'>Customisation</div>,
+    header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <DotsHorizontalIcon className='h-4 w-4' />
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Power Ups</DropdownMenuLabel>
             <DropdownMenuItem>Kick User</DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -163,7 +120,7 @@ type propType = {
   data: User[];
 };
 
-export function JoinedUser() {
+export function JoinedUser({ data }: propType) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -196,34 +153,32 @@ export function JoinedUser() {
   const [endIndex, setEndIndex] = React.useState(rowsPerPage);
 
   return (
-    <div className='w-full'>
-      <div className='flex justify-between items-center gap-4 py-4'>
+    <div className="w-full">
+      <div className="flex justify-between items-center gap-4 py-4">
         <div>
           <Input
-            placeholder='Search Users'
-            value={
-              (table.getColumn("username")?.getFilterValue() as string) ?? ""
-            }
+            placeholder="Search Users"
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("username")?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
-            className='max-w-sm'
+            className="max-w-sm"
           />
         </div>
       </div>
-      <div className='rounded-md border dark:border-slate-800 h-[300px]'>
-        <Table className='relative w-full'>
-          <TableHeader className='flex items-center w-full'>
+      <div className="rounded-md border dark:border-slate-800 h-[300px]">
+        <Table className="relative w-full">
+          <TableHeader className="flex items-center w-full">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className='flex items-center w-full dark:border-slate-800 sticky top-0'
+                className="flex items-center w-full dark:border-slate-800 sticky top-0"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className='flex items-center w-full justify-center dark:border-slate-800 sticky top-0'
+                      className="flex items-center w-full justify-center dark:border-slate-800 sticky top-0"
                     >
                       {header.isPlaceholder
                         ? null
@@ -246,12 +201,12 @@ export function JoinedUser() {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className='flex items-center w-full dark:border-slate-800 h-[60px]'
+                    className="flex items-center w-full dark:border-slate-800 h-[60px]"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className='flex items-center w-full justify-center dark:border-slate-800'
+                        className="flex items-center w-full justify-center dark:border-slate-800"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -265,7 +220,7 @@ export function JoinedUser() {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center'
+                  className="h-24 text-center"
                 >
                   No results.
                 </TableCell>
@@ -273,7 +228,7 @@ export function JoinedUser() {
             )}
           </TableBody>
         </Table>
-        <div className='pb-2'>
+        <div className="pb-2">
           <Pagination>
             <PaginationContent>
               <PaginationItem>

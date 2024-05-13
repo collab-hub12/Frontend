@@ -1,4 +1,5 @@
 import {WithRoles} from "@/utilities/types";
+import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
 
 // Get cookie value
@@ -27,12 +28,13 @@ export async function getSession(withRoles?: WithRoles) {
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },
-        next: {revalidate: 1}
+        cache: "no-store"
     })
     const data = await response.json()
     if (!data.email) return null;
     return data;
 }
+
 
 
 

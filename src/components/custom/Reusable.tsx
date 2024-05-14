@@ -4,7 +4,15 @@ import { LampContainer } from "../ui/lamp";
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { LoginHandler } from "@/actions/auth.action";
-export default function Reusable({ title }: { title: string }) {
+import Image from "next/image";
+import { Usages } from "../../../public/assets";
+export default function Reusable({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) {
   return (
     <>
       <LampContainer>
@@ -23,10 +31,9 @@ export default function Reusable({ title }: { title: string }) {
           </h1>
           <TextGenerateEffect
             className='text-center !text-slate-500 pt-4'
-            words=' Seamlessly create captivating stories, and connect with your
-                audience like never before.'
+            words={`${subtitle}`}
           />
-          <form action={LoginHandler}>
+          <form action={LoginHandler} className='pt-4'>
             <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
               <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
               <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-10 text-sm font-medium text-white backdrop-blur-3xl py-[0.5px]'>

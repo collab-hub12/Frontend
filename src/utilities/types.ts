@@ -17,11 +17,11 @@ export type MemberofOrg = {
 
 };
 export type User = {
-  isAdmin: boolean,
-  email: string,
-  name: string,
-  picture: string
-}
+  id: number;
+  name: string;
+  email: string;
+  picture: string;
+};
 
 export type Org = {
   id?: number,
@@ -37,7 +37,7 @@ export type Team = {
 }
 
 export type WithRoles = {
-  org_id: number,
+  org_id?: number,
   team_id?: number,
   room_id?: number,
 }

@@ -8,6 +8,8 @@ import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { Usages } from "../../public/assets";
 import ReusableCard from "@/components/custom/ReusableCard";
 import LandingNav from "@/components/custom/LandingNav";
+import ReusbaleGemini from "@/components/ui/ReusbaleGemini";
+import ReusableSparkle from "@/components/custom/ReusableSparkle";
 export default async function Landing() {
   const file = await fs.readFile(
     process.cwd() + "/public/data/usage.json",
@@ -21,7 +23,7 @@ export default async function Landing() {
     <>
       <div className='w-full bg-slate-950'>
         <LandingNav />
-        <div className='w-full bg-black z-0'>
+        <div className='w-full bg-slate-950 z-0'>
           <div className='relative flex min-h-screen flex-col items-center overflow-hidden bg-slate-950 w-full rounded-md z-0 -translate-y-16'>
             <Reusable title={data.title} subtitle={data.subtitle} />
           </div>
@@ -29,6 +31,7 @@ export default async function Landing() {
             <ReusableCard />
           </div>
         </div>
+        <ReusbaleGemini />
       </div>
     </>
   );

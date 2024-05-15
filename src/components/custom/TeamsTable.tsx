@@ -50,6 +50,8 @@ import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Team } from "@/utilities/types";
 import { createTeam } from "@/actions/team.action";
+import toast from "react-hot-toast";
+import { useFormState } from "react-dom";
 
 export const columns: ColumnDef<Team>[] = [
   {
@@ -116,6 +118,21 @@ type propType = {
 
 export function TeamsTable({ data, org_id }: propType) {
   const createTeamwithOrgId = createTeam.bind(null, org_id);
+  const [createTeamActionState, createTeamAction] = useFormState(
+    createTeamwithOrgId,
+    null
+  );
+  // show toast on user admin permission granting
+  React.useEffect(() => {
+    if (createTeamActionState) {
+      if (createTeamActionState.error) {
+        toast.error(createTeamActionState.message);
+      } else {
+        toast.success(createTeamActionState.message);
+      }
+    }
+  }, [createTeamActionState]);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -169,7 +186,7 @@ export function TeamsTable({ data, org_id }: propType) {
                   </AlertDialogCancel>
                 </div>
                 <form
-                  action={createTeamwithOrgId}
+                  action={createTeamAction}
                   className="p-10 flex flex-col gap-2"
                 >
                   <label>Team Name</label>
@@ -181,29 +198,6 @@ export function TeamsTable({ data, org_id }: propType) {
                     </AlertDialogAction>
                   </div>
                 </form>
-              </div>
-            </AlertDialogContent>
-          </AlertDialog>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline">Join Team</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white">
-              <div className="flex flex-col w-full">
-                <div className="flex justify-end w-full">
-                  <AlertDialogCancel className="border-none">
-                    <X />
-                  </AlertDialogCancel>
-                </div>
-                <form className="p-10 flex flex-col gap-2">
-                  <label>Team ID</label>
-                  <Input placeholder="Team ID" />
-                  <label>Team Name</label>
-                  <Input placeholder="Team Name" />
-                </form>
-                <div className="flex justify-center items-center">
-                  <AlertDialogAction>Join Team</AlertDialogAction>
-                </div>
               </div>
             </AlertDialogContent>
           </AlertDialog>

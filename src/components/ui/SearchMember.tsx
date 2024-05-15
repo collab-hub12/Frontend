@@ -21,7 +21,6 @@ const SearchMember = () => {
     async (searchTerm) => {
       // Call your API here (replace with your actual API call)
       const { data } = await api.get(`/users?search=${searchTerm}`);
-      console.log(data);
       setSearchResults(data);
     },
     [searchTerm],

@@ -1,20 +1,21 @@
 import {NextRequest, NextResponse} from "next/server";
+import {getSession} from "./lib/session";
+import {parseUrlPath} from "./utilities/parseUrl";
 
-export function middleware(request: NextRequest) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-pathname", request.nextUrl.pathname);
 
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
-    });
+export async function middleware(request: NextRequest) {
+    if (request.nextUrl.pathname.startsWith("/orgs")) {
+        const withRole = parseUrlPath(request.nextUrl.pathname)
+
+        if (withRole) {
+            const data = await getSession(withRole!)
+
+            const res = NextResponse.next()
+            if (data?.token) {
+                res.cookies.set('jwt', data?.token, {httpOnly: true})
+            }
+            return res
+        }
+    }
 }
 
-
-export const config = {
-    matcher: [
-        // match all routes except static files and APIs
-        "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    ],
-};

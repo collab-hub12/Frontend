@@ -20,12 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <ThemeProvider>
-        <body className={`${inter.className} min-h-screen flex flex-col`}>
+        <body
+          className={`${inter.className} min-h-screen flex flex-col h-auto`}
+        >
           <Navbar />
-          {/* <div className='flex-1 bg-red-200'>{children}</div> */}
-          <Card className="flex-1 border-none rounded-none flex">
+          <Card className='flex-1 border-none rounded-none flex h-auto'>
             {children}
           </Card>
         </body>

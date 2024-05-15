@@ -45,7 +45,7 @@ import {
 import { usePathname } from "next/navigation";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { useFormState } from "react-dom";
-import { removeUserOrg } from "@/actions/org.action";
+import { makeUserAdminOrg, removeUserOrg } from "@/actions/org.action";
 import toast from "react-hot-toast";
 import revalidatePath from "@/lib/revalidate";
 
@@ -105,14 +105,23 @@ export const columns: ColumnDef<User>[] = [
         org_id,
       });
 
+      const makeUserAdminOrgWithPayload = makeUserAdminOrg.bind(null, {
+        user_id,
+        org_id,
+      });
+
       const [removeUserstate, removeUserformAction] = useFormState(
         removeUserFromOrgWithPayload,
         null
       );
 
-      React.useEffect(() => {
-        console.log(removeUserstate);
+      const [makeUserAdminstate, makeUserAdminformAction] = useFormState(
+        makeUserAdminOrgWithPayload,
+        null
+      );
 
+      // show toast on user removal
+      React.useEffect(() => {
         if (removeUserstate) {
           if (removeUserstate.error) {
             toast.error(removeUserstate.message);
@@ -122,6 +131,18 @@ export const columns: ColumnDef<User>[] = [
           }
         }
       }, [removeUserstate]);
+
+      // show toast on user admin permission granting
+      React.useEffect(() => {
+        if (makeUserAdminstate) {
+          if (makeUserAdminstate.error) {
+            toast.error(makeUserAdminstate.message);
+          } else {
+            toast.success(makeUserAdminstate.message);
+          }
+        }
+      }, [makeUserAdminstate]);
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -138,7 +159,11 @@ export const columns: ColumnDef<User>[] = [
               </form>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
+            <DropdownMenuItem>
+              <form action={makeUserAdminformAction}>
+                <button type="submit">Make Admin</button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

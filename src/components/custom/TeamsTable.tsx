@@ -50,6 +50,8 @@ import { SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Team } from "@/utilities/types";
 import { createTeam } from "@/actions/team.action";
+import toast from "react-hot-toast";
+import { useFormState } from "react-dom";
 
 export const columns: ColumnDef<Team>[] = [
   {
@@ -116,6 +118,21 @@ type propType = {
 
 export function TeamsTable({ data, org_id }: propType) {
   const createTeamwithOrgId = createTeam.bind(null, org_id);
+  const [createTeamActionState, createTeamAction] = useFormState(
+    createTeamwithOrgId,
+    null
+  );
+  // show toast on user admin permission granting
+  React.useEffect(() => {
+    if (createTeamActionState) {
+      if (createTeamActionState.error) {
+        toast.error(createTeamActionState.message);
+      } else {
+        toast.success(createTeamActionState.message);
+      }
+    }
+  }, [createTeamActionState]);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -169,7 +186,7 @@ export function TeamsTable({ data, org_id }: propType) {
                   </AlertDialogCancel>
                 </div>
                 <form
-                  action={createTeamwithOrgId}
+                  action={createTeamAction}
                   className="p-10 flex flex-col gap-2"
                 >
                   <label>Team Name</label>

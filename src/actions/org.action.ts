@@ -35,6 +35,49 @@ export async function createOrg(formData: FormData) {
     revalidatePath('/orgs')
 }
 
+export async function makeUserAdminOrg(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+
+    try {
+        const cookiesList = cookies()
+        const token = cookiesList.get('jwt')?.value
+
+        if (!token) {
+            throw new Error('No token')
+        }
+
+        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`, {
+            method: 'PUT',
+            headers: {
+                Cookie: `jwt=${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        const response = await data.json();
+
+        if (response?.error === "Forbidden") {
+            return {
+                message: 'User does not have right access to do this operation',
+                error: true
+            }
+        } else {
+
+            return {
+                message: "Admin permission granted",
+                error: false
+            }
+        }
+    } catch (err) {
+        console.log(err);
+
+        return {
+            message: 'internal server error',
+            error: true
+        }
+    }
+}
+
+
+
 export async function addUserOrg(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
 
     try {

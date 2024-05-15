@@ -3,7 +3,7 @@ import {getCookieValue} from "@/lib/session";
 import {CreateTeamSchema} from "@/schema/team.schema";
 import {revalidatePath} from "next/cache";
 
-export async function createTeam(org_id: number, formData: FormData) {
+export async function createTeam(org_id: number, prevState: any, formData: FormData) {
     try {
         const teamDetails = CreateTeamSchema.parse({
             team_name: formData.get('team_name'),
@@ -16,10 +16,23 @@ export async function createTeam(org_id: number, formData: FormData) {
                 'Content-Type': 'application/json'
             }
         })
-        console.log(await data.json());
-
+        const response = await data.json();
+        if (response?.error) {
+            return {
+                message: 'User does not have right access to do this operation',
+                error: true
+            }
+        } else {
+            revalidatePath("orgs/[orgs_id]", "page")
+            return {
+                message: "Team created",
+                error: false
+            }
+        }
     } catch (err) {
-        console.log(err);
+        return {
+            message: 'internal server error',
+            error: true
+        }
     }
-    revalidatePath(`/orgs/${org_id}`)
 }

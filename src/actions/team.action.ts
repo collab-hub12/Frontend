@@ -8,7 +8,7 @@ export async function createTeam(org_id: number, formData: FormData) {
         const teamDetails = CreateTeamSchema.parse({
             team_name: formData.get('team_name'),
         })
-        await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams`, {
+        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams`, {
             method: 'POST',
             body: JSON.stringify(teamDetails),
             headers: {
@@ -16,6 +16,7 @@ export async function createTeam(org_id: number, formData: FormData) {
                 'Content-Type': 'application/json'
             }
         })
+        console.log(await data.json());
 
     } catch (err) {
         console.log(err);

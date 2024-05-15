@@ -1,5 +1,4 @@
 import {WithRoles} from "@/utilities/types";
-import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
 
 // Get cookie value
@@ -9,22 +8,28 @@ export const getCookieValue = (key: string) => {
     return nextSessionToken?.value
 }
 
-// function for adding query parameters for getting ROLE url
-function getUrl(withRoles: WithRoles) {
-    let url = `${process.env.BACKEND_URL}/roles?org_id=${withRoles.org_id}`;
-    if (withRoles.team_id)
-        url = url.concat(`&team_id=${withRoles.team_id}`)
-    if (withRoles.room_id)
-        url = url.concat(`&room_id=${withRoles.room_id}`)
-    return url
-}
 
 export async function getSession(withRoles?: WithRoles) {
+    let fetch_url = `http://127.0.0.1:3000/api/auth`
+    if (withRoles) {
+        let fetchRoleOptions: {
+            org_id?: string;
+            team_id?: string;
+            room_id?: string;
+        } = {}
 
-    const fetch_url = withRoles ? getUrl(withRoles) : `${process.env.BACKEND_URL}/auth`
+        if (withRoles?.org_id) fetchRoleOptions.org_id = withRoles.org_id.toString()
+        if (withRoles?.team_id) fetchRoleOptions.team_id = withRoles.team_id.toString()
+        if (withRoles?.room_id) fetchRoleOptions.room_id = withRoles.room_id.toString()
 
+        if (Object.keys(fetchRoleOptions).length > 0) {
+            const searchParams = new URLSearchParams(fetchRoleOptions);
+            fetch_url += `?${searchParams.toString()}`;
+        }
+    }
     const response = await fetch(fetch_url, {
         method: 'GET',
+        credentials: 'include',
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },

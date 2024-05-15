@@ -184,29 +184,6 @@ export function TeamsTable({ data, org_id }: propType) {
               </div>
             </AlertDialogContent>
           </AlertDialog>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline">Join Team</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white">
-              <div className="flex flex-col w-full">
-                <div className="flex justify-end w-full">
-                  <AlertDialogCancel className="border-none">
-                    <X />
-                  </AlertDialogCancel>
-                </div>
-                <form className="p-10 flex flex-col gap-2">
-                  <label>Team ID</label>
-                  <Input placeholder="Team ID" />
-                  <label>Team Name</label>
-                  <Input placeholder="Team Name" />
-                </form>
-                <div className="flex justify-center items-center">
-                  <AlertDialogAction>Join Team</AlertDialogAction>
-                </div>
-              </div>
-            </AlertDialogContent>
-          </AlertDialog>
         </div>
       </div>
       <div className="rounded-md border dark:border-slate-800 ">

@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -22,7 +18,6 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -40,7 +35,6 @@ import {
 } from "@/components/ui/table";
 import { User } from "@/utilities/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Usages } from "../../../public/assets";
 import {
   Pagination,
   PaginationContent,
@@ -48,6 +42,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import { usePathname } from "next/navigation";
+import { parseUrlPath } from "@/utilities/parseUrl";
+import { useFormState } from "react-dom";
+import { removeUserOrg } from "@/actions/org.action";
+import toast from "react-hot-toast";
+import revalidatePath from "@/lib/revalidate";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -67,7 +67,7 @@ export const columns: ColumnDef<User>[] = [
       <>
         <div className="flex gap-2 items-center">
           <Avatar>
-            <AvatarImage src={row.getValue("picture")} alt="ok" />
+            <AvatarImage src={row.original.picture} alt="ok" />
             <AvatarFallback>{}</AvatarFallback>
           </Avatar>
         </div>
@@ -96,6 +96,32 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "customisation",
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
+      const pathname = usePathname();
+      const { org_id } = parseUrlPath(pathname)!;
+      const user_id = row.original.id;
+
+      const removeUserFromOrgWithPayload = removeUserOrg.bind(null, {
+        user_id,
+        org_id,
+      });
+
+      const [removeUserstate, removeUserformAction] = useFormState(
+        removeUserFromOrgWithPayload,
+        null
+      );
+
+      React.useEffect(() => {
+        console.log(removeUserstate);
+
+        if (removeUserstate) {
+          if (removeUserstate.error) {
+            toast.error(removeUserstate.message);
+          } else {
+            toast.success(removeUserstate.message);
+            revalidatePath("orgs");
+          }
+        }
+      }, [removeUserstate]);
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -106,7 +132,11 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Power Ups</DropdownMenuLabel>
-            <DropdownMenuItem>Kick User</DropdownMenuItem>
+            <DropdownMenuItem>
+              <form action={removeUserformAction}>
+                <button type="submit">Kick User</button>
+              </form>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Make Admin</DropdownMenuItem>
           </DropdownMenuContent>

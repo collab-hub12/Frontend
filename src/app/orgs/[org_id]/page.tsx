@@ -1,7 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
 import { MemberofOrg, Org, Team, User } from "@/utilities/types";
@@ -9,7 +9,7 @@ import { getTeamDetails } from "@/lib/teams.query";
 import { TeamsTable } from "@/components/custom/TeamsTable";
 import { JoinedUser } from "@/components/custom/JoinedUser";
 import Member from "@/components/custom/Member";
-import SearchMember from "@/components/ui/SearchMember";
+import { Toaster } from "react-hot-toast";
 
 export default async function Teams({
   params,
@@ -43,6 +43,7 @@ export default async function Teams({
   // const teamDetails = await getTeamDetails();
   return (
     <div className="flex flex-col p-10 w-full">
+      <Toaster position="bottom-left" reverseOrder={false} />
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-3xl font-semibold">

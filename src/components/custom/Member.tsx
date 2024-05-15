@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -22,56 +18,24 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-} from "../ui/alert-dialog";
-import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
-import { SquareX, X } from "lucide-react";
-import Link from "next/link";
-import { Org } from "@/utilities/types";
-import { addUserOrg, createOrg } from "@/actions/org.action";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Usages } from "../../../public/assets";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "../ui/pagination";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+
+import { addUserOrg } from "@/actions/org.action";
 import useDebounce from "@/hooks/UseDebounce";
 import api from "@/utilities/axios";
 import { usePathname, useRouter } from "next/navigation";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { revalidatePath } from "next/cache";
+import { useActionState } from "react";
+import { useFormState } from "react-dom";
+import toast from "react-hot-toast";
+import { User } from "@/utilities/types";
 
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-  picture: string;
-};
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
@@ -120,7 +84,6 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "customisation",
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
-      const router = useRouter();
       const pathname = usePathname();
       const { org_id } = parseUrlPath(pathname)!;
       const user_id = row.original.id;
@@ -129,6 +92,18 @@ export const columns: ColumnDef<User>[] = [
         user_id,
         org_id,
       });
+
+      const [state, formAction] = useFormState(addUserToOrgWithPayload, null);
+
+      React.useEffect(() => {
+        if (state) {
+          if (state.error) {
+            toast.error(state.message);
+          } else {
+            toast.success(state.message);
+          }
+        }
+      }, [state]);
 
       return (
         <DropdownMenu>
@@ -140,8 +115,8 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>
-              <form action={addUserToOrgWithPayload}>
-                <button type="submit">Add user</button>
+              <form action={formAction}>
+                <button type="submit">Add User</button>
               </form>
             </DropdownMenuItem>
           </DropdownMenuContent>

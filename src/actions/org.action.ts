@@ -26,11 +26,9 @@ export async function createOrg(formData: FormData) {
                 'Content-Type': 'application/json'
             }
         })
-        console.log(await data.json());
 
     } catch (err) {
         console.log(err);
-
     }
     revalidatePath('/orgs')
 }
@@ -67,8 +65,6 @@ export async function makeUserAdminOrg(payload: {org_id: number, user_id: number
             }
         }
     } catch (err) {
-        console.log(err);
-
         return {
             message: 'internal server error',
             error: true

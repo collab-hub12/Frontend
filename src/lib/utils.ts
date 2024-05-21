@@ -1,4 +1,4 @@
-import {DNDType} from "@/components/custom/KANBANboard_2"
+import {DNDType} from "@/components/custom/KanbanBoard"
 import {Task} from "@/utilities/types"
 import {type ClassValue, clsx} from "clsx"
 import {twMerge} from "tailwind-merge"
@@ -9,7 +9,6 @@ export function cn(...inputs: ClassValue[]) {
 
 
 export function GroupByContainer(tasks: Task[], containers: DNDType[]) {
-  console.log(tasks);
 
   tasks.map(task => {
     const suitable_container = containers.find(container => container.title === task.task_progress)

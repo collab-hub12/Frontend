@@ -1,4 +1,4 @@
-import KanbanBoard, { DNDType } from "@/components/custom/KANBANboard_2";
+import KanbanBoard, { DNDType } from "@/components/custom/KanbanBoard";
 import Member from "@/components/custom/Member";
 import { getTaskDetails } from "@/lib/teams.query";
 import { Toaster } from "react-hot-toast";

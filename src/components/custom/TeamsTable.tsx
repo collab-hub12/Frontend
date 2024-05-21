@@ -52,6 +52,7 @@ import { Team } from "@/utilities/types";
 import { createTeam } from "@/actions/team.action";
 import toast from "react-hot-toast";
 import { useFormState } from "react-dom";
+import { useParams, useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Team>[] = [
   {
@@ -87,7 +88,10 @@ export const columns: ColumnDef<Team>[] = [
   {
     accessorKey: "customisation",
     header: () => <div className="text-right">Customisation</div>,
-    cell: () => {
+    cell: ({ row }) => {
+      const router = useRouter();
+      const { org_id } = useParams();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -99,9 +103,15 @@ export const columns: ColumnDef<Team>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
             <DropdownMenuItem>Edit Team</DropdownMenuItem>
-            <Link href="/work">
-              <DropdownMenuItem>Enter Team</DropdownMenuItem>
-            </Link>
+
+            <DropdownMenuItem
+              onClick={() => {
+                router.push(`/orgs/${org_id}/teams/${row.original.name}`);
+              }}
+            >
+              Enter Team
+            </DropdownMenuItem>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem>Delete Team</DropdownMenuItem>
           </DropdownMenuContent>

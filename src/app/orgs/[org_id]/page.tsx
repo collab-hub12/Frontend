@@ -1,10 +1,8 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
-import { cookies, headers } from "next/headers";
-import { parseUrlPath } from "@/utilities/parseUrl";
 import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
-import { MemberofOrg, Org, Team, User } from "@/utilities/types";
+import { Org, Team, User } from "@/utilities/types";
 import { getTeamDetails } from "@/lib/teams.query";
 import { TeamsTable } from "@/components/custom/TeamsTable";
 import { JoinedUser } from "@/components/custom/JoinedUser";

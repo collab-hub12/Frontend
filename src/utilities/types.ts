@@ -1,15 +1,6 @@
-export type Id = string | number;
 
-export type Column = {
-  id: Id;
-  title: string;
-};
 
-export type Task = {
-  id: Id;
-  columnId: Id;
-  content: string;
-};
+
 
 export type MemberofOrg = {
   isAdmin: boolean;
@@ -41,3 +32,23 @@ export type WithRoles = {
   team_id?: number,
   room_id?: number,
 }
+
+export type Id = string | number;
+
+export type Task = {
+  id: Id,
+  title: string,
+  team_id?: number,
+  org_id?: number,
+  task_desc: string,
+  task_progress: Id,
+  task_deadline?: string
+}
+
+
+
+export type Column = {
+  id: Id;
+  title: string;
+};
+

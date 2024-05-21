@@ -29,6 +29,7 @@ export async function createTask({org_id, team_name}: {org_id: number, team_name
                 error: true
             }
         } else {
+            revalidateTag('tasks')
             return {
                 message: "Task Added",
                 error: false

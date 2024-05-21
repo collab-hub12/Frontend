@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 
 // DnD
 import {
@@ -57,6 +57,11 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
   const [state, addTaskAction] = useFormState(addTaskWithPayload, null);
 
   const [containers, setContainers] = useState<DNDType[]>(data);
+
+  useEffect(() => {
+    setContainers(data);
+  }, [data]);
+
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [currentContainerId, setCurrentContainerId] =
     useState<UniqueIdentifier>();
@@ -71,7 +76,6 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
       if (state?.error) {
         toast.error(state.message);
       } else {
-        revalidatePath("/orgs/[org_id]/teams/[team_name]");
         toast.success(state.message);
       }
     }

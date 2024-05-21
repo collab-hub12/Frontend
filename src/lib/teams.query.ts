@@ -9,7 +9,7 @@ export async function getTeamDetails(org_id: number) {
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },
-        next: {revalidate: 1}
+        cache: "no-store"
     })
     const data = await response.json()
     if (!Array.isArray(data))
@@ -29,7 +29,7 @@ export async function getTaskDetails(org_id: number, team_name: string) {
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
         },
-        cache: "no-store"
+        next: {tags: ["tasks"]}
     })
     const data = await response.json()
     if (Array.isArray(data)) {

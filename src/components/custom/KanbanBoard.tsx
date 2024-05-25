@@ -34,6 +34,8 @@ import { createTask } from "@/actions/tasks.action";
 import { useFormState } from "react-dom";
 import toast from "react-hot-toast";
 import revalidatePath from "@/lib/revalidate";
+import { Table2, X } from "lucide-react";
+import { Textarea } from "../ui/textarea";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -341,41 +343,107 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
   }
 
   return (
-    <div className="mx-auto px-8 py-10">
-      {/* Add Container Modal */}
+    <div className='py-10'>
       <Modal
         showModal={showAddContainerModal}
         setShowModal={setShowAddContainerModal}
       >
-        <form action={addTaskAction}>
-          <div className="flex flex-col w-full items-start gap-y-6">
-            <h1 className="text-gray-800 text-3xl font-bold">Add Task</h1>
-            <Input type="text" placeholder="Task Title" name="taskTitle" />
-            <Input type="text" placeholder="Task Desc" name="taskDescription" />
-            <Input
-              type="text"
-              placeholder="Task Progress"
-              name="taskProgress"
-            />
-            <Input
-              type="text"
-              placeholder="Task Deadline"
-              name="taskDeadline"
-            />
-            <button className="text-gray-800 text-3xl font-bold" type="submit">
+        <form action={addTaskAction} className='p-10 flex flex-col gap-2'>
+          <div className='flex justify-end w-full'>
+            <X />
+          </div>
+          <label>Task Title</label>
+          <Input type='text' placeholder='Task Title' name='taskTitle' />
+          <label>Task Description</label>
+          <Textarea
+            placeholder='Task Description'
+            name='taskDescription'
+            className='w-full'
+          />
+          <label>Task Progress</label>
+          <div className='flex items-center space-x-4 text-sm'>
+            {" "}
+            <label>
+              <input
+                type='radio'
+                name='taskProgress'
+                value='Done'
+                className='border-2 border-solid border-[#205BF1]'
+              />{" "}
+              Done
+            </label>
+            <label>
+              <input type='radio' name='taskProgress' value='in_progress' /> In
+              Progress
+            </label>
+            <label>
+              <input type='radio' name='taskProgress' value='in_review' /> In
+              Review
+            </label>
+            <label>
+              <input type='radio' name='taskProgress' value='not_started' /> Not
+              Started
+            </label>
+          </div>
+          <label>Task Deadline</label>
+          <Input type='text' placeholder='Task Deadline' name='taskDeadline' />
+          <div className='justify-center flex items-center pt-2'>
+            <button
+              className='bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-2 py-3 rounded-md text-base font-bold w-[50%] flex items-center justify-center'
+              type='submit'
+            >
               Add Task
             </button>
           </div>
         </form>
       </Modal>
-      {/* Add Item Modal */}
 
-      <div className="flex items-center justify-between gap-y-4">
-        <h1 className="text-gray-800 text-3xl font-bold">Board</h1>
+      <div className='flex items-center justify-between gap-y-4'>
+        <div className='flex bg-[#334155] justify-between items-center px-6 py-2 gap-4 rounded-md'>
+          <Table2 color='white' />
+          <h1 className='text-white text-[16px] font-semibold'>Kanban</h1>
+        </div>
         <Button onClick={() => setShowAddContainerModal(true)}>Add Task</Button>
       </div>
-      <div className="mt-10">
-        <div className="grid grid-cols-4 gap-6">
+      <div className='mt-10'>
+        <div className='grid grid-cols-4 gap-6'>
+          <div className='flex flex-col gap-2'>
+            <div className='flex gap-2 items-center '>
+              <div className='bg-[#EA4335] rounded-full w-[10px] h-[10px]'></div>
+              <div className='font-bold'>In Review</div>
+            </div>
+            <div className='bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+              Being Evaluated
+            </div>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <div className='flex gap-2 items-center '>
+              <div className='bg-[#FEFEFF] rounded-full w-[10px] h-[10px]'></div>
+              <div className='font-bold'>In Progress</div>
+            </div>
+            <div className='bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+              Ongoing
+            </div>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <div className='flex gap-2 items-center '>
+              <div className='bg-[#34A853] rounded-full w-[10px] h-[10px]'></div>
+              <div className='font-bold'>Done</div>
+            </div>
+            <div className='bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+              Completed
+            </div>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <div className='flex gap-2 items-center '>
+              <div className='bg-[#9C9C9D] rounded-full w-[10px] h-[10px]'></div>
+              <div className='font-bold'>Not Started</div>
+            </div>
+            <div className='bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+              Pending
+            </div>
+          </div>
+
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
@@ -395,7 +463,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
                   }}
                 >
                   <SortableContext items={container.items.map((i) => i.id)}>
-                    <div className="flex items-start flex-col gap-y-4">
+                    <div className='flex items-start flex-col gap-y-4'>
                       {container.items.map((i) => (
                         <Items title={i.title} id={i.id} key={i.id} />
                       ))}

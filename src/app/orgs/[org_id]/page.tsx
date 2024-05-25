@@ -8,6 +8,7 @@ import { TeamsTable } from "@/components/custom/TeamsTable";
 import { JoinedUser } from "@/components/custom/JoinedUser";
 import Member from "@/components/custom/Member";
 import { Toaster } from "react-hot-toast";
+import { Building, MapPin } from "lucide-react";
 
 export default async function Teams({
   params,
@@ -29,8 +30,8 @@ export default async function Teams({
 
   if (orgDetailResponse?.error === "Forbidden") {
     return (
-      <div className="flex m-10 w-full my-auto ">
-        <h1 className="text-2xl text-center font-semibold">
+      <div className='flex m-10 w-full my-auto '>
+        <h1 className='text-2xl text-center font-semibold'>
           User is not part of this org
         </h1>
       </div>
@@ -40,30 +41,38 @@ export default async function Teams({
   // console.log(memberDetailsOfOrg);
   // const teamDetails = await getTeamDetails();
   return (
-    <div className="flex flex-col p-10 w-full">
-      <Toaster position="bottom-left" reverseOrder={false} />
-      <div className="flex justify-between">
-        <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold">
+    <div className='flex flex-col p-10 w-full'>
+      <Toaster position='bottom-left' reverseOrder={false} />
+      <div className='flex justify-between bg-[#205BF1] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full'>
+        <div className='flex justify-between w-full'>
+          <h1 className='text-3xl font-semibold dark:text-white text-white '>
             {(orgDetailResponse as Org)?.org_name}
           </h1>
-          <h1 className="text-xl font-semibold">
-            {(orgDetailResponse as Org)?.org_desc}
-          </h1>
-          <h1 className="text-l font-semibold">
-            - {(orgDetailResponse as Org)?.location}
-          </h1>
+          <div className='flex gap-2'>
+            <div className='px-6 rounded-md flex gap-2 items-center bg-white'>
+              <Building color='#205BF1' />
+              <h1 className='text-base  dark:text-[#205BF1] text-[#205BF1]'>
+                {(orgDetailResponse as Org)?.org_desc}
+              </h1>
+            </div>
+            <div className='px-6 rounded-md flex gap-2 items-center bg-white'>
+              <MapPin color='#205BF1' />
+              <h1 className='text-base  dark:text-[#205BF1] text-[#205BF1]'>
+                {(orgDetailResponse as Org)?.location}
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
       <TeamsTable
         data={teamDetailsResponse as Team[]}
         org_id={params.org_id!}
       />
-      <div className="flex gap-4 w-full">
-        <div className="flex basis-[50%] w-full">
+      <div className='flex gap-4 w-full'>
+        <div className='flex basis-[50%] w-full'>
           <JoinedUser data={memberDetailsOfOrg as User[]} />
         </div>
-        <div className="flex flex-col basis-[50%] w-full">
+        <div className='flex flex-col basis-[50%] w-full'>
           <Member />
         </div>
       </div>

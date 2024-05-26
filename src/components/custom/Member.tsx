@@ -29,7 +29,7 @@ import { addMember } from "@/actions/org.action";
 import useDebounce from "@/hooks/UseDebounce";
 import api from "@/utilities/axios";
 import { parseUrlPath } from "@/utilities/parseUrl";
-import { revalidatePath } from "next/cache";
+
 import { useActionState } from "react";
 import { useFormState } from "react-dom";
 import toast from "react-hot-toast";
@@ -37,6 +37,7 @@ import { User } from "@/utilities/types";
 import { useRouter } from "next/router";
 import { usePathname, useSearchParams } from "next/navigation";
 import { AxiosError } from "axios";
+import revalidatePath from "@/lib/revalidate";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -134,6 +135,9 @@ export const columns: ColumnDef<User>[] = [
               { assignee_id: user_id }
             );
             toast.success(data?.msg);
+            revalidatePath(
+              `orgs/${org_id}/teams/${team_name}/tasks/${task_id}`
+            );
           } catch (err) {
             const errorMsg = (err as AxiosError<{ message: string }>)?.response
               ?.data.message;

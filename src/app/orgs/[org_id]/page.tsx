@@ -15,7 +15,8 @@ export default async function Teams({
 }: {
   params: { org_id: number };
 }) {
-  const data = await getSession({ org_id: params.org_id });
+  const { org_id } = params;
+  const data = await getSession({ org_id });
 
   if (!data) {
     redirect("/");
@@ -23,15 +24,15 @@ export default async function Teams({
   // get current org detail & team details concurrently
   const [orgDetailResponse, teamDetailsResponse, memberDetailsOfOrg] =
     await Promise.all([
-      getCurrentOrg(params.org_id),
-      getTeamDetails(params.org_id),
-      getMemberOfOrg(params.org_id),
+      getCurrentOrg(org_id),
+      getTeamDetails(org_id),
+      getMemberOfOrg(org_id),
     ]);
 
   if (orgDetailResponse?.error === "Forbidden") {
     return (
-      <div className='flex m-10 w-full my-auto '>
-        <h1 className='text-2xl text-center font-semibold'>
+      <div className="flex m-10 w-full my-auto ">
+        <h1 className="text-2xl text-center font-semibold">
           User is not part of this org
         </h1>
       </div>
@@ -41,23 +42,23 @@ export default async function Teams({
   // console.log(memberDetailsOfOrg);
   // const teamDetails = await getTeamDetails();
   return (
-    <div className='flex flex-col p-10 w-full'>
-      <Toaster position='bottom-left' reverseOrder={false} />
-      <div className='flex justify-between bg-[#205BF1] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full'>
-        <div className='flex justify-between w-full'>
-          <h1 className='text-3xl font-semibold dark:text-white text-white '>
+    <div className="flex flex-col p-10 w-full">
+      <Toaster position="bottom-left" reverseOrder={false} />
+      <div className="flex justify-between bg-[#205BF1] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full">
+        <div className="flex justify-between w-full">
+          <h1 className="text-3xl font-semibold dark:text-white text-white ">
             {(orgDetailResponse as Org)?.org_name}
           </h1>
-          <div className='flex gap-2'>
-            <div className='px-6 rounded-md flex gap-2 items-center bg-white'>
-              <Building color='#205BF1' />
-              <h1 className='text-base  dark:text-[#205BF1] text-[#205BF1]'>
+          <div className="flex gap-2">
+            <div className="px-6 rounded-md flex gap-2 items-center bg-white">
+              <Building color="#205BF1" />
+              <h1 className="text-base  dark:text-[#205BF1] text-[#205BF1]">
                 {(orgDetailResponse as Org)?.org_desc}
               </h1>
             </div>
-            <div className='px-6 rounded-md flex gap-2 items-center bg-white'>
-              <MapPin color='#205BF1' />
-              <h1 className='text-base  dark:text-[#205BF1] text-[#205BF1]'>
+            <div className="px-6 rounded-md flex gap-2 items-center bg-white">
+              <MapPin color="#205BF1" />
+              <h1 className="text-base  dark:text-[#205BF1] text-[#205BF1]">
                 {(orgDetailResponse as Org)?.location}
               </h1>
             </div>
@@ -68,11 +69,11 @@ export default async function Teams({
         data={teamDetailsResponse as Team[]}
         org_id={params.org_id!}
       />
-      <div className='flex gap-4 w-full'>
-        <div className='flex basis-[50%] w-full'>
+      <div className="flex gap-4 w-full">
+        <div className="flex basis-[50%] w-full">
           <JoinedUser data={memberDetailsOfOrg as User[]} />
         </div>
-        <div className='flex flex-col basis-[50%] w-full'>
+        <div className="flex flex-col basis-[50%] w-full">
           <Member />
         </div>
       </div>

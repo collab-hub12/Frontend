@@ -10,7 +10,7 @@ export async function getMemberOfOrg(org_id: number) {
     })
     const data = await response.json()
 
-    return data?.map((d: any) => {return {isAdmin: d?.is_admin, ...d.user}})
+    return data
 }
 
 export async function getOrgDetails() {

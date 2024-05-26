@@ -25,16 +25,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import { addUserOrg } from "@/actions/org.action";
+import { addMember } from "@/actions/org.action";
 import useDebounce from "@/hooks/UseDebounce";
 import api from "@/utilities/axios";
-import { usePathname, useRouter } from "next/navigation";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { revalidatePath } from "next/cache";
 import { useActionState } from "react";
 import { useFormState } from "react-dom";
 import toast from "react-hot-toast";
 import { User } from "@/utilities/types";
+import { useRouter } from "next/router";
+import { usePathname, useSearchParams } from "next/navigation";
+import { AxiosError } from "axios";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -85,48 +87,92 @@ export const columns: ColumnDef<User>[] = [
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
       const pathname = usePathname();
-      const { org_id } = parseUrlPath(pathname)!;
+      const { org_id, team_name, task_id } = parseUrlPath(pathname);
       const user_id = row.original.id;
 
-      const addUserToOrgWithPayload = addUserOrg.bind(null, {
-        user_id,
-        org_id,
-      });
+      if (!task_id) {
+        const addMemberWithPayload = addMember.bind(null, {
+          user_id,
+          org_id: +org_id!,
+          team_name,
+        });
 
-      const [state, formAction] = useFormState(addUserToOrgWithPayload, null);
+        const [state, formAction] = useFormState(addMemberWithPayload, null);
 
-      React.useEffect(() => {
-        if (state) {
-          if (state.error) {
-            toast.error(state.message);
-          } else {
-            toast.success(state.message);
+        React.useEffect(() => {
+          if (state) {
+            if (state.error) {
+              toast.error(state.message);
+            } else {
+              toast.success(state.message);
+            }
           }
-        }
-      }, [state]);
+        }, [state]);
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <form action={formAction}>
-                <button type="submit">Add User</button>
-              </form>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
+                <form action={formAction}>
+                  <button type="submit">Add User</button>
+                </form>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      } else {
+        const assignTaskToUser = async () => {
+          try {
+            const { data } = await api.post(
+              `orgs/${org_id}/teams/${team_name}/tasks/${task_id}`,
+              { assignee_id: user_id }
+            );
+            toast.success(data?.msg);
+          } catch (err) {
+            const errorMsg = (err as AxiosError<{ message: string }>)?.response
+              ?.data.message;
+            toast.error(errorMsg!);
+          }
+        };
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
+                <button
+                  onClick={() => {
+                    assignTaskToUser();
+                  }}
+                >
+                  assign user
+                </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      }
     },
   },
 ];
 
-export default function Member() {
+interface propType {
+  org_id?: number;
+  team_name?: string;
+}
+
+export default function Member({ org_id, team_name }: propType) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -137,11 +183,22 @@ export default function Member() {
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<any[]>([]); // Replace with your API response type
+
+  const getUsers = async (searchTerm: string) => {
+    if (org_id && team_name) {
+      return await api.get(
+        `/orgs/${org_id}/teams/${team_name}/users?search=${searchTerm}`
+      );
+    } else if (org_id) {
+      return await api.get(`/orgs/${org_id}/users?search=${searchTerm}`);
+    } else {
+      return await api.get(`/users?search=${searchTerm}`);
+    }
+  };
+
   useDebounce(
     async (searchTerm) => {
-      // Call your API here (replace with your actual API call)
-      const { data } = await api.get(`/users?search=${searchTerm}`);
-
+      const { data } = await getUsers(searchTerm as string);
       setSearchResults(data);
     },
     [searchTerm],

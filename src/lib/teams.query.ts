@@ -3,6 +3,20 @@ import {getCookieValue} from "./session";
 import {GroupByContainer} from "./utils";
 import {Task} from "@/utilities/types";
 
+export async function getMembersOfTeam(org_id: number, team_name: string) {
+    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}/users`, {
+        method: 'GET',
+        headers: {
+            Cookie: `jwt=${getCookieValue('jwt')}`
+        },
+        cache: "no-store"
+    })
+    const data = await response.json()
+    return data
+}
+
+
+
 export async function getTeamDetails(org_id: number) {
     const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/`, {
         method: 'GET',

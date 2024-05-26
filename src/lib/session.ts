@@ -14,12 +14,12 @@ export async function getSession(withRoles?: WithRoles) {
     if (withRoles) {
         let fetchRoleOptions: {
             org_id?: string;
-            team_id?: string;
+            team_name?: string;
             room_id?: string;
         } = {}
 
         if (withRoles?.org_id) fetchRoleOptions.org_id = withRoles.org_id.toString()
-        if (withRoles?.team_id) fetchRoleOptions.team_id = withRoles.team_id.toString()
+        if (withRoles?.team_name) fetchRoleOptions.team_name = withRoles.team_name
         if (withRoles?.room_id) fetchRoleOptions.room_id = withRoles.room_id.toString()
 
         if (Object.keys(fetchRoleOptions).length > 0) {
@@ -27,6 +27,7 @@ export async function getSession(withRoles?: WithRoles) {
             fetch_url += `?${searchParams.toString()}`;
         }
     }
+
     const response = await fetch(fetch_url, {
         method: 'GET',
         credentials: 'include',

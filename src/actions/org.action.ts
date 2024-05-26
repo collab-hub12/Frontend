@@ -33,7 +33,7 @@ export async function createOrg(formData: FormData) {
     revalidatePath('/orgs')
 }
 
-export async function makeUserAdminOrg(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+export async function makeUserAdmin(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -74,7 +74,7 @@ export async function makeUserAdminOrg(payload: {org_id: number, user_id: number
 
 
 
-export async function addUserOrg(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+export async function addMember(payload: {org_id: number, user_id: number, team_name?: string}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -82,7 +82,11 @@ export async function addUserOrg(payload: {org_id: number, user_id: number}, pre
         if (!token) {
             throw new Error('No token')
         }
-        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${payload.org_id}/users`, {
+        const fetchURL = payload.team_name ?
+            `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users` :
+            `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users`
+
+        const data = await fetch(fetchURL, {
             method: 'POST',
             body: JSON.stringify({user_id: payload.user_id}),
             headers: {
@@ -100,9 +104,13 @@ export async function addUserOrg(payload: {org_id: number, user_id: number}, pre
                 error: true
             }
         } else {
-            revalidatePath("/orgs/[org_id]", "page")
+            if (payload.team_name) {
+                revalidatePath("/orgs/[org_id]/teams/[team_name]", "page")
+            } else {
+                revalidatePath("/orgs/[org_id]", "page")
+            }
             return {
-                message: "Successfully added User to the org",
+                message: `Successfully added User to the ${payload.team_name ? "team" : "org"}`,
                 error: false
             }
         }
@@ -117,7 +125,7 @@ export async function addUserOrg(payload: {org_id: number, user_id: number}, pre
 }
 
 
-export async function removeUserOrg(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+export async function removeUser(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()

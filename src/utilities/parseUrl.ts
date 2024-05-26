@@ -1,22 +1,15 @@
+
 interface URLParams {
-    org_id: number;
-    team_id?: number;
-    role_id?: number;
+    org_id?: number;
+    team_name?: string;
 }
 
-export function parseUrlPath(urlPath: string): URLParams | null {
-    const regex = /\/orgs\/(\d+)(?:\/team\/(\d+))?(?:\/roles\/(\d+))?/;
-    const matches = urlPath.match(regex);
-    if (matches) {
-        let result: URLParams = {org_id: parseInt(matches[1])};
-        if (matches[2]) {
-            result.team_id = parseInt(matches[2]);
-        }
-        if (matches[3]) {
-            result.role_id = parseInt(matches[3]);
-        }
-        return result;
-    } else {
-        return null;
+export function parseUrlPath(urlPath: string) {
+    // Split the URL path into segments
+    const urlSegments = urlPath.split('/');
+    return {
+        org_id: urlSegments[2] || undefined,
+        team_name: urlSegments[4] || undefined,
+        task_id: urlSegments[6]?.replace("item-", "") || undefined
     }
 }    

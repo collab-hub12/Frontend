@@ -29,7 +29,7 @@ export type Team = {
 
 export type WithRoles = {
   org_id?: number,
-  team_id?: number,
+  team_name?: string,
   room_id?: number,
 }
 
@@ -42,7 +42,8 @@ export type Task = {
   org_id?: number,
   task_desc: string,
   task_progress: Id,
-  task_deadline?: string
+  task_deadline?: string;
+  assigned_to?: User[]
 }
 
 

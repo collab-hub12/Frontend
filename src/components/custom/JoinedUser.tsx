@@ -45,7 +45,7 @@ import {
 import { usePathname } from "next/navigation";
 import { parseUrlPath } from "@/utilities/parseUrl";
 import { useFormState } from "react-dom";
-import { makeUserAdminOrg, removeUserOrg } from "@/actions/org.action";
+import { makeUserAdmin, removeUser } from "@/actions/org.action";
 import toast from "react-hot-toast";
 import revalidatePath from "@/lib/revalidate";
 
@@ -97,26 +97,28 @@ export const columns: ColumnDef<User>[] = [
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
       const pathname = usePathname();
-      const { org_id } = parseUrlPath(pathname)!;
+      const { org_id, team_name } = parseUrlPath(pathname)!;
       const user_id = row.original.id;
 
-      const removeUserFromOrgWithPayload = removeUserOrg.bind(null, {
+      const removeUserWithPayload = removeUser.bind(null, {
         user_id,
-        org_id,
+        org_id: org_id!,
+        team_name: team_name!,
       });
 
-      const makeUserAdminOrgWithPayload = makeUserAdminOrg.bind(null, {
+      const makeUserAdminWithPayload = makeUserAdmin.bind(null, {
         user_id,
-        org_id,
+        org_id: org_id!,
+        team_name: team_name!,
       });
 
       const [removeUserstate, removeUserformAction] = useFormState(
-        removeUserFromOrgWithPayload,
+        removeUserWithPayload,
         null
       );
 
       const [makeUserAdminstate, makeUserAdminformAction] = useFormState(
-        makeUserAdminOrgWithPayload,
+        makeUserAdminWithPayload,
         null
       );
 

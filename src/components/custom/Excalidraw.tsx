@@ -56,8 +56,6 @@ export default function ExcalidrawComponent() {
   }, []);
 
   const onChange = (elements: any, appState: any) => {
-    console.log(elements);
-
     socket.emit("message", { elements, appState });
   };
 

@@ -66,7 +66,9 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => (
       <>
         <div className="flex gap-2 items-center">
-          <Avatar>
+          <Avatar
+            className={row.original.isAdmin ? "ring-4 ring-blue-600 " : ""}
+          >
             <AvatarImage src={row.original.picture} alt="ok" />
             <AvatarFallback>{}</AvatarFallback>
           </Avatar>

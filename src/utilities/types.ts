@@ -9,6 +9,7 @@ export type MemberofOrg = {
 };
 export type User = {
   id: number;
+  isAdmin: boolean;
   name: string;
   email: string;
   picture: string;

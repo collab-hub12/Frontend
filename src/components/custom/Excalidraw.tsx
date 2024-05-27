@@ -38,7 +38,6 @@ export default function ExcalidrawComponent() {
   useEffect(() => {
     function changeBoardState({ elements }: { elements: any; appState: any }) {
       if (excalidraw.current) {
-        console.log("hi");
         excalidraw.current?.readyPromise
           ?.then((d) => {
             console.log(elements);

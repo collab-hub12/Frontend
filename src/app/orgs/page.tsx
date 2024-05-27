@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { LogoutHandler } from "@/actions/auth.action";
 export default async function Orgs() {
   const data = await getSession();
-  if (!data) {
+  if (data?.statusCode === 401) {
     redirect("/");
   }
   const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);

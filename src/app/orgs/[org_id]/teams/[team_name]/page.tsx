@@ -23,9 +23,20 @@ export default async function Teams({
     team_name,
   });
 
-  if (!data) {
+  if (data?.statusCode === 401) {
     redirect("/");
   }
+
+  if (data?.statusCode === 403) {
+    return (
+      <div className="flex m-10 w-full my-auto ">
+        <h1 className="text-2xl text-center font-semibold">
+          User is not part of this team inside org
+        </h1>
+      </div>
+    );
+  }
+
   const [membersOfteam, tasks] = await Promise.all([
     getMembersOfTeam(org_id, team_name),
     getTaskDetails(org_id, team_name),

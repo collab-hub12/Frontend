@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { getCurrentOrg, getMemberOfOrg } from "@/lib/orgs.query";
 import { Org, Team, User } from "@/utilities/types";
-import { getTeamDetails } from "@/lib/teams.query";
+import { getTeamDetails, getTeamsInsideOrg } from "@/lib/teams.query";
 import { TeamsTable } from "@/components/custom/TeamsTable";
 import { JoinedUser } from "@/components/custom/JoinedUser";
 import Member from "@/components/custom/Member";
@@ -18,14 +18,14 @@ export default async function Teams({
   const { org_id } = params;
   const data = await getSession({ org_id });
 
-  if (!data) {
+  if (data?.statusCode === 401) {
     redirect("/");
   }
   // get current org detail & team details concurrently
   const [orgDetailResponse, teamDetailsResponse, memberDetailsOfOrg] =
     await Promise.all([
       getCurrentOrg(org_id),
-      getTeamDetails(org_id),
+      getTeamsInsideOrg(org_id),
       getMemberOfOrg(org_id),
     ]);
 

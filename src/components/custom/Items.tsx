@@ -4,17 +4,20 @@ import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { DotsHorizontalIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { User } from "@/utilities/types";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 type ItemsType = {
   id: UniqueIdentifier;
   title: string;
-  asigned_to?: User;
+  assigned_to: User[];
 };
 
-const Items = ({ id, title }: ItemsType) => {
+const Items = ({ id, title, assigned_to }: ItemsType) => {
   const router = useRouter();
   const pathname = usePathname();
   const {
@@ -30,6 +33,8 @@ const Items = ({ id, title }: ItemsType) => {
       type: "item",
     },
   });
+  const task_id = id?.toString().replace("item-", "");
+
   return (
     <div
       ref={setNodeRef}
@@ -46,25 +51,22 @@ const Items = ({ id, title }: ItemsType) => {
     >
       <div className="flex items-center justify-between">
         {title}
-        <div
-          className="px-2 py-2 border rounded-[50%]"
-          onClick={() => {
-            router.push(`${pathname}/tasks/${id}`);
-          }}
-        >
-          <DotsVerticalIcon />
-        </div>
+        <Link href={`${pathname}/tasks/${task_id}`}>
+          <PaperPlaneIcon color="#0090FF" fontSize={20} />
+        </Link>
       </div>
+
       <div className="flex -space-x-4 rtl:space-x-reverse mt-3">
-        <div className="w-10 h-10 bg-slate-500 border-2 border-white rounded-full dark:border-gray-800"></div>
-        <div className="w-10 h-10 border-2  bg-slate-500 border-white rounded-full dark:border-gray-800"></div>
-        <div className="w-10 h-10 border-2 bg-slate-500 border-white rounded-full dark:border-gray-800"></div>
-        <a
-          className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-          href="#"
-        >
-          +99
-        </a>
+        {assigned_to.map((user) => (
+          <Image
+            key={user.id}
+            width={35}
+            height={35}
+            className="border-2 border-white rounded-full dark:border-gray-800"
+            src={user.picture}
+            alt={user.name}
+          />
+        ))}
       </div>
     </div>
   );

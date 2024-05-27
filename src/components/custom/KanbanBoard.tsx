@@ -122,6 +122,14 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
     return item.title;
   };
 
+  const findItemAssigneeDetails = (id: UniqueIdentifier | undefined) => {
+    const container = findValueOfItems(id, "item");
+    if (!container) return [];
+    const item = container.items.find((item) => item.id === id);
+    if (!item) return [];
+    return item.assigned_to;
+  };
+
   const findItemProgress = (id: UniqueIdentifier | undefined) => {
     const container = findValueOfItems(id, "item");
     if (!container) return "";
@@ -144,7 +152,11 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
 
   // DND Handlers
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -275,10 +287,11 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
       if (previous_state === updated_state) return;
 
       const { updated } = await ChangeTaskProgressState(updated_state, task_id);
+      revalidatePath("/orgs/[org_id]/teams/[team_id]");
+
       if (updated) {
         toast.success("task updated");
       } else {
-        revalidatePath("/orgs/[org_id]/teams/[team_id]");
         toast.error("user is not authorized to do such actions");
         return;
       }
@@ -409,7 +422,12 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
                   <SortableContext items={container.items.map((i) => i.id)}>
                     <div className="flex items-start flex-col gap-y-4">
                       {container.items.map((i) => (
-                        <Items title={i.title} id={i.id} key={i.id} />
+                        <Items
+                          title={i.title}
+                          id={i.id}
+                          key={i.id}
+                          assigned_to={i.assigned_to || []}
+                        />
                       ))}
                     </div>
                   </SortableContext>
@@ -419,13 +437,22 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
             <DragOverlay adjustScale={false}>
               {/* Drag Overlay For item Item */}
               {activeId && activeId.toString().includes("item") && (
-                <Items id={activeId} title={findItemTitle(activeId)} />
+                <Items
+                  id={activeId}
+                  title={findItemTitle(activeId)}
+                  assigned_to={findItemAssigneeDetails(activeId) || []}
+                />
               )}
               {/* Drag Overlay For Container */}
               {activeId && activeId.toString().includes("container") && (
                 <Container id={activeId} title={findContainerTitle(activeId)}>
                   {findContainerItems(activeId).map((i) => (
-                    <Items key={i.id} title={i.title} id={i.id} />
+                    <Items
+                      key={i.id}
+                      title={i.title}
+                      id={i.id}
+                      assigned_to={i.assigned_to || []}
+                    />
                   ))}
                 </Container>
               )}

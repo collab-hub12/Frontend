@@ -37,7 +37,7 @@ export async function getSession(withRoles?: WithRoles) {
         cache: "no-store"
     })
     const data = await response.json()
-    if (!data.email) return null;
+
     return data;
 }
 

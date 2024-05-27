@@ -17,7 +17,7 @@ export async function getMembersOfTeam(org_id: number, team_name: string) {
 
 
 
-export async function getTeamDetails(org_id: number) {
+export async function getTeamsInsideOrg(org_id: number) {
     const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/`, {
         method: 'GET',
         headers: {
@@ -30,6 +30,21 @@ export async function getTeamDetails(org_id: number) {
         return null;
     return data;
 }
+
+export async function getTeamDetails(org_id: number, team_name: string) {
+    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}`, {
+        method: 'GET',
+        headers: {
+            Cookie: `jwt=${getCookieValue('jwt')}`
+        },
+        cache: "no-store"
+    })
+    const data = await response.json()
+
+    return data;
+}
+
+
 
 type DNDType = {
     id: string | number;

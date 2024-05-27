@@ -33,7 +33,7 @@ export async function createOrg(formData: FormData) {
     revalidatePath('/orgs')
 }
 
-export async function makeUserAdmin(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+export async function makeUserAdmin(payload: {org_id: number, user_id: number, team_name?: string}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -43,7 +43,16 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number}, 
             throw new Error('No token')
         }
 
-        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`, {
+        let fetchUrl: string;
+
+        if (!payload.team_name) {
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`
+        } else {
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users/${payload.user_id}`
+        }
+        console.log(fetchUrl);
+
+        const data = await fetch(fetchUrl, {
             method: 'PUT',
             headers: {
                 Cookie: `jwt=${token}`,
@@ -51,6 +60,12 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number}, 
             }
         })
         const response = await data.json();
+
+        if (payload.team_name) {
+            revalidatePath("/orgs/[org_id]/teams/[team_name]", "page")
+        } else {
+            revalidatePath("/orgs/[org_id]", "page")
+        }
 
         if (response?.error === "Forbidden") {
             return {
@@ -65,6 +80,8 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number}, 
             }
         }
     } catch (err) {
+        console.log(err);
+
         return {
             message: 'internal server error',
             error: true
@@ -125,7 +142,7 @@ export async function addMember(payload: {org_id: number, user_id: number, team_
 }
 
 
-export async function removeUser(payload: {org_id: number, user_id: number}, prevState: any, formData: FormData) {
+export async function removeUser(payload: {org_id: number, user_id: number, team_name: string}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -135,7 +152,15 @@ export async function removeUser(payload: {org_id: number, user_id: number}, pre
             throw new Error('No token')
         }
 
-        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`, {
+        let fetchUrl: string;
+        if (!payload.team_name) {
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`
+        } else {
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users/${payload.user_id}`
+        }
+        console.log(fetchUrl);
+
+        const data = await fetch(fetchUrl, {
             method: 'DELETE',
             headers: {
                 Cookie: `jwt=${token}`,

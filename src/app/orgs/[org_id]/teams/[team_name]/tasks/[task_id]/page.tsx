@@ -20,7 +20,7 @@ const page = async ({
         <div className="font-semibold text-[28px]">{taskDetail.title}</div>
         <div className="flex gap-4 items-center ">
           <div className="bg-[#EA4335] rounded-full w-[10px] h-[10px]"></div>
-          <div className="text-[#205BF1] font-medium text-[20px]">
+          <div className="text-[#b55bb0] font-medium text-[20px]">
             {taskDetail.task_progress}
           </div>
           <span className="p-5 ml-auto">Assigned to :</span>
@@ -42,7 +42,7 @@ const page = async ({
         <h1 className="font-bold text-[20px]">DETAILS</h1>
         <div className="flex gap-8">
           <div className="flex gap-4 items-center">
-            <div className="h-[50px] w-[60px] bg-[#205BF1] rounded-md"></div>
+            <div className="h-[50px] w-[60px] bg-[#b55bb0] rounded-md"></div>
             <div className="flex flex-col gap-1">
               <p className="text-[12px] text-[#9C9C9D]">Task Manager</p>
               {/* Name of the task assigner */}
@@ -50,7 +50,7 @@ const page = async ({
             </div>
           </div>
           <div className="flex gap-4 items-center">
-            <div className="h-[50px] w-[60px] bg-[#205BF1] rounded-md"></div>
+            <div className="h-[50px] w-[60px] bg-[#b55bb0] rounded-md"></div>
             <div className="flex flex-col gap-1">
               <p className="text-[12px] text-[#9C9C9D]">Task Deadline</p>
               {/* Deadline of the task */}

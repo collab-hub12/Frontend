@@ -325,7 +325,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
                 type="radio"
                 name="taskProgress"
                 value="Done"
-                className="border-2 border-solid border-[#205BF1]"
+                className="border-2 border-solid border-[#b55bb0]"
               />{" "}
               Done
             </label>
@@ -369,7 +369,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
               <div className="bg-[#EA4335] rounded-full w-[10px] h-[10px]"></div>
               <div className="font-bold">In Review</div>
             </div>
-            <div className="bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
+            <div className="bg-[#b55bb0] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Being Evaluated
             </div>
           </div>
@@ -378,7 +378,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
               <div className="bg-[#FEFEFF] rounded-full w-[10px] h-[10px]"></div>
               <div className="font-bold">In Progress</div>
             </div>
-            <div className="bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
+            <div className="bg-[#b55bb0] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Ongoing
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
               <div className="bg-[#34A853] rounded-full w-[10px] h-[10px]"></div>
               <div className="font-bold">Done</div>
             </div>
-            <div className="bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
+            <div className="bg-[#b55bb0] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Completed
             </div>
           </div>
@@ -396,7 +396,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
               <div className="bg-[#9C9C9D] rounded-full w-[10px] h-[10px]"></div>
               <div className="font-bold">Not Started</div>
             </div>
-            <div className="bg-[#205BF1] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
+            <div className="bg-[#b55bb0] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Pending
             </div>
           </div>

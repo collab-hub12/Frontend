@@ -50,7 +50,6 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number, t
         } else {
             fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users/${payload.user_id}`
         }
-        console.log(fetchUrl);
 
         const data = await fetch(fetchUrl, {
             method: 'PUT',

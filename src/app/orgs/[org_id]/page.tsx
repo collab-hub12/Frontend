@@ -44,21 +44,21 @@ export default async function Teams({
   return (
     <div className="flex flex-col p-10 w-full">
       <Toaster position="bottom-left" reverseOrder={false} />
-      <div className="flex justify-between bg-[#205BF1] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full">
+      <div className="flex justify-between bg-[#b55bb0] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full">
         <div className="flex justify-between w-full">
           <h1 className="text-3xl font-semibold dark:text-white text-white ">
             {(orgDetailResponse as Org)?.org_name}
           </h1>
           <div className="flex gap-2">
             <div className="px-6 rounded-md flex gap-2 items-center bg-white">
-              <Building color="#205BF1" />
-              <h1 className="text-base  dark:text-[#205BF1] text-[#205BF1]">
+              <Building color="#b55bb0" />
+              <h1 className="text-base  dark:text-[#b55bb0] text-[#b55bb0]">
                 {(orgDetailResponse as Org)?.org_desc}
               </h1>
             </div>
             <div className="px-6 rounded-md flex gap-2 items-center bg-white">
-              <MapPin color="#205BF1" />
-              <h1 className="text-base  dark:text-[#205BF1] text-[#205BF1]">
+              <MapPin color="#b55bb0" />
+              <h1 className="text-base  dark:text-[#b55bb0] text-[#b55bb0]">
                 {(orgDetailResponse as Org)?.location}
               </h1>
             </div>

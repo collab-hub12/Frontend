@@ -57,7 +57,7 @@ const page = async ({
         <h1 className="font-bold text-[20px]">DETAILS</h1>
         <div className="flex gap-8">
           <div className="flex gap-4 items-center">
-            <div className="h-[50px] w-[60px] bg-[#b55bb0] rounded-md"></div>
+            <div className="h-[50px] w-[60px] bg-[#9C9C9D] rounded-md"></div>
             <div className="flex flex-col gap-1">
               <p className="text-[12px] text-[#9C9C9D]">Task Manager</p>
               {/* Name of the task assigner */}

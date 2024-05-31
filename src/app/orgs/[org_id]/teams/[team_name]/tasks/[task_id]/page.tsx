@@ -86,7 +86,7 @@ const page = async ({
           </div>
       </div>
 
-        <h1 className="text-grey font-bold text-[70px]">DRAW YOUR FLOWCHARTS AT EASE</h1>
+        <h1 className="text-grey font-bold text-[50px]">DRAW YOUR FLOWCHARTS AT EASE</h1>
       <div className="flex flex-col items-center border-slate-800 border-[0.5px] rounded-md p-10">
         <DynamicFlowComponent roomId={team_name} user={data.name} />
         <Toaster position="bottom-left" reverseOrder={false} />

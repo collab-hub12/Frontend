@@ -1,7 +1,16 @@
 import Member from "@/components/custom/Member";
+import { getSession } from "@/lib/session";
 import { getTaskDetails } from "@/lib/task.query";
 import { Task } from "@/utilities/types";
+import dynamic from "next/dynamic";
 import { Toaster } from "react-hot-toast";
+
+const DynamicFlowComponent = dynamic(
+  () => import("@/components/custom/DrawingComponent"),
+  {
+    ssr: false,
+  }
+);
 
 const page = async ({
   params,
@@ -9,14 +18,19 @@ const page = async ({
   params: { org_id: number; team_name: string; task_id: number };
 }) => {
   const { org_id, team_name, task_id } = params;
+  const data = await getSession({
+    org_id,
+    team_name,
+  });
   const taskDetail = (await getTaskDetails(org_id, team_name, task_id)) as Task;
 
   return (
     <div className="flex flex-col p-10 w-full gap-6">
       {/* Task Title */}
+      <DynamicFlowComponent roomId={team_name} user={data.name} />
       <Toaster position="bottom-left" reverseOrder={false} />
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-24">
         <div className="font-semibold text-[28px]">{taskDetail.title}</div>
         <div className="flex gap-4 items-center ">
           <div className="bg-[#EA4335] rounded-full w-[10px] h-[10px]"></div>
@@ -38,6 +52,7 @@ const page = async ({
           </div>
         </div>
       </div>
+
       <div className="flex flex-col gap-4 px-6">
         <h1 className="font-bold text-[20px]">DETAILS</h1>
         <div className="flex gap-8">

@@ -15,27 +15,6 @@ export default function ExcalidrawComponent() {
   const [isCollaborating, setIsCollaborating] = useState(false);
 
   useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
-
-    function onConnect() {
-      setIsConnected(true);
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-    }
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
-
-  useEffect(() => {
     function changeBoardState({ elements }: { elements: any; appState: any }) {
       if (excalidraw.current) {
         excalidraw.current?.readyPromise

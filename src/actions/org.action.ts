@@ -26,6 +26,8 @@ export async function createOrg(formData: FormData) {
                 'Content-Type': 'application/json'
             }
         })
+        console.log(await data.json());
+
 
     } catch (err) {
         console.log(err);

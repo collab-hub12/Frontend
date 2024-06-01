@@ -81,29 +81,37 @@ function Flow({ roomId, user }: { roomId: string; user: string }) {
   };
 
   return (
-    <div style={{ height: "70vh", width: "100%", margin: "1rem" }}>
+    <div className="h-[80vh] w-[80vw] flex items-center flex-col ">
       Connected Users:{" "}
       {connectedUsers.length > 0
         ? connectedUsers.join(", ")
         : "No users connected"}
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={handleNodesChange}
-        onEdgesChange={handleEdgesChange}
-        onConnect={onConnect}
-        fitView
-      >
-        <Background />
-        <Controls />
-        <MiniMap />
-      </ReactFlow>
-      <Input
-        className="m-2"
-        onChange={(e) => setNodelabel(e.target.value)}
-        defaultValue={nodelabel}
-        placeholder="put your custom label"
-      />
+
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={handleNodesChange}
+          onEdgesChange={handleEdgesChange}
+          onConnect={onConnect}
+          fitView
+          className="flex items-center w-full justify-center"
+        >
+          <Background />
+          <Controls />
+          <MiniMap />
+        </ReactFlow>
+      
+      <div className="flex gap-4 items-center py-4">
+        <h1 className="text-xl font-bold text-blue-500">
+          Component Onboarding
+        </h1>
+        <Input
+          className="py-2 w-[40%] flex p-6"
+          onChange={(e) => setNodelabel(e.target.value)}
+          defaultValue={nodelabel}
+          placeholder="Component name"
+        />
+      </div>
       <Button
         className="m-4"
         onClick={() => {

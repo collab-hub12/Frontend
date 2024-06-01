@@ -54,9 +54,16 @@ export default async function Teams({
       </div>
 
       <KanbanBoard data={tasks} org_id={org_id} team_name={team_name} />
-
-      <Member org_id={org_id} />
-      <JoinedUser data={membersOfteam as User[]} />
+      <div className='flex gap-4 w-full pt-6'>
+        <div className='flex flex-col basis-[50%] w-full '>
+          <h1 className="text-blue-500 text-2xl font-semibold ">Access to the user</h1>
+          <JoinedUser data={membersOfteam as User[]} />
+        </div>
+        <div className='flex flex-col basis-[50%] w-full'>
+        <h1 className="text-blue-500 text-2xl font-semibold ">Members in the organisation</h1>
+        <Member org_id={org_id} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -69,11 +69,13 @@ export default async function Teams({
         data={teamDetailsResponse as Team[]}
         org_id={params.org_id!}
       />
-      <div className='flex gap-4 w-full'>
-        <div className='flex basis-[50%] w-full'>
+      <div className='flex gap-4 w-full pt-6'>
+        <div className='flex flex-col basis-[50%] w-full '>
+          <h1 className="text-blue-500 text-2xl font-semibold ">Access to the user</h1>
           <JoinedUser data={memberDetailsOfOrg as User[]} />
         </div>
         <div className='flex flex-col basis-[50%] w-full'>
+        <h1 className="text-blue-500 text-2xl font-semibold ">All members list</h1>
           <Member />
         </div>
       </div>

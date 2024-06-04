@@ -24,7 +24,7 @@ export default function Reusable({
           }}
           className="flex flex-col gap-4 items-center justify-center"
         >
-          <h1 className=" bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text text-center text-4xl font-medium tracking-tight text-[#4FABFF] md:text-7xl ">
+          <h1 className=" bg-gradient-to-br from-slate-300 to-slate-100 bg-clip-text text-center text-4xl font-medium font-sans tracking-tight text-[#4FABFF] md:text-7xl ">
             {title}
           </h1>
           <TextGenerateEffect

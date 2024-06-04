@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/custom/Navbar";
 import { Inter } from "next/font/google";
+import Footer from "@/components/custom/Footer";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <Card className="flex-1 border-none rounded-none flex h-auto">
             {children}
           </Card>
+          <Footer />
         </body>
       </ThemeProvider>
     </html>

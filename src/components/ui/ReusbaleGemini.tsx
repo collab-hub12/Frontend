@@ -18,7 +18,7 @@ export default function ReusbaleGemini() {
   return (
     <>
       <div
-        className='h-[800vh] w-full bg-slate-950  rounded-md relative overflow-clip'
+        className="h-[400vh] w-full bg-neutral-950  rounded-md relative overflow-clip"
         ref={ref}
       >
         <GoogleGeminiEffect

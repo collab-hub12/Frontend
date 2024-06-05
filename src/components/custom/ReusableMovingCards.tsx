@@ -33,7 +33,7 @@ export default function ReusableMovingCards() {
         <h1 className="relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
           Loved by thousands of people.
         </h1>
-        <p className="relative z-10 text-lg md:text-lg  bg-clip-text text-transparent bg-neutral-300  text-center font-sans font-bold pt-4 pb-10">
+        <p className="relative z-10 text-lg md:text-lg  bg-clip-text text-transparent bg-neutral-300  text-center font-sans font-medium pt-2 pb-10">
           Here's what some of our users have to say about Collabhub.
         </p>
         <InfiniteMovingCards

@@ -6,7 +6,7 @@ export default function ReusableSparkle() {
   return (
     <>
       <div className="h-auto w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-        <TextGenerateEffect words="With the powerful tool and usage of kanban boards we present before you all" />
+        {/* <TextGenerateEffect words="With the powerful tool and usage of kanban boards we present before you all" /> */}
         <h1 className="relative z-10 text-lg md:text-9xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold ">
           Collab
           <span className="text-[#4FABFF]">Hub</span>

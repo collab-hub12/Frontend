@@ -38,10 +38,12 @@ export default async function Landing() {
           <div className="h-[50rem] w-full dark:bg-neutral-950  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center py-[80px]">
             {/* Radial gradient for the container to give a faded look */}
             <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-neutral-950 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-            <div className="flex h-auto flex-col items-center justify-center relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
-              CollabHub is a one stop solution
+            <div className="flex h-auto flex-col items-center justify-center relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-300 to-neutral-600  text-center font-sans font-bold">
+              <h1 className="relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+                CollabHub is a one stop solution
+              </h1>
               <ReusableFlipWord />
-              <div className="flex items-center pt-10 gap-10">
+              <div className="flex items-center pt-16 gap-10">
                 <div className="flex flex-col justify-center basis-{50%] h-[400px] w-[400px] rounded-lg border-slate-800 animate-shimmer border-[0.5px] bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] p-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-[20px]">
                   <h1 className="text-[30px] font-bold text-slate-200">
                     SUPER SAIYAN PLAN

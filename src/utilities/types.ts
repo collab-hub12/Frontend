@@ -1,3 +1,4 @@
+import {Edge, Node} from "reactflow";
 
 
 
@@ -45,9 +46,15 @@ export type Task = {
   task_progress: Id,
   task_deadline?: string;
   assigned_to?: User[]
+  boardDetails?: Board
 }
 
-
+export type Board = {
+  id: number,
+  task: number,
+  edges: Edge[],
+  nodes: Node[]
+}
 
 export type Column = {
   id: Id;

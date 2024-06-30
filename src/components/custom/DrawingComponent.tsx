@@ -1,6 +1,6 @@
 "use client";
 import { socket } from "@/lib/socket";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ReactFlow, {
   Controls,
   Background,
@@ -13,20 +13,37 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
   MiniMap,
+  useReactFlow,
+  ReactFlowProvider,
+  ReactFlowInstance,
 } from "reactflow";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { v4 as uuid } from "uuid";
+import { Board, User } from "@/utilities/types";
 
-function Flow({ roomId, user }: { roomId: string; user: string }) {
-  const [nodes, setNodes] = useNodesState([]);
-  const [edges, setEdges] = useEdgesState([]);
+function Flow({
+  roomId,
+  user,
+  task_id,
+  board_details,
+}: {
+  roomId: string;
+  user: User;
+  task_id: number;
+  board_details: Board;
+}) {
+  const [nodes, setNodes] = useNodesState(board_details?.nodes ?? []);
+  const [edges, setEdges] = useEdgesState(board_details?.edges ?? []);
   const [nodelabel, setNodelabel] = useState("");
   const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
 
   useEffect(() => {
     const socketConnection = () => {
-      socket.emit("join", { user, roomId });
+      socket.emit("join", {
+        user: { ...user, userId: user.id, username: user.name },
+        roomId,
+      });
     };
     const disconnectSocket = () => {
       socket.disconnect();
@@ -40,10 +57,14 @@ function Flow({ roomId, user }: { roomId: string; user: string }) {
   }, []);
 
   useEffect(() => {
-    socket.on("connectedUsers", (data) => {
-      const onlineUser = data?.users?.map((user: any) => user.userId) || [];
+    const getConnectedUsers = (data: any) => {
+      const onlineUser = data?.users?.map((user: any) => user.username) || [];
       setConnectedUsers(onlineUser);
-    });
+    };
+    socket.on("connectedUsers", getConnectedUsers);
+    return () => {
+      socket.off("connectedUsers", getConnectedUsers);
+    };
   }, [connectedUsers]);
 
   useEffect(() => {
@@ -65,19 +86,19 @@ function Flow({ roomId, user }: { roomId: string; user: string }) {
   const handleNodesChange: OnNodesChange = (changes) => {
     const newNodes = applyNodeChanges(changes, nodes);
     setNodes(newNodes);
-    socket.emit("nodesChange", { roomId, changes: newNodes });
+    socket.emit("nodesChange", { roomId, changes: newNodes, task_id });
   };
 
   const handleEdgesChange: OnEdgesChange = (changes) => {
     const newEdges = applyEdgeChanges(changes, edges);
     setEdges(newEdges);
-    socket.emit("edgesChange", { roomId, changes: newEdges });
+    socket.emit("edgesChange", { roomId, changes: newEdges, task_id });
   };
 
   const onConnect: OnConnect = (params) => {
     const newEdge = addEdge(params, edges);
     setEdges(newEdge);
-    socket.emit("edgesChange", { roomId, changes: newEdge });
+    socket.emit("edgesChange", { roomId, changes: newEdge, task_id });
   };
 
   return (
@@ -86,21 +107,19 @@ function Flow({ roomId, user }: { roomId: string; user: string }) {
       {connectedUsers.length > 0
         ? connectedUsers.join(", ")
         : "No users connected"}
-
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={handleNodesChange}
-          onEdgesChange={handleEdgesChange}
-          onConnect={onConnect}
-          fitView
-          className="flex items-center w-full justify-center"
-        >
-          <Background />
-          <Controls />
-          <MiniMap />
-        </ReactFlow>
-      
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={handleNodesChange}
+        onEdgesChange={handleEdgesChange}
+        onConnect={onConnect}
+        fitView
+        className="flex items-center w-full justify-center"
+      >
+        <Background />
+        <Controls />
+        <MiniMap />
+      </ReactFlow>
       <div className="flex gap-4 items-center py-4">
         <h1 className="text-xl font-bold text-blue-500">
           Component Onboarding
@@ -130,4 +149,27 @@ function Flow({ roomId, user }: { roomId: string; user: string }) {
   );
 }
 
-export default Flow;
+function DrawingComponent({
+  roomId,
+  user,
+  task_id,
+  board_details,
+}: {
+  roomId: string;
+  user: User;
+  task_id: number;
+  board_details: Board;
+}) {
+  return (
+    <ReactFlowProvider>
+      <Flow
+        roomId={roomId}
+        user={user}
+        task_id={task_id}
+        board_details={board_details}
+      />
+    </ReactFlowProvider>
+  );
+}
+
+export default DrawingComponent;

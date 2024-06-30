@@ -1,9 +1,10 @@
 import Member from "@/components/custom/Member";
 import { getSession } from "@/lib/session";
 import { getTaskDetails } from "@/lib/task.query";
-import { Task } from "@/utilities/types";
+import { Task, User } from "@/utilities/types";
 import dynamic from "next/dynamic";
 import { Toaster } from "react-hot-toast";
+import { ReactFlowProvider } from "reactflow";
 
 const DynamicFlowComponent = dynamic(
   () => import("@/components/custom/DrawingComponent"),
@@ -23,6 +24,7 @@ const page = async ({
     team_name,
   });
   const taskDetail = (await getTaskDetails(org_id, team_name, task_id)) as Task;
+  console.log(taskDetail.boardDetails);
 
   return (
     <div className="flex flex-col p-10 w-full gap-6">
@@ -80,15 +82,21 @@ const page = async ({
             <h1 className="text-[14px] text-grey">{taskDetail.task_desc}</h1>
           </div>
         </div>
-          <div className="flex basis-[50%] px-6">
-
-        <Member org_id={params.org_id} team_name={params.team_name} />
-          </div>
+        <div className="flex basis-[50%] px-6">
+          <Member org_id={params.org_id} team_name={params.team_name} />
+        </div>
       </div>
 
-        <h1 className="text-grey font-bold text-[50px]">DRAW YOUR FLOWCHARTS AT EASE</h1>
+      <h1 className="text-grey font-bold text-[50px]">
+        DRAW YOUR FLOWCHARTS AT EASE
+      </h1>
       <div className="flex flex-col items-center border-slate-800 border-[0.5px] rounded-md p-10">
-        <DynamicFlowComponent roomId={team_name} user={data.name} />
+        <DynamicFlowComponent
+          roomId={`room-${team_name}-task-${taskDetail.id}`}
+          user={data as User}
+          task_id={task_id}
+          board_details={taskDetail.boardDetails!}
+        />
         <Toaster position="bottom-left" reverseOrder={false} />
       </div>
     </div>

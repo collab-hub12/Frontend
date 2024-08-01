@@ -28,14 +28,14 @@ export default async function Landing() {
           <div className="relative flex min-h-screen flex-col items-center overflow-hidden w-full rounded-md z-0 -translate-y-16 ">
             <Reusable title={data.title} subtitle={data.subtitle} />
           </div>
-          <div className="-translate-y-44 flex justify-center items-center w-full pb-60 h-[700px]">
+          <div className="-translate-y-44 flex justify-center items-center w-full px-3 md:px-0 pb-0 md:pb-60 md:h-[700px]">
             <ReusableCard />
           </div>
-          <div>
+          <div className="hidden md:block">
             <ReusbaleGemini />
           </div>
 
-          <div className="h-[50rem] w-full dark:bg-neutral-950  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center py-[80px]">
+          <div className="h-[50rem] w-full dark:bg-neutral-950  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center py-0 md:py-[80px]">
             {/* Radial gradient for the container to give a faded look */}
             <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-neutral-950 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
             <div className="flex h-auto flex-col items-center justify-center relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-300 to-neutral-600  text-center font-sans font-bold">

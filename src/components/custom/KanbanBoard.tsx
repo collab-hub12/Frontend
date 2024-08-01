@@ -36,7 +36,8 @@ import revalidatePath from "@/lib/revalidate";
 import { Table2, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import api from "@/utilities/axios";
-
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export type DNDType = {
@@ -60,6 +61,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
   const [state, addTaskAction] = useFormState(addTaskWithPayload, null);
 
   const [containers, setContainers] = useState<DNDType[]>(data);
+  const [selected, setSelected] = useState<Date>();
 
   const ChangeTaskProgressState = async (
     progressState: string,
@@ -300,54 +302,74 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
   }
 
   return (
-    <div className='py-10'>
+    <div className="py-10">
       <Modal
         showModal={showAddContainerModal}
         setShowModal={setShowAddContainerModal}
       >
-        <form action={addTaskAction} className='p-10 flex flex-col gap-2'>
-          <div className='flex justify-end w-full'>
-            <X />
+        <form action={addTaskAction} className="px-10 flex flex-col gap-2">
+          <div className="flex justify-end w-full">
+            <X
+              onClick={() => setShowAddContainerModal(false)}
+              className="cursor-pointer"
+            />
           </div>
           <label>Task Title</label>
-          <Input type='text' placeholder='Task Title' name='taskTitle' />
+          <Input type="text" placeholder="Task Title" name="taskTitle" />
           <label>Task Description</label>
           <Textarea
-            placeholder='Task Description'
-            name='taskDescription'
-            className='w-full'
+            placeholder="Task Description"
+            name="taskDescription"
+            className="w-full"
           />
           <label>Task Progress</label>
-          <div className='flex items-center space-x-4 text-sm'>
+          <div className="flex items-center space-x-4 text-sm">
             {" "}
             <label>
               <input
-                type='radio'
-                name='taskProgress'
-                value='Done'
-                className='border-2 border-solid border-[#1967D2]'
+                type="radio"
+                name="taskProgress"
+                value="Done"
+                className="border-2 border-solid border-[#1967D2]"
               />{" "}
               Done
             </label>
             <label>
-              <input type='radio' name='taskProgress' value='InProgress' /> In
+              <input type="radio" name="taskProgress" value="InProgress" /> In
               Progress
             </label>
             <label>
-              <input type='radio' name='taskProgress' value='InReview' /> In
+              <input type="radio" name="taskProgress" value="InReview" /> In
               Review
             </label>
             <label>
-              <input type='radio' name='taskProgress' value='NotStarted' /> Not
+              <input type="radio" name="taskProgress" value="NotStarted" /> Not
               Started
             </label>
           </div>
           <label>Task Deadline</label>
-          <Input type='text' placeholder='Task Deadline' name='taskDeadline' />
-          <div className='justify-center flex items-center pt-2'>
+          <div className="w-full items-center justify-center flex">
+            <DayPicker
+              mode="single"
+              selected={selected}
+              onSelect={setSelected}
+              footer={
+                selected && (
+                  <Input
+                    type="text"
+                    placeholder="Task Deadline"
+                    name="taskDeadline"
+                    value={selected.toLocaleDateString()}
+                    readOnly
+                  />
+                )
+              }
+            />
+          </div>
+          <div className="justify-center flex items-center pt-2">
             <button
-              className='bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-2 py-3 rounded-md text-base font-bold w-[50%] flex items-center justify-center'
-              type='submit'
+              className="bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-2 py-3 rounded-md text-base font-bold w-[50%] flex items-center justify-center"
+              type="submit"
             >
               Add Task
             </button>
@@ -355,48 +377,48 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
         </form>
       </Modal>
 
-      <div className='flex items-center justify-between gap-y-4'>
-        <div className='flex bg-[#334155] justify-between items-center px-6 py-2 gap-4 rounded-md'>
-          <Table2 color='white' />
-          <h1 className='text-white text-[16px] font-semibold'>Kanban</h1>
+      <div className="flex items-center justify-between gap-y-4">
+        <div className="flex bg-[#334155] justify-between items-center px-6 py-2 gap-4 rounded-md">
+          <Table2 color="white" />
+          <h1 className="text-white text-[16px] font-semibold">Kanban</h1>
         </div>
         <Button onClick={() => setShowAddContainerModal(true)}>Add Task</Button>
       </div>
-      <div className='mt-10'>
-        <div className='grid grid-cols-4 gap-6'>
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2 items-center '>
-              <div className='bg-[#EA4335] rounded-full w-[10px] h-[10px]'></div>
-              <div className='font-bold'>In Review</div>
+      <div className="mt-10">
+        <div className="grid grid-cols-4 gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center ">
+              <div className="bg-[#EA4335] rounded-full w-[10px] h-[10px]"></div>
+              <div className="font-bold">In Review</div>
             </div>
-            <div className='bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Being Evaluated
             </div>
           </div>
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2 items-center '>
-              <div className='bg-[#FEFEFF] rounded-full w-[10px] h-[10px]'></div>
-              <div className='font-bold'>In Progress</div>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center ">
+              <div className="bg-[#FEFEFF] rounded-full w-[10px] h-[10px]"></div>
+              <div className="font-bold">In Progress</div>
             </div>
-            <div className='bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Ongoing
             </div>
           </div>
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2 items-center '>
-              <div className='bg-[#34A853] rounded-full w-[10px] h-[10px]'></div>
-              <div className='font-bold'>Done</div>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center ">
+              <div className="bg-[#34A853] rounded-full w-[10px] h-[10px]"></div>
+              <div className="font-bold">Done</div>
             </div>
-            <div className='bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Completed
             </div>
           </div>
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2 items-center '>
-              <div className='bg-[#9C9C9D] rounded-full w-[10px] h-[10px]'></div>
-              <div className='font-bold'>Not Started</div>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center ">
+              <div className="bg-[#9C9C9D] rounded-full w-[10px] h-[10px]"></div>
+              <div className="font-bold">Not Started</div>
             </div>
-            <div className='bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center'>
+            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
               Pending
             </div>
           </div>
@@ -420,7 +442,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
                   }}
                 >
                   <SortableContext items={container.items.map((i) => i.id)}>
-                    <div className='flex items-start flex-col gap-y-4'>
+                    <div className="flex items-start flex-col gap-y-4">
                       {container.items.map((i) => (
                         <Items
                           title={i.title}

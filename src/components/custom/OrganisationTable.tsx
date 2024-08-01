@@ -155,7 +155,7 @@ export function OrganisationTable({ data }: propType) {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center gap-4 py-4">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 py-4">
         <div>
           <Input
             placeholder="Filter Organisation Names"

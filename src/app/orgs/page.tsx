@@ -24,15 +24,16 @@ export default async function Orgs() {
   const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);
 
   return (
-    <div className="flex flex-col p-10 w-full">
+    <div className="flex flex-col p-4 md:p-10 w-full">
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold">Hello there, 
-          <span className="text-blue-400 pl-1 text-[40px]">
-             {data?.name}
+          <h1 className="text-lg md:text-3xl font-semibold">
+            Hello there,
+            <span className="text-blue-400 pl-1 text-xl md:text-[40px]">
+              {data?.name}
             </span>
-            </h1>
-          <p className="text-grey ">
+          </h1>
+          <p className="text-grey text-xs md:text-base">
             Here&apos;s the list of organisations you have joined
           </p>
         </div>

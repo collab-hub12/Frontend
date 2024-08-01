@@ -43,12 +43,12 @@ export default async function Landing() {
                 CollabHub is a one stop solution
               </h1>
               <ReusableFlipWord />
-              <div className="flex items-center pt-16 gap-10">
-                <div className="flex flex-col justify-center basis-{50%] h-[400px] w-[400px] rounded-lg border-slate-800 animate-shimmer border-[0.5px] bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] p-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-[20px]">
-                  <h1 className="text-[30px] font-bold text-slate-200">
+              <div className="flex items-center pt-16 gap-10 md:flex-row flex-col">
+                <div className="flex flex-col justify-center basis-{50%] w-[340px] h-[400px] md:w-[400px] rounded-lg border-slate-800 animate-shimmer border-[0.5px] bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] p-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-[20px]">
+                  <h1 className="text-lg md:text-[30px] font-bold text-slate-200">
                     SUPER SAIYAN PLAN
                   </h1>
-                  <ul className="py-10 gap-4 flex flex-col justify-start items-start">
+                  <ul className="py-10 gap-4 flex flex-col justify-start items-start text-base md:text-lg">
                     <li className="flex gap-4 items-center">
                       <div className="bg-blue-200 h-2 w-2 rounded-full"></div>
                       Unlimited Creation of Organisations
@@ -76,12 +76,14 @@ export default async function Landing() {
                     <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
                   </button>
                 </div>
-                <div className="flex flex-col justify-center basis-{50%] h-[400px] w-[400px] rounded-lg border-slate-800  border-[0.5px] bg-[linear-gradient(110deg,#000103,45%,#1e2631,40%,#000103)]  p-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-[20px]">
-                  <h1 className="text-[30px] font-bold">COMING SOON</h1>
-                  <ul className="py-10 gap-4 flex flex-col justify-start items-start animate-pulse">
-                    <li className="w-full h-8 bg-slate-700 rounded-full"></li>
-                    <li className="w-full h-8 bg-slate-700 rounded-full"></li>
-                    <li className="w-full h-8 bg-slate-700 rounded-full"></li>
+                <div className="flex flex-col justify-center  basis-{50%] h-[200px] md:h-[400px] w-[340px] md:w-[400px] rounded-lg border-slate-800  border-[0.5px] bg-[linear-gradient(110deg,#000103,45%,#1e2631,40%,#000103)]  p-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-[20px]">
+                  <h1 className="text-lg md:text-[30px] font-bold">
+                    COMING SOON
+                  </h1>
+                  <ul className="py-10 gap-2 md:gap-4 flex flex-col justify-start items-start animate-pulse">
+                    <li className="w-full h-4 md:h-8 bg-slate-700 rounded-full"></li>
+                    <li className="w-full h-4 md:h-8 bg-slate-700 rounded-full"></li>
+                    <li className="w-full h-4 md:h-8 bg-slate-700 rounded-full"></li>
                   </ul>
                 </div>
               </div>

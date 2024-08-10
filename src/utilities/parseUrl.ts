@@ -4,7 +4,7 @@ export function parseUrlPath(urlPath: string) {
     const urlSegments = urlPath.split('/');
     return {
         org_id: +urlSegments[2] || undefined,
-        team_name: urlSegments[4] || undefined,
+        team_id: +urlSegments[4] || undefined,
         task_id: +urlSegments[6]?.replace("item-", "") || undefined
     }
 }    

@@ -106,7 +106,7 @@ export const columns: ColumnDef<Team>[] = [
 
             <DropdownMenuItem
               onClick={() => {
-                router.push(`/orgs/${org_id}/teams/${row.original.name}`);
+                router.push(`/orgs/${org_id}/teams/${row.original.id}`);
               }}
             >
               Enter Team

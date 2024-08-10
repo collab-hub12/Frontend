@@ -18,6 +18,7 @@ export async function createTeam(org_id: number, prevState: any, formData: FormD
         })
         const response = await data.json();
         if (response?.error) {
+           
             return {
                 message: 'User does not have right access to do this operation',
                 error: true
@@ -30,6 +31,7 @@ export async function createTeam(org_id: number, prevState: any, formData: FormD
             }
         }
     } catch (err) {
+
         return {
             message: 'internal server error',
             error: true

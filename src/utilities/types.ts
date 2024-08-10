@@ -31,7 +31,7 @@ export type Team = {
 
 export type WithRoles = {
   org_id?: number,
-  team_name?: string,
+  team_id?: number,
   room_id?: number,
 }
 

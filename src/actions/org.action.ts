@@ -35,7 +35,7 @@ export async function createOrg(formData: FormData) {
     revalidatePath('/orgs')
 }
 
-export async function makeUserAdmin(payload: {org_id: number, user_id: number, team_name?: string}, prevState: any, formData: FormData) {
+export async function makeUserAdmin(payload: {org_id: number, user_id: number, team_id?: number}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -47,10 +47,10 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number, t
 
         let fetchUrl: string;
 
-        if (!payload.team_name) {
+        if (!payload.team_id) {
             fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`
         } else {
-            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users/${payload.user_id}`
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_id}/users/${payload.user_id}`
         }
 
         const data = await fetch(fetchUrl, {
@@ -62,8 +62,8 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number, t
         })
         const response = await data.json();
 
-        if (payload.team_name) {
-            revalidatePath("/orgs/[org_id]/teams/[team_name]", "page")
+        if (payload.team_id) {
+            revalidatePath("/orgs/[org_id]/teams/[team_id]", "page")
         } else {
             revalidatePath("/orgs/[org_id]", "page")
         }
@@ -92,7 +92,7 @@ export async function makeUserAdmin(payload: {org_id: number, user_id: number, t
 
 
 
-export async function addMember(payload: {org_id: number, user_id: number, team_name?: string}, prevState: any, formData: FormData) {
+export async function addMember(payload: {org_id: number, user_id: number, team_id?: number}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -100,8 +100,8 @@ export async function addMember(payload: {org_id: number, user_id: number, team_
         if (!token) {
             throw new Error('No token')
         }
-        const fetchURL = payload.team_name ?
-            `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users` :
+        const fetchURL = payload.team_id ?
+            `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_id}/users` :
             `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users`
 
         const data = await fetch(fetchURL, {
@@ -122,13 +122,13 @@ export async function addMember(payload: {org_id: number, user_id: number, team_
                 error: true
             }
         } else {
-            if (payload.team_name) {
+            if (payload.team_id) {
                 revalidatePath("/orgs/[org_id]/teams/[team_name]", "page")
             } else {
                 revalidatePath("/orgs/[org_id]", "page")
             }
             return {
-                message: `Successfully added User to the ${payload.team_name ? "team" : "org"}`,
+                message: `Successfully added User to the ${payload.team_id ? "team" : "org"}`,
                 error: false
             }
         }
@@ -143,7 +143,7 @@ export async function addMember(payload: {org_id: number, user_id: number, team_
 }
 
 
-export async function removeUser(payload: {org_id: number, user_id: number, team_name: string}, prevState: any, formData: FormData) {
+export async function removeUser(payload: {org_id: number, user_id: number, team_id: number}, prevState: any, formData: FormData) {
 
     try {
         const cookiesList = cookies()
@@ -154,12 +154,11 @@ export async function removeUser(payload: {org_id: number, user_id: number, team
         }
 
         let fetchUrl: string;
-        if (!payload.team_name) {
+        if (!payload.team_id) {
             fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/users/${payload.user_id}`
         } else {
-            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_name}/users/${payload.user_id}`
+            fetchUrl = `${process.env.BACKEND_URL}/orgs/${payload.org_id}/teams/${payload.team_id}/users/${payload.user_id}`
         }
-        console.log(fetchUrl);
 
         const data = await fetch(fetchUrl, {
             method: 'DELETE',

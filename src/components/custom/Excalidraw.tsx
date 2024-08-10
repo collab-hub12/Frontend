@@ -19,8 +19,6 @@ export default function ExcalidrawComponent() {
       if (excalidraw.current) {
         excalidraw.current?.readyPromise
           ?.then((d) => {
-            console.log(elements);
-
             d.updateScene({ elements });
           })
           .catch((d) => console.log(d));

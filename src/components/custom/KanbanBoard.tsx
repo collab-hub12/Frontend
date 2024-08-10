@@ -49,13 +49,13 @@ export type DNDType = {
 type PropType = {
   data: DNDType[];
   org_id: number;
-  team_name: string;
+  team_id: number;
 };
 
-export default function KanbanBoard({ data, org_id, team_name }: PropType) {
+export default function KanbanBoard({ data, org_id, team_id }: PropType) {
   const addTaskWithPayload = createTask.bind(null, {
     org_id,
-    team_name,
+    team_id,
   });
 
   const [state, addTaskAction] = useFormState(addTaskWithPayload, null);
@@ -73,7 +73,7 @@ export default function KanbanBoard({ data, org_id, team_name }: PropType) {
       return { updated: false };
 
     try {
-      await api.put(`/orgs/${org_id}/teams/${team_name}/tasks/${task_id}`, {
+      await api.put(`/orgs/${org_id}/teams/${team_id}/tasks/${task_id}`, {
         taskProgress: progressState,
       });
       return { updated: true };

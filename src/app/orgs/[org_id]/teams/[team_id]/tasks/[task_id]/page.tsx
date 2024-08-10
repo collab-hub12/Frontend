@@ -16,15 +16,14 @@ const DynamicFlowComponent = dynamic(
 const page = async ({
   params,
 }: {
-  params: { org_id: number; team_name: string; task_id: number };
+  params: { org_id: number; team_id: number; task_id: number };
 }) => {
-  const { org_id, team_name, task_id } = params;
+  const { org_id, team_id, task_id } = params;
   const data = await getSession({
     org_id,
-    team_name,
+    team_id,
   });
-  const taskDetail = (await getTaskDetails(org_id, team_name, task_id)) as Task;
-  console.log(taskDetail.boardDetails);
+  const taskDetail = (await getTaskDetails(org_id, team_id, task_id)) as Task;
 
   return (
     <div className="flex flex-col p-10 w-full gap-6">
@@ -83,7 +82,7 @@ const page = async ({
           </div>
         </div>
         <div className="flex basis-[50%] px-6">
-          <Member org_id={params.org_id} team_name={params.team_name} />
+          <Member org_id={params.org_id} team_id={params.team_id} />
         </div>
       </div>
 
@@ -92,7 +91,7 @@ const page = async ({
       </h1>
       <div className="flex flex-col items-center border-slate-800 border-[0.5px] rounded-md p-10">
         <DynamicFlowComponent
-          roomId={`room-${team_name}-task-${taskDetail.id}`}
+          roomId={`room-${team_id}-task-${taskDetail.id}`}
           user={data as User}
           task_id={task_id}
           board_details={taskDetail.boardDetails!}

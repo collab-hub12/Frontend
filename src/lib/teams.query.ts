@@ -3,8 +3,8 @@ import {getCookieValue} from "./session";
 import {GroupByContainer} from "./utils";
 import {Task} from "@/utilities/types";
 
-export async function getMembersOfTeam(org_id: number, team_name: string) {
-    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}/users`, {
+export async function getMembersOfTeam(org_id: number, team_id: number) {
+    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_id}/users`, {
         method: 'GET',
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
@@ -31,8 +31,8 @@ export async function getTeamsInsideOrg(org_id: number) {
     return data;
 }
 
-export async function getTeamDetails(org_id: number, team_name: string) {
-    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}`, {
+export async function getTeamDetails(org_id: number, team_id: number) {
+    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_id}`, {
         method: 'GET',
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
@@ -52,8 +52,8 @@ type DNDType = {
     items: Task[];
 };
 
-export async function getTaskDetails(org_id: number, team_name: string) {
-    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}/tasks`, {
+export async function getTaskDetails(org_id: number, team_id: number) {
+    const response = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_id}/tasks`, {
         method: 'GET',
         headers: {
             Cookie: `jwt=${getCookieValue('jwt')}`
@@ -61,6 +61,7 @@ export async function getTaskDetails(org_id: number, team_name: string) {
         next: {tags: ["tasks"]}
     })
     const data = await response.json()
+
     if (Array.isArray(data)) {
         const DefaultContainer: DNDType[] = [
             {

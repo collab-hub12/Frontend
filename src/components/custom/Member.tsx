@@ -88,14 +88,14 @@ export const columns: ColumnDef<User>[] = [
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
       const pathname = usePathname();
-      const { org_id, team_name, task_id } = parseUrlPath(pathname);
+      const { org_id, team_id, task_id } = parseUrlPath(pathname);
       const user_id = row.original.id;
 
       if (!task_id) {
         const addMemberWithPayload = addMember.bind(null, {
           user_id,
           org_id: +org_id!,
-          team_name,
+          team_id,
         });
 
         const [state, formAction] = useFormState(addMemberWithPayload, null);
@@ -131,12 +131,12 @@ export const columns: ColumnDef<User>[] = [
         const assignTaskToUser = async () => {
           try {
             const { data } = await api.post(
-              `orgs/${org_id}/teams/${team_name}/tasks/${task_id}`,
+              `orgs/${org_id}/teams/${team_id}/tasks/${task_id}`,
               { assignee_id: user_id }
             );
             toast.success(data?.msg);
             revalidatePath(
-              `orgs/${org_id}/teams/${team_name}/tasks/${task_id}`
+              `orgs/${org_id}/teams/${team_id}/tasks/${task_id}`
             );
           } catch (err) {
             const errorMsg = (err as AxiosError<{ message: string }>)?.response
@@ -173,10 +173,10 @@ export const columns: ColumnDef<User>[] = [
 
 interface propType {
   org_id?: number;
-  team_name?: string;
+  team_id?: number;
 }
 
-export default function Member({ org_id, team_name }: propType) {
+export default function Member({ org_id, team_id }: propType) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -189,9 +189,9 @@ export default function Member({ org_id, team_name }: propType) {
   const [searchResults, setSearchResults] = React.useState<any[]>([]); // Replace with your API response type
 
   const getUsers = async (searchTerm: string) => {
-    if (org_id && team_name) {
+    if (org_id && team_id) {
       return await api.get(
-        `/orgs/${org_id}/teams/${team_name}/users?search=${searchTerm}`
+        `/orgs/${org_id}/teams/${team_id}/users?search=${searchTerm}`
       );
     } else if (org_id) {
       return await api.get(`/orgs/${org_id}/users?search=${searchTerm}`);

@@ -39,8 +39,7 @@ export default async function Teams({
     );
   }
 
-  // console.log(memberDetailsOfOrg);
-  // const teamDetails = await getTeamDetails();
+  
   return (
     <div className="flex flex-col p-4 md:p-10 w-full">
       <Toaster position="bottom-left" reverseOrder={false} />

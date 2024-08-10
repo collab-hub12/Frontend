@@ -1,9 +1,9 @@
 "use server"
 import {getCookieValue} from "@/lib/session";
 import {CreateTaskSchema} from "@/schema/task.schema";
-import {revalidatePath, revalidateTag} from "next/cache";
+import { revalidateTag} from "next/cache";
 
-export async function createTask({org_id, team_name}: {org_id: number, team_name: string}, prevState: any, formData: FormData) {
+export async function createTask({org_id, team_id}: {org_id: number, team_id: number}, prevState: any, formData: FormData) {
     try {
         const taskDetail = CreateTaskSchema.parse({
             taskTitle: formData.get("taskTitle"),
@@ -11,9 +11,8 @@ export async function createTask({org_id, team_name}: {org_id: number, team_name
             taskProgress: formData.get("taskProgress"),
             taskDeadline: formData.get("taskDeadline")
         })
-
-
-        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_name}/tasks`, {
+        
+        const data = await fetch(`${process.env.BACKEND_URL}/orgs/${org_id}/teams/${team_id}/tasks`, {
             method: 'POST',
             body: JSON.stringify(taskDetail),
             headers: {

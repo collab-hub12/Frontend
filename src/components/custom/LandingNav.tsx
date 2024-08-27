@@ -6,7 +6,7 @@ export default function LandingNav() {
   const navItems = [
     {
       name: "Features",
-      link: "/",
+      link: "/#features",
     },
     {
       name: "Pricing",

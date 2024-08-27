@@ -5,11 +5,11 @@ import { FloatingNav } from "../ui/floating-navbar";
 export default function LandingNav() {
   const navItems = [
     {
-      name: "Github",
+      name: "Features",
       link: "/",
     },
     {
-      name: "Developers",
+      name: "Pricing",
       link: "/",
     },
   ];

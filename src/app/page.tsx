@@ -4,12 +4,13 @@ import { promises as fs } from "fs";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import ReusableCard from "@/components/custom/ReusableCard";
-import LandingNav from "@/components/custom/LandingNav";
-import ReusbaleGemini from "@/components/ui/ReusbaleGemini";
 import ReusableFlipWord from "@/components/custom/ReusableFlipWord";
-
 import ResusableCustomBeams from "@/components/custom/ResusableCustomBeams";
 import ReusableMovingCards from "@/components/custom/ReusableMovingCards";
+import RootLayout from "@/app/layout"; // Import the layout
+import { Space_Grotesk } from "next/font/google";
+
+
 export default async function Landing() {
   const file = await fs.readFile(
     process.cwd() + "/public/data/usage.json",
@@ -21,22 +22,34 @@ export default async function Landing() {
   if (!(session.statusCode === 401)) redirect("/orgs");
 
   return (
-    <>
-      <div className="w-full !font-sans !bg-neutral-950">
-        <LandingNav />
-        <div className="w-full z-0">
-          <div className="relative flex min-h-screen flex-col items-center overflow-hidden w-full rounded-md z-0 -translate-y-16 ">
+    <> 
+      <div className="w-full bg-dot-white/[0.2] relative flex items-center justify-center flex-col bg-fixed !bg-[#13111C]">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+      <nav className="fixed w-full top-0 left-0 z-50 flex items-center justify-between px-5 pt-5">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center justify-between w-3/12 bg-primary-v3/10 border border-[#474E85] py-3 px-6 rounded-full backdrop-blur-3xl">
+          <a className="font-bold text-lg text-white" href="/">COLLABHUB</a>
+          <div className="flex items-center gap-3 ml-10">
+            <a className="text-sm font-medium text-neutral-200 hover:text-[#474E85] transition font-secondary" href="/">Features</a>
+            <a className="text-sm font-medium text-neutral-200 hover:text-[#474E85] transition font-secondary" href="/">Pricing</a>
+          </div>
+          </div>
+        <button className="flex items-center gap-3 text-sm bg-black border border-[#474E85] text-white py-3 px-5 h-[50px] rounded-full hover:scale-105 transition ml-10">
+          Try Collabhub
+        </button>
+        </div>
+      </nav>
+      
+      
+
+        <div className="relative z-10 flex min-h-screen flex-col items-center justify-between pt-36 pb-24 gap-20 xs:gap-24 sm:gap-28">
+          <div className="space-y-8 flex flex-col items-center">
             <Reusable title={data.title} subtitle={data.subtitle} />
           </div>
-          <div className="-translate-y-44 flex justify-center items-center w-full px-3 md:px-0 pb-0 md:pb-60 md:h-[700px]">
+          <div className="flex justify-center items-center w-full px-3">
             <ReusableCard />
           </div>
-          <div className="hidden md:block">
-            <ReusbaleGemini />
-          </div>
-
-          <div className="h-[50rem] w-full dark:bg-neutral-950  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center py-0 md:py-[80px]">
-            {/* Radial gradient for the container to give a faded look */}
+          {/* <div className="h-[50rem] w-full dark:bg-neutral-950  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center py-0 md:py-[80px]">
             <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-neutral-950 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
             <div className="flex h-auto flex-col items-center justify-center relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-300 to-neutral-600  text-center font-sans font-bold">
               <h1 className="relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
@@ -88,13 +101,13 @@ export default async function Landing() {
                 </div>
               </div>
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <ReusableMovingCards />
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <ResusableCustomBeams />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

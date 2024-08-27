@@ -75,6 +75,7 @@ const config = {
       colors: {
         black: "#09090B",
         grey: "#9C9C9D",
+        landing_blue:"#282946",
       },
     },
   },

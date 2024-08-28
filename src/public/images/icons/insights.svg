@@ -1,0 +1,10 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.5 18.5H4C2.34315 18.5 1 17.1569 1 15.5V4C1 2.34315 2.34315 1 4 1H16C17.6569 1 19 2.34315 19 4V12" stroke="current-color" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="5.25" cy="5.25" r="1.25" fill="current-color"/>
+<circle cx="5.25" cy="9.25" r="1.25" fill="current-color"/>
+<circle cx="5.25" cy="13.25" r="1.25" fill="current-color"/>
+<circle cx="14.1504" cy="16.25" r="1.25" fill="current-color"/>
+<path d="M8.5 5.20001H15.5" stroke="current-color" stroke-width="2" stroke-linecap="round"/>
+<path d="M8.5 9.20001H15.5" stroke="current-color" stroke-width="2" stroke-linecap="round"/>
+<path d="M14 13.5C11.9787 13.5 10.5249 14.6821 9.81772 15.553C9.6022 15.8185 9.58772 16.1877 9.77205 16.4757C10.4442 17.5256 11.8535 19 14 19C16.5633 19 18.1532 17.5399 18.7697 16.491C18.9416 16.1986 18.8756 15.8373 18.6366 15.5966C17.7681 14.7221 16.0552 13.5 14 13.5Z" stroke="current-color" stroke-width="1.5"/>
+</svg>

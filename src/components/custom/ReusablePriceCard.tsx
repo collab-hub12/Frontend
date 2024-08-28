@@ -11,7 +11,7 @@ interface PriceCardProps {
 
 const ReusablePriceCard: React.FC<PriceCardProps> = ({ planName, price, features }) => {
   return (
-    <div className="max-w-lg rounded-3xl border border-landing_blue bg-[#13111C] p-16 md:p-20 space-y-6">
+    <div className="max-w-lg rounded-3xl border border-landing_blue bg-[#13111C] p-10 md:p-20 space-y-6">
       <div className="flex flex-col items-start justify-start space-y-4">
         <h2 className="font-medium text-lg md:text-xl text-neutral-200">{planName}</h2>
         <div className="flex items-center gap-2">

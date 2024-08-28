@@ -6,7 +6,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const AppShell = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen min-h-screen flex-1 flex">
       <div className="flex flex-1">
         {/*------------------------Sidebar--------------------*/}
         <Sidebar logo="/images/icons/lucid-logo.svg" />

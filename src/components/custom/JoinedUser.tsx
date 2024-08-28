@@ -99,19 +99,19 @@ export const columns: ColumnDef<User>[] = [
     header: () => <div className="text-right">Customisation</div>,
     cell: ({ row }) => {
       const pathname = usePathname();
-      const { org_id, team_name } = parseUrlPath(pathname)!;
+      const { org_id, team_id } = parseUrlPath(pathname)!;
       const user_id = row.original.id;
 
       const removeUserWithPayload = removeUser.bind(null, {
         user_id,
         org_id: org_id!,
-        team_name: team_name!,
+        team_id: team_id!,
       });
 
       const makeUserAdminWithPayload = makeUserAdmin.bind(null, {
         user_id,
         org_id: org_id!,
-        team_name: team_name!,
+        team_id: team_id!,
       });
 
       const [removeUserstate, removeUserformAction] = useFormState(

@@ -26,7 +26,7 @@ const page = async ({
   const taskDetail = (await getTaskDetails(org_id, team_id, task_id)) as Task;
 
   return (
-    <div className="flex flex-col p-10 w-full gap-6">
+    <div className="flex flex-col p-10 w-full gap-6 min-h-screen">
       {/* Task Title */}
 
       <div className="flex flex-col gap-4">

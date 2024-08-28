@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import Footer from "@/components/custom/Footer";
 import AppShell from "@/components/custom/AppShell";
 import { ThemeProvider } from "next-themes";
+import { spaceGrotesk } from "@/utilities/font";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,11 +34,11 @@ export default function ChildrenLayout({
         disableTransitionOnChange
       >
         <body
-          className={`${inter.className} min-h-screen flex flex-col h-auto`}
+          className={`${spaceGrotesk.className} min-h-screen flex flex-col`}
         >
           <AppShell>{children}</AppShell>
-          <Footer />
         </body>
+        <Footer />
       </ThemeProvider>
     </html>
   );

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { LogoutHandler } from "@/actions/auth.action";
+import { spaceGrotesk } from "@/utilities/font";
 export default async function Orgs() {
   const data = await getSession();
   if (data?.statusCode === 401) {
@@ -24,12 +25,16 @@ export default async function Orgs() {
   const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);
 
   return (
-    <div className="flex flex-col p-4 md:p-10 w-full">
+    <div
+      className={` ${spaceGrotesk.className} flex flex-col p-4 md:p-10 w-full`}
+    >
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-lg md:text-3xl font-semibold">
-            Hello there,
-            <span className="text-blue-400 pl-1 text-xl md:text-[40px]">
+            Hello there, &nbsp;
+            <span
+              className={` ${spaceGrotesk.className} bg-clip-text text-center text-3xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
+            >
               {data?.name}
             </span>
           </h1>

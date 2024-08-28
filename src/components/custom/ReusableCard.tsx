@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import React from "react";
-import { Usages } from "../../../public/assets";
+import { Usages } from "../../public/assets";
 
 export default function ReusableCard() {
   return (

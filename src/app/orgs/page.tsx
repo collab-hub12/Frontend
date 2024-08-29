@@ -26,14 +26,14 @@ export default async function Orgs() {
 
   return (
     <div
-      className={` ${spaceGrotesk.className} flex flex-col p-4 md:p-10 w-full !dark:bg-[#13111C]`}
+      className={` ${spaceGrotesk.className} flex flex-col p-6 md:p-10 w-full !dark:bg-[#13111C]`}
     >
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-lg md:text-3xl font-semibold">
             Hello there, &nbsp;
             <span
-              className={` ${spaceGrotesk.className} bg-clip-text text-center text-3xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
+              className={` ${spaceGrotesk.className} bg-clip-text text-center text-xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
             >
               {data?.name}
             </span>

@@ -93,7 +93,7 @@ export default async function Teams({
       </div>
 
       <KanbanBoard data={tasks} org_id={org_id} team_id={team_id} />
-      <div className="flex gap-4 w-full pt-6">
+      <div className="flex gap-4 w-full pt-6 flex-col md:flex-row">
         <div className="flex flex-col basis-[50%] w-full ">
           <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
             Access to the user

@@ -38,6 +38,7 @@ import { Textarea } from "../ui/textarea";
 import api from "@/utilities/axios";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import useIsMobile from "@/hooks/useIsMobile";
 const inter = Inter({ subsets: ["latin"] });
 
 export type DNDType = {
@@ -160,11 +161,12 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     return container.items;
   };
 
+  const isMobile = useIsMobile();
   // DND Handlers
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: isMobile ? Infinity : 5,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -397,96 +399,123 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
         </Button>
       </div>
       <div className="mt-10">
-        <div className="grid grid-cols-4 gap-6">
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                In Review
+        <div
+          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-4"} gap-6`}
+        >
+          {isMobile ? (
+            containers.map((container) => (
+              <div key={container.id} className="mb-8">
+                <h2 className="font-bold dark:text-[#8491A4] text-[#8491A4] mb-4">
+                  {container.title}
+                </h2>
+                <div className="flex flex-col gap-y-4">
+                  {container.items.map((item) => (
+                    <Items
+                      key={item.id}
+                      title={item.title}
+                      id={item.id}
+                      assigned_to={item.assigned_to || []}
+                      task_deadline={item.task_deadline || ""}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                In Progress
+            ))
+          ) : (
+            <>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                    In Review
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                Done
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                    In Progress
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                Not Started
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                    Done
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCorners}
-            onDragStart={handleDragStart}
-            onDragMove={handleDragMove}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={containers.map((i) => i.id)}>
-              {containers.map((container) => (
-                <Container
-                  id={container.id}
-                  title={container.title}
-                  key={container.id}
-                  onAddItem={() => {
-                    setShowAddItemModal(true);
-                    setCurrentContainerId(container.id);
-                  }}
-                >
-                  <SortableContext items={container.items.map((i) => i.id)}>
-                    <div className="flex items-start flex-col gap-y-4">
-                      {container.items.map((i) => (
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                    Not Started
+                  </div>
+                </div>
+              </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCorners}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={containers.map((i) => i.id)}>
+                  {containers.map((container) => (
+                    <Container
+                      id={container.id}
+                      title={container.title}
+                      key={container.id}
+                      onAddItem={() => {
+                        setShowAddItemModal(true);
+                        setCurrentContainerId(container.id);
+                      }}
+                    >
+                      <SortableContext items={container.items.map((i) => i.id)}>
+                        <div className="flex items-start flex-col gap-y-4">
+                          {container.items.map((i) => (
+                            <Items
+                              title={i.title}
+                              id={i.id}
+                              key={i.id}
+                              assigned_to={i.assigned_to || []}
+                              task_deadline={i.task_deadline || ""}
+                            />
+                          ))}
+                        </div>
+                      </SortableContext>
+                    </Container>
+                  ))}
+                </SortableContext>
+                <DragOverlay adjustScale={false}>
+                  {/* Drag Overlay For item Item */}
+                  {activeId && activeId.toString().includes("item") && (
+                    <Items
+                      id={activeId}
+                      title={findItemTitle(activeId)}
+                      assigned_to={findItemAssigneeDetails(activeId) || []}
+                      task_deadline={findItemDeadline(activeId) || ""}
+                    />
+                  )}
+                  {/* Drag Overlay For Container */}
+                  {activeId && activeId.toString().includes("container") && (
+                    <Container
+                      id={activeId}
+                      title={findContainerTitle(activeId)}
+                    >
+                      {findContainerItems(activeId).map((i) => (
                         <Items
+                          key={i.id}
                           title={i.title}
                           id={i.id}
-                          key={i.id}
                           assigned_to={i.assigned_to || []}
                           task_deadline={i.task_deadline || ""}
                         />
                       ))}
-                    </div>
-                  </SortableContext>
-                </Container>
-              ))}
-            </SortableContext>
-            <DragOverlay adjustScale={false}>
-              {/* Drag Overlay For item Item */}
-              {activeId && activeId.toString().includes("item") && (
-                <Items
-                  id={activeId}
-                  title={findItemTitle(activeId)}
-                  assigned_to={findItemAssigneeDetails(activeId) || []}
-                  task_deadline={findItemDeadline(activeId) || ""}
-                />
-              )}
-              {/* Drag Overlay For Container */}
-              {activeId && activeId.toString().includes("container") && (
-                <Container id={activeId} title={findContainerTitle(activeId)}>
-                  {findContainerItems(activeId).map((i) => (
-                    <Items
-                      key={i.id}
-                      title={i.title}
-                      id={i.id}
-                      assigned_to={i.assigned_to || []}
-                      task_deadline={i.task_deadline || ""}
-                    />
-                  ))}
-                </Container>
-              )}
-            </DragOverlay>
-          </DndContext>
+                    </Container>
+                  )}
+                </DragOverlay>
+              </DndContext>
+            </>
+          )}
         </div>
       </div>
     </div>

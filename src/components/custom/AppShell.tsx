@@ -5,18 +5,20 @@ import Sidebar from "./sidebar/Sidebar";
 import { ThemeToggle } from "./ThemeToggle";
 import Image from "next/image";
 import FlintLogo from "@/public/assets/FlintLogo.svg";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const AppShell = ({ children }: { children: ReactNode }) => {
+  const isMobile = useIsMobile();
   return (
     <div className="w-screen min-h-screen flex-1 flex">
       <div className="flex flex-1">
         {/*------------------------Sidebar--------------------*/}
-        <Sidebar logo="/public/assets/flint_logo.svg" />
+        {!isMobile && <Sidebar logo="/public/assets/flint_logo.svg" />}
 
         {/*------------------------Sidebar Ends--------------------*/}
         <div className="flex flex-col flex-1">
           {/*------------------------Top Bar--------------------*/}
-          <div className="px-[22px]   py-4 relative bg-navigation-navBackground border-[0.5px] dark:border-[#1E293B] flex items-center  text  text-center">
+          <div className="px-[22px]   py-4 relative  border-[0.5px] dark:border-[#1E293B] flex items-center  text  text-center">
             {/* <Icon
               name="celo"
               size={22}
@@ -32,7 +34,7 @@ const AppShell = ({ children }: { children: ReactNode }) => {
           {/*------------------------Top Bar Ends--------------------*/}
 
           {/*------------------------Page Container--------------------*/}
-          <div className="flex-1 bg-interface-background">{children}</div>
+          <div className="w-screen md:flex-1 md:w-auto">{children}</div>
           {/*------------------------Page Container Ends--------------------*/}
         </div>
       </div>

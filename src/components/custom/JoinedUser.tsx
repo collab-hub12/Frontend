@@ -48,6 +48,7 @@ import { useFormState } from "react-dom";
 import { makeUserAdmin, removeUser } from "@/actions/org.action";
 import toast from "react-hot-toast";
 import revalidatePath from "@/lib/revalidate";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -67,7 +68,7 @@ export const columns: ColumnDef<User>[] = [
       <>
         <div className="flex gap-2 items-center">
           <Avatar
-            className={row.original.isAdmin ? "ring-4 ring-blue-600 " : ""}
+            className={row.original.isAdmin ? "ring-4 ring-[#52297A]" : ""}
           >
             <AvatarImage src={row.original.picture} alt="ok" />
             <AvatarFallback>{}</AvatarFallback>
@@ -90,7 +91,15 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("email")}</div>
+      // <div className="lowercase">{row.getValue("email")}</div>
+      <div
+        className={cn(
+          row.original.isAdmin &&
+            "bg-clip-text text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5]"
+        )}
+      >
+        {row.getValue("email")}
+      </div>
       //   <div className='lowercase'>bneogi102002@gmail.com</div>
     ),
   },
@@ -149,13 +158,19 @@ export const columns: ColumnDef<User>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger
+            asChild
+            className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+          >
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent
+            align="end"
+            className="dark:border-[#52297A]  dark:text-[#BF93EC]  hover:text-white"
+          >
             <DropdownMenuLabel>Power Ups</DropdownMenuLabel>
             <DropdownMenuItem>
               <form action={removeUserformAction}>

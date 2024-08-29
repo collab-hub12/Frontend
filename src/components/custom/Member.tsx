@@ -112,7 +112,10 @@ export const columns: ColumnDef<User>[] = [
 
         return (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger
+              asChild
+              className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+            >
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <DotsHorizontalIcon className="h-4 w-4" />
@@ -135,9 +138,7 @@ export const columns: ColumnDef<User>[] = [
               { assignee_id: user_id }
             );
             toast.success(data?.msg);
-            revalidatePath(
-              `orgs/${org_id}/teams/${team_id}/tasks/${task_id}`
-            );
+            revalidatePath(`orgs/${org_id}/teams/${team_id}/tasks/${task_id}`);
           } catch (err) {
             const errorMsg = (err as AxiosError<{ message: string }>)?.response
               ?.data.message;

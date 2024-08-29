@@ -33,7 +33,7 @@ import { createTask } from "@/actions/tasks.action";
 import { useFormState } from "react-dom";
 import toast from "react-hot-toast";
 import revalidatePath from "@/lib/revalidate";
-import { Table2, X } from "lucide-react";
+import { PlusIcon, Table2, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import api from "@/utilities/axios";
 import { DayPicker } from "react-day-picker";
@@ -366,60 +366,56 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
               }
             />
           </div>
-          <div className="justify-center flex items-center pt-2">
-            <button
-              className="bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-2 py-3 rounded-md text-base font-bold w-[50%] flex items-center justify-center"
-              type="submit"
+          <div className="justify-center flex items-center gap-1 pt-2">
+            <Button
+              variant="outline"
+              className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
             >
+              <PlusIcon className="w-4 h-4" />
               Add Task
-            </button>
+            </Button>
           </div>
         </form>
       </Modal>
 
-      <div className="flex items-center justify-between gap-y-4">
-        <div className="flex bg-[#334155] justify-between items-center px-6 py-2 gap-4 rounded-md">
-          <Table2 color="white" />
-          <h1 className="text-white text-[16px] font-semibold">Kanban</h1>
-        </div>
-        <Button onClick={() => setShowAddContainerModal(true)}>Add Task</Button>
+      <div className="flex items-center justify-end gap-y-4">
+        <Button
+          variant="outline"
+          className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+          onClick={() => setShowAddContainerModal(true)}
+        >
+          <PlusIcon className="w-4 h-4" />
+          Add Task
+        </Button>
       </div>
       <div className="mt-10">
         <div className="grid grid-cols-4 gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center ">
-              <div className="bg-[#EA4335] rounded-full w-[10px] h-[10px]"></div>
-              <div className="font-bold">In Review</div>
-            </div>
-            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
-              Being Evaluated
+              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                In Review
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center ">
-              <div className="bg-[#FEFEFF] rounded-full w-[10px] h-[10px]"></div>
-              <div className="font-bold">In Progress</div>
-            </div>
-            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
-              Ongoing
+              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                In Progress
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center ">
-              <div className="bg-[#34A853] rounded-full w-[10px] h-[10px]"></div>
-              <div className="font-bold">Done</div>
-            </div>
-            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
-              Completed
+              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                Done
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center ">
-              <div className="bg-[#9C9C9D] rounded-full w-[10px] h-[10px]"></div>
-              <div className="font-bold">Not Started</div>
-            </div>
-            <div className="bg-[#1967D2] text-white p-4 flex rounded-md font-bold text-[20px] justify-center w-full items-center">
-              Pending
+              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
+                Not Started
+              </div>
             </div>
           </div>
 

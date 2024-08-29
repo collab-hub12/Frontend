@@ -46,7 +46,7 @@ import {
   AlertDialogContent,
 } from "../ui/alert-dialog";
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
-import { SquareX, X } from "lucide-react";
+import { PlusIcon, SquareX, X } from "lucide-react";
 import Link from "next/link";
 import { Team } from "@/utilities/types";
 import { createTeam } from "@/actions/team.action";
@@ -94,13 +94,19 @@ export const columns: ColumnDef<Team>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger
+            asChild
+            className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+          >
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent
+            align="end"
+            className="dark:border-[#52297A]  dark:text-[#BF93EC]  hover:text-white"
+          >
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
             <DropdownMenuItem>Edit Team</DropdownMenuItem>
 
@@ -186,24 +192,30 @@ export function TeamsTable({ data, org_id }: propType) {
         <div className="flex items-center gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline">Create Team</Button>
+              <Button
+                variant="outline"
+                className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Create Team
+              </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white">
+            <AlertDialogContent className="dark:text-white dark:border-[#52297A] dark:border-[0.5px]">
               <div className="flex flex-col w-full">
                 <div className="flex justify-end w-full">
                   <AlertDialogCancel className="border-none">
                     <X />
                   </AlertDialogCancel>
                 </div>
-                <form
-                  action={createTeamAction}
-                  className="p-10 flex flex-col gap-2"
-                >
+                <form action={createTeamAction} className="flex flex-col gap-2">
                   <label>Team Name</label>
                   <Input name="team_name" placeholder="Team Name" />
 
                   <div className="flex justify-center items-center">
-                    <AlertDialogAction type="submit">
+                    <AlertDialogAction
+                      type="submit"
+                      className="flex gap-2 dark:bg-[#52297A] dark:text-white hover:dark:bg-[#5a377d] hover:dark:text-white"
+                    >
                       Create Team
                     </AlertDialogAction>
                   </div>

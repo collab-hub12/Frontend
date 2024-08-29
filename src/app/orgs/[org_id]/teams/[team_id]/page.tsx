@@ -10,6 +10,7 @@ import {
 } from "@/lib/teams.query";
 import { User } from "@/utilities/types";
 import { redirect } from "next/navigation";
+import { Key } from "react";
 import { Toaster } from "react-hot-toast";
 
 export default async function Teams({
@@ -65,24 +66,42 @@ export default async function Teams({
   return (
     <div className="flex flex-col p-10 w-full">
       <Toaster position="bottom-left" reverseOrder={false} />
-      <div className="flex justify-between bg-[#1967D2] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl">
+      <div className="flex justify-between items-center bg-[#181622] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl">
         <div className="flex flex-col">
           <h1 className="text-3xl font-semibold dark:text-white text-white">
-            {teamMemberDetailsWithTeam.name}
+            {teamMemberDetailsWithTeam.name.toUpperCase()}
           </h1>
+        </div>
+        <div className="flex -space-x-4 rtl:space-x-reverse">
+          {teamMemberDetailsWithTeam.users?.map(
+            (user: {
+              id: Key | null | undefined;
+              picture: string | undefined;
+              name: string | undefined;
+            }) => (
+              <img
+                key={user.id}
+                width={40}
+                height={40}
+                className="border-2 border-white rounded-full dark:border-gray-800"
+                src={user.picture}
+                alt={user.name}
+              />
+            )
+          )}
         </div>
       </div>
 
       <KanbanBoard data={tasks} org_id={org_id} team_id={team_id} />
       <div className="flex gap-4 w-full pt-6">
         <div className="flex flex-col basis-[50%] w-full ">
-          <h1 className="text-blue-500 text-2xl font-semibold ">
+          <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
             Access to the user
           </h1>
           <JoinedUser data={teamMemberDetailsWithTeam?.users as User[]} />
         </div>
         <div className="flex flex-col basis-[50%] w-full">
-          <h1 className="text-blue-500 text-2xl font-semibold ">
+          <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
             Members in the organisation
           </h1>
           <Member org_id={org_id} />

@@ -42,14 +42,14 @@ const Container = ({
         transform: CSS.Translate.toString(transform),
       }}
       className={clsx(
-        "w-full h-full p-4 rounded-xl border-grey border-[0.5px] flex flex-col gap-y-4",
+        "w-full h-full  rounded-xl  flex flex-col ",
         isDragging && "opacity-50"
       )}
     >
-      <div className='flex items-center justify-between'>
-        <div className='flex flex-col gap-y-1'>
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-y-1">
           {/* <h1 className='text-gray-800 text-xl'>{title}</h1> */}
-          <p className='text-gray-400 text-sm'>{description}</p>
+          <p className="text-gray-400 bg-red-300 text-sm">{description}</p>
         </div>
       </div>
 

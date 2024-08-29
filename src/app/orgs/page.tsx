@@ -26,14 +26,14 @@ export default async function Orgs() {
 
   return (
     <div
-      className={` ${spaceGrotesk.className} flex flex-col p-4 md:p-10 w-full !dark:bg-[#13111C]`}
+      className={` ${spaceGrotesk.className} flex flex-col p-6 md:p-10 w-full !dark:bg-[#13111C]`}
     >
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-lg md:text-3xl font-semibold">
             Hello there, &nbsp;
             <span
-              className={` ${spaceGrotesk.className} bg-clip-text text-center text-3xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
+              className={` ${spaceGrotesk.className} bg-clip-text text-center text-xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
             >
               {data?.name}
             </span>
@@ -42,38 +42,6 @@ export default async function Orgs() {
             Here&apos;s the list of organisations you have joined
           </p>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="rounded-full border-1 dark:border-[#52297A]">
-                <AvatarImage src={data?.picture} alt="ok" />
-                <AvatarFallback>
-                  {data?.name.substr(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none dark:text-[#BF93EC] ">
-                  {data?.name}
-                </p>
-                <p className="text-xs leading-none text-muted-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5]">
-                  {data?.email}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <form action={LogoutHandler} className="w-full">
-                <button type="submit" className="w-full">
-                  Logout
-                </button>
-              </form>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <OrganisationTable data={orgDetails as Org[]} />
     </div>

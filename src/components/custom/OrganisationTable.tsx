@@ -92,7 +92,7 @@ export const columns: ColumnDef<Org>[] = [
   },
   {
     accessorKey: "customisation",
-    header: () => <div className="text-right">Customisation</div>,
+    header: () => <Button variant="ghost">Customisation</Button>,
     cell: ({ row }) => {
       return (
         <DropdownMenu>
@@ -160,7 +160,7 @@ export function OrganisationTable({ data }: propType) {
   const [endIndex, setEndIndex] = React.useState(rowsPerPage);
 
   return (
-    <div className="w-full">
+    <div className="md:w-full w-[90vw]">
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 py-4">
         <div>
           <Input
@@ -244,8 +244,8 @@ export function OrganisationTable({ data }: propType) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md border dark:border-slate-800 h-auto">
-        <Table className="flex flex-col w-full">
+      <div className="rounded-md border dark:border-slate-800 h-auto w-full flex flex-col">
+        <Table className="relative w-full">
           <TableHeader className="flex items-center w-full">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -276,7 +276,7 @@ export function OrganisationTable({ data }: propType) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="flex items-center w-full dark:border-slate-800 h-[60px]"
+                  className="flex items-center w-full  dark:border-slate-800 h-[60px]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -295,7 +295,7 @@ export function OrganisationTable({ data }: propType) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="w-full h-24 text-center"
                 >
                   No results.
                 </TableCell>

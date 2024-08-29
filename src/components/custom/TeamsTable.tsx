@@ -226,7 +226,7 @@ export function TeamsTable({ data, org_id }: propType) {
         </div>
       </div>
       <div className="rounded-md border dark:border-slate-800 ">
-        <Table className="flex flex-col w-full">
+        <Table className="relative w-full">
           <TableHeader className="flex items-center w-full">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow

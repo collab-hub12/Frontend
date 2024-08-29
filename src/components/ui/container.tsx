@@ -42,7 +42,7 @@ const Container = ({
         transform: CSS.Translate.toString(transform),
       }}
       className={clsx(
-        "w-full h-full p-4 rounded-xl border-grey border-[0.5px] flex flex-col gap-y-4",
+        "w-full h-full  rounded-xl  flex flex-col ",
         isDragging && "opacity-50"
       )}
     >

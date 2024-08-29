@@ -132,6 +132,14 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     return item.assigned_to;
   };
 
+  const findItemDeadline = (id: UniqueIdentifier | undefined) => {
+    const container = findValueOfItems(id, "item");
+    if (!container) return "";
+    const item = container.items.find((item) => item.id === id);
+    if (!item) return "";
+    return item.task_deadline;
+  };
+
   const findItemProgress = (id: UniqueIdentifier | undefined) => {
     const container = findValueOfItems(id, "item");
     if (!container) return "";
@@ -445,6 +453,7 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
                           id={i.id}
                           key={i.id}
                           assigned_to={i.assigned_to || []}
+                          task_deadline={i.task_deadline || ""}
                         />
                       ))}
                     </div>
@@ -459,6 +468,7 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
                   id={activeId}
                   title={findItemTitle(activeId)}
                   assigned_to={findItemAssigneeDetails(activeId) || []}
+                  task_deadline={findItemDeadline(activeId) || ""}
                 />
               )}
               {/* Drag Overlay For Container */}
@@ -470,6 +480,7 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
                       title={i.title}
                       id={i.id}
                       assigned_to={i.assigned_to || []}
+                      task_deadline={i.task_deadline || ""}
                     />
                   ))}
                 </Container>

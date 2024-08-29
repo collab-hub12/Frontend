@@ -21,6 +21,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { v4 as uuid } from "uuid";
 import { Board, User } from "@/utilities/types";
+import { PlusIcon } from "lucide-react";
 
 function Flow({
   roomId,
@@ -102,11 +103,49 @@ function Flow({
   };
 
   return (
-    <div className="h-[80vh] w-[80vw] flex items-center flex-col ">
-      Connected Users:{" "}
-      {connectedUsers.length > 0
-        ? connectedUsers.join(", ")
-        : "No users connected"}
+    <div className="h-[60vh] w-full flex items-center flex-col ">
+      <div className="flex gap-4 items-center py-4 flex-col md:flex-row justify-between w-full">
+        <h1 className="text-white font-bold text-xl basis-[50%]">
+          Draw your flowcharts at ease
+        </h1>
+        <div className="flex items-center gap-2 basis-[50%]">
+          <Input
+            className="py-2  flex p-6"
+            onChange={(e) => setNodelabel(e.target.value)}
+            defaultValue={nodelabel}
+            placeholder="Component name"
+          />
+
+          <Button
+            variant="outline"
+            className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+            onClick={() => {
+              const node_id = uuid();
+              const node = {
+                id: node_id,
+                data: { label: nodelabel },
+                position: { x: 0, y: 0 },
+              };
+              setNodes((prev) => [...prev, node]);
+            }}
+          >
+            <PlusIcon className="w-4 h-4" />
+            Add Node
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-6 items-start w-full">
+        {connectedUsers.length > 0 ? (
+          connectedUsers.map((username) => (
+            <Button key={username} variant="outline" size="sm">
+              {username}
+            </Button>
+          ))
+        ) : (
+          <span>No users connected</span>
+        )}
+      </div>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -120,31 +159,6 @@ function Flow({
         <Controls />
         <MiniMap />
       </ReactFlow>
-      <div className="flex gap-4 items-center py-4">
-        <h1 className="text-xl font-bold text-blue-500">
-          Component Onboarding
-        </h1>
-        <Input
-          className="py-2 w-[40%] flex p-6"
-          onChange={(e) => setNodelabel(e.target.value)}
-          defaultValue={nodelabel}
-          placeholder="Component name"
-        />
-      </div>
-      <Button
-        className="m-4"
-        onClick={() => {
-          const node_id = uuid();
-          const node = {
-            id: node_id,
-            data: { label: nodelabel },
-            position: { x: 0, y: 0 },
-          };
-          setNodes((prev) => [...prev, node]);
-        }}
-      >
-        Add node
-      </Button>
     </div>
   );
 }

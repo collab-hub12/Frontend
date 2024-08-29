@@ -2,7 +2,8 @@ import React, { ComponentProps } from "react";
 import SidebarSection from "./SidebarSection";
 import Icon from "@/components/custom/Icon";
 import { motion } from "framer-motion";
-
+import FlintLogo from "@/public/assets/FlintLogo.svg";
+import Image from "next/image";
 interface SidebarProps {
   logo: string;
 }
@@ -31,16 +32,18 @@ const Sidebar: React.FC<SidebarProps> = ({ logo }) => {
   return (
     <motion.nav
       onHoverStart={() => {}}
-      className="group dark:border-[0.5px] dark:border-[#1E293B] dark:bg-[#181622] hover:delay-75 relative flex h-screen flex-col w-[125px] transition-[width] duration-500 hover:w-[294px] py-[22px] px-4 border border-interface-line"
+      className="group dark:border-[0.5px] dark:border-[#1E293B] dark:bg-[#181622] hover:delay-75 relative flex min-h-screen flex-col w-[125px] transition-[width] duration-500 hover:w-[294px] py-[22px] px-4 border border-interface-line"
     >
       <div className="relative h-[35px] mb-9 -ml-2">
         <div className="group/navItem absolute inset-y-0 left-1/2 -translate-x-1/2 p-2 flex  transition-all items-center duration-500  group-hover:w-full data-[active=true]:bg-red-200 w-9   hover:w-full rounded-lg group-hover:left-0 group-hover:translate-x-0">
-          <Icon name="flame" size={33} className="shrink-0" />
+          <Icon
+            name="flame"
+            size={33}
+            className="shrink-0 dark:text-[#BF93EC]"
+          />
 
           <div className="flex items-center h-full overflow-hidden ml-3">
-            <p className="text-nowrap opacity-0 duration-500 text-[21px] font-semibold text-text-primary group-hover:opacity-100 ">
-              Flint
-            </p>
+            <Image src={FlintLogo} alt="Flint Logo" className="w-10 h-10" />
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { LogoutHandler } from "@/actions/auth.action";
+import { spaceGrotesk } from "@/utilities/font";
 export default async function Orgs() {
   const data = await getSession();
   if (data?.statusCode === 401) {
@@ -24,12 +25,16 @@ export default async function Orgs() {
   const [orgDetails, users] = await Promise.all([getOrgDetails(), getUsers()]);
 
   return (
-    <div className="flex flex-col p-4 md:p-10 w-full">
+    <div
+      className={` ${spaceGrotesk.className} flex flex-col p-4 md:p-10 w-full !dark:bg-[#13111C]`}
+    >
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-lg md:text-3xl font-semibold">
-            Hello there,
-            <span className="text-blue-400 pl-1 text-xl md:text-[40px]">
+            Hello there, &nbsp;
+            <span
+              className={` ${spaceGrotesk.className} bg-clip-text text-center text-3xl font-black font-sans text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5] md:text-4xl`}
+            >
               {data?.name}
             </span>
           </h1>
@@ -40,7 +45,7 @@ export default async function Orgs() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar>
+              <Avatar className="rounded-full border-1 dark:border-[#52297A]">
                 <AvatarImage src={data?.picture} alt="ok" />
                 <AvatarFallback>
                   {data?.name.substr(0, 2).toUpperCase()}
@@ -51,16 +56,20 @@ export default async function Orgs() {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{data?.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">
+                <p className="text-sm font-medium leading-none dark:text-[#BF93EC] ">
+                  {data?.name}
+                </p>
+                <p className="text-xs leading-none text-muted-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5]">
                   {data?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <form action={LogoutHandler}>
-                <button type="submit">Logout</button>
+              <form action={LogoutHandler} className="w-full">
+                <button type="submit" className="w-full">
+                  Logout
+                </button>
               </form>
             </DropdownMenuItem>
           </DropdownMenuContent>

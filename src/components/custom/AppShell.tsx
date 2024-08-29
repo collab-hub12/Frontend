@@ -3,13 +3,15 @@ import { ReactNode } from "react";
 import Icon from "@/components/custom/Icon";
 import Sidebar from "./sidebar/Sidebar";
 import { ThemeToggle } from "./ThemeToggle";
+import Image from "next/image";
+import FlintLogo from "@/public/assets/FlintLogo.svg";
 
 const AppShell = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen min-h-screen flex-1 flex">
       <div className="flex flex-1">
         {/*------------------------Sidebar--------------------*/}
-        <Sidebar logo="/images/icons/lucid-logo.svg" />
+        <Sidebar logo="/public/assets/flint_logo.svg" />
 
         {/*------------------------Sidebar Ends--------------------*/}
         <div className="flex flex-col flex-1">
@@ -20,7 +22,8 @@ const AppShell = ({ children }: { children: ReactNode }) => {
               size={22}
               className="stroke-text-secondary fill-text-secondary"
             /> */}
-            <p className="font-bold text-xl text-text-secondary ml-3">Flint</p>
+            {/* <p className="font-bold text-xl text-text-secondary ml-3">Flint</p> */}
+            <Image src={FlintLogo} alt="Flint Logo" className="w-16 h-10" />
 
             <div className="absolute right-6">
               <ThemeToggle />

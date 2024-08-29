@@ -10,6 +10,7 @@ import AppShell from "@/components/custom/AppShell";
 import { ThemeProvider } from "next-themes";
 import { spaceGrotesk } from "@/utilities/font";
 import LandingFooter from "@/components/custom/LandingFooter";
+import AvatarUsage from "@/components/custom/AvatarUsage";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,7 +38,7 @@ export default function ChildrenLayout({
         <body
           className={`${spaceGrotesk.className} min-h-screen flex flex-col dark:bg-[#13111C]`}
         >
-          <AppShell>{children}</AppShell>
+          <AppShell childrenTopBar={<AvatarUsage />}>{children}</AppShell>
         </body>
         <LandingFooter />
       </ThemeProvider>

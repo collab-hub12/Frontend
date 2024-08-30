@@ -1,11 +1,8 @@
 "use client";
-import { ReactNode } from "react";
-import Icon from "@/components/custom/Icon";
+import { ReactNode, useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
-import { ThemeToggle } from "./ThemeToggle";
 import Image from "next/image";
 import FlintLogo from "@/public/assets/FlintLogo.svg";
-import useIsMobile from "@/hooks/useIsMobile";
 
 const AppShell = ({
   children,
@@ -14,14 +11,21 @@ const AppShell = ({
   children: ReactNode;
   childrenTopBar: ReactNode;
 }) => {
-  const isMobile = useIsMobile();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="w-screen min-h-screen flex-1 flex bg-[#13111C]">
       <div className="flex flex-1">
         {/*------------------------Sidebar--------------------*/}
-        <div className="hidden md:block">
-          <Sidebar logo="/public/assets/flint_logo.svg" />
-        </div>
+        {isMounted && (
+          <div className="hidden md:block">
+            <Sidebar logo="/public/assets/flint_logo.svg" />
+          </div>
+        )}
 
         {/*------------------------Sidebar Ends--------------------*/}
         <div className="flex flex-col flex-1 ">

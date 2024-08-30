@@ -4,11 +4,6 @@ import { promises as fs } from "fs";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import ReusableCard from "@/components/custom/ReusableCard";
-import ReusableFlipWord from "@/components/custom/ReusableFlipWord";
-import ResusableCustomBeams from "@/components/custom/ResusableCustomBeams";
-import ReusableMovingCards from "@/components/custom/ReusableMovingCards";
-import RootLayout from "@/app/layout"; // Import the layout
-import { Space_Grotesk } from "next/font/google";
 import ReusableText from "@/components/custom/ReusableText";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import ReusablePriceCard from "@/components/custom/ReusablePriceCard";

@@ -75,6 +75,9 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     progressState: string,
     task_id: number
   ): Promise<{ updated: boolean }> => {
+    console.log(progressState);
+    console.log(task_id);
+
     if (
       !["InProgress", "Done", "NotStarted", "InReview"].includes(progressState)
     )
@@ -296,11 +299,12 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     if (over?.id) {
       //api-call for changing progress state
       //parsing
-      const task_id = +over.id.toString().replace("item-", "");
+      const task_id = +active.id.toString().replace("item-", "");
+
       //get dragged down container
-      const over_Container = findValueOfItems(over.id, "item");
+      const over_Container = findValueOfItems(active.id, "item");
       const updated_state = over_Container?.title!;
-      const previous_state = findItemProgress(over.id);
+      const previous_state = findItemProgress(active.id);
 
       // If state didnt update return the function
       if (previous_state === updated_state) return;

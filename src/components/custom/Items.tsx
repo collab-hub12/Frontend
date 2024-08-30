@@ -47,7 +47,7 @@ const Items = ({ id, title, assigned_to, task_deadline }: ItemsType) => {
         transform: CSS.Translate.toString(transform),
       }}
       className={clsx(
-        "px-4 py-4 bg-white dark:bg-[#181622] shadow-md rounded-xl w-full border border-transparent hover:border-gray-200 cursor-pointer",
+        "px-4 py-4 bg-[#181622] shadow-md rounded-xl w-full border border-transparent hover:border-gray-200 cursor-pointer",
         isDragging && "opacity-50"
       )}
     >
@@ -65,14 +65,14 @@ const Items = ({ id, title, assigned_to, task_deadline }: ItemsType) => {
           <Button
             variant="outline"
             size="sm"
-            className="flex flex-row gap-1 dark:border-[#1E293B] dark:text-[#8491A4]"
+            className="flex flex-row gap-1 border-[#1E293B] text-[#8491A4]"
           >
             Development
           </Button>
           <Button
             variant="outline"
             size="sm"
-            className="flex flex-row gap-1 dark:border-[#1E293B] dark:text-[#8491A4] "
+            className="flex flex-row gap-1 border-[#1E293B] text-[#8491A4] "
           >
             Label
           </Button>
@@ -84,7 +84,7 @@ const Items = ({ id, title, assigned_to, task_deadline }: ItemsType) => {
                 key={user.id}
                 width={35}
                 height={35}
-                className="border-2 border-white rounded-full dark:border-gray-800"
+                className="border-2 border-white rounded-full border-gray-800"
                 src={user.picture}
                 alt={user.name}
               />
@@ -96,7 +96,7 @@ const Items = ({ id, title, assigned_to, task_deadline }: ItemsType) => {
           >
             <Button
               variant="outline"
-              className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+              className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
             >
               Enter
             </Button>

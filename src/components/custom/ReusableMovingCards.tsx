@@ -29,7 +29,7 @@ const testimonials = [
 export default function ReusableMovingCards() {
   return (
     <>
-      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-neutral-950 items-center justify-center relative overflow-hidden">
+      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white bg-neutral-950 items-center justify-center relative overflow-hidden">
         <h1 className="relative z-10 text-lg md:text-5xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
           Loved by thousands of people.
         </h1>

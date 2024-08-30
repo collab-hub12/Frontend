@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import "reactflow/dist/style.css";
-import { Card } from "@/components/ui/card";
-import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-  title: "Collabhub",
+  title: "Flint",
   description: "Code.Create.Collaborate.",
 };
 

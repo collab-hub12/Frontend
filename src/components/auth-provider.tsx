@@ -36,6 +36,8 @@ export const AuthProvider = ({ children, ...props }: ProviderProps) => {
     const getSession = async () => {
       try {
         const { data } = await api.get("/users");
+        console.log(data);
+
         setUser(data);
       } catch {}
       setIsLoading(false);

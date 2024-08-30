@@ -43,6 +43,7 @@ export type Task = {
   team_id?: number,
   org_id?: number,
   task_desc: string,
+  position: number,
   task_progress: Id,
   task_deadline?: string;
   assigned_to?: User[]

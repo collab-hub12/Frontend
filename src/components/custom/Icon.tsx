@@ -1,10 +1,11 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, MessageSquareDot } from "lucide-react";
 import { Home } from "lucide-react";
 import { Flame } from "lucide-react";
 
 const ICON_SOURCE_MAP: Record<string, LucideIcon> = {
   home: Home,
   flame: Flame,
+  notification: MessageSquareDot,
 };
 
 interface Icon {

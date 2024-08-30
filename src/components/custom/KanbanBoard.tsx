@@ -38,6 +38,14 @@ import { Textarea } from "../ui/textarea";
 import api from "@/utilities/axios";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import useIsMobile from "@/hooks/useIsMobile";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 const inter = Inter({ subsets: ["latin"] });
 
 export type DNDType = {
@@ -67,6 +75,9 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     progressState: string,
     task_id: number
   ): Promise<{ updated: boolean }> => {
+    console.log(progressState);
+    console.log(task_id);
+
     if (
       !["InProgress", "Done", "NotStarted", "InReview"].includes(progressState)
     )
@@ -160,11 +171,12 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     return container.items;
   };
 
+  const isMobile = useIsMobile();
   // DND Handlers
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: isMobile ? Infinity : 5,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -287,11 +299,13 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
     if (over?.id) {
       //api-call for changing progress state
       //parsing
-      const task_id = +over.id.toString().replace("item-", "");
+      const task_id = +active.id.toString().replace("item-", "");
+
       //get dragged down container
-      const over_Container = findValueOfItems(over.id, "item");
+      const over_Container = findValueOfItems(active.id, "item");
+      const position = over_Container;
       const updated_state = over_Container?.title!;
-      const previous_state = findItemProgress(over.id);
+      const previous_state = findItemProgress(active.id);
 
       // If state didnt update return the function
       if (previous_state === updated_state) return;
@@ -310,183 +324,201 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
   }
 
   return (
-    <div className="py-10">
-      <Modal
-        showModal={showAddContainerModal}
-        setShowModal={setShowAddContainerModal}
-      >
-        <form action={addTaskAction} className="px-10 flex flex-col gap-2">
-          <div className="flex justify-end w-full">
-            <X
-              onClick={() => setShowAddContainerModal(false)}
-              className="cursor-pointer"
-            />
-          </div>
-          <label>Task Title</label>
-          <Input type="text" placeholder="Task Title" name="taskTitle" />
-          <label>Task Description</label>
-          <Textarea
-            placeholder="Task Description"
-            name="taskDescription"
-            className="w-full"
-          />
-          <label>Task Progress</label>
-          <div className="flex items-center space-x-4 text-sm">
-            {" "}
-            <label>
-              <input
-                type="radio"
-                name="taskProgress"
-                value="Done"
-                className="border-2 border-solid border-[#1967D2]"
-              />{" "}
-              Done
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="InProgress" /> In
-              Progress
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="InReview" /> In
-              Review
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="NotStarted" /> Not
-              Started
-            </label>
-          </div>
-          <label>Task Deadline</label>
-          <div className="w-full items-center justify-center flex">
-            <DayPicker
-              mode="single"
-              selected={selected}
-              onSelect={setSelected}
-              footer={
-                selected && (
-                  <Input
-                    type="text"
-                    placeholder="Task Deadline"
-                    name="taskDeadline"
-                    value={selected.toLocaleDateString()}
-                    readOnly
-                  />
-                )
-              }
-            />
-          </div>
-          <div className="justify-center flex items-center gap-1 pt-2">
+    <div className="py-10 px-10 flex flex-col gap-2 ">
+      <AlertDialog>
+        <div className="flex items-center justify-end gap-y-4">
+          <AlertDialogTrigger asChild>
             <Button
               variant="outline"
-              className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+              className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
             >
               <PlusIcon className="w-4 h-4" />
               Add Task
             </Button>
-          </div>
-        </form>
-      </Modal>
-
-      <div className="flex items-center justify-end gap-y-4">
-        <Button
-          variant="outline"
-          className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
-          onClick={() => setShowAddContainerModal(true)}
-        >
-          <PlusIcon className="w-4 h-4" />
-          Add Task
-        </Button>
-      </div>
-      <div className="mt-10">
-        <div className="grid grid-cols-4 gap-6">
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                In Review
-              </div>
+          </AlertDialogTrigger>
+        </div>
+        <AlertDialogContent className="text-white border-[#52297A] border-[0.5px]">
+          <div className="flex flex-col w-full">
+            <div className="flex justify-end w-full">
+              <AlertDialogCancel className="border-none">
+                <X />
+              </AlertDialogCancel>
             </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                In Progress
+            <form action={addTaskAction} className="flex flex-col gap-2">
+              <label>Task Title</label>
+              <Input type="text" placeholder="Task Title" name="taskTitle" />
+              <label>Task Description</label>
+              <Textarea
+                placeholder="Task Description"
+                name="taskDescription"
+                className="w-full"
+              />
+              <label>Task Progress</label>
+              <div className="flex items-center space-x-4 text-sm">
+                <label>
+                  <input
+                    type="radio"
+                    name="taskProgress"
+                    value="Done"
+                    className="border-2 border-solid border-[#1967D2]"
+                  />{" "}
+                  Done
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="InProgress" />{" "}
+                  In Progress
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="InReview" /> In
+                  Review
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="NotStarted" />{" "}
+                  Not Started
+                </label>
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                Done
+              <label>Task Deadline</label>
+              <div className="w-full items-center justify-center flex">
+                <DayPicker
+                  mode="single"
+                  selected={selected}
+                  onSelect={setSelected}
+                  footer={
+                    selected && (
+                      <Input
+                        type="text"
+                        placeholder="Task Deadline"
+                        name="taskDeadline"
+                        value={selected.toLocaleDateString()}
+                        readOnly
+                      />
+                    )
+                  }
+                />
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 items-center ">
-              <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                Not Started
-              </div>
-            </div>
-          </div>
-
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCorners}
-            onDragStart={handleDragStart}
-            onDragMove={handleDragMove}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={containers.map((i) => i.id)}>
-              {containers.map((container) => (
-                <Container
-                  id={container.id}
-                  title={container.title}
-                  key={container.id}
-                  onAddItem={() => {
-                    setShowAddItemModal(true);
-                    setCurrentContainerId(container.id);
-                  }}
+              <div className="flex justify-center items-center">
+                <AlertDialogAction
+                  type="submit"
+                  className="flex gap-2 bg-[#52297A] text-white hover:bg-[#5a377d] hover:text-white"
                 >
-                  <SortableContext items={container.items.map((i) => i.id)}>
-                    <div className="flex items-start flex-col gap-y-4">
-                      {container.items.map((i) => (
+                  Add Task
+                </AlertDialogAction>
+              </div>
+            </form>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <div className="mt-10 ">
+        <div
+          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-4"} gap-6 `}
+        >
+          {isMobile ? (
+            containers.map((container) => (
+              <div key={container.id} className="mb-8 ">
+                <h2 className="font-bold  text-[#8491A4] mb-4 ">
+                  {container.title}
+                </h2>
+                <div className="flex flex-col gap-y-4">
+                  {container.items.map((item) => (
+                    <Items
+                      key={item.id}
+                      title={item.title}
+                      id={item.id}
+                      assigned_to={item.assigned_to || []}
+                      task_deadline={item.task_deadline || ""}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold  text-[#8491A4] ">In Review</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold  text-[#8491A4] ">In Progress</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold  text-[#8491A4] ">Done</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 items-center ">
+                  <div className="font-bold  text-[#8491A4] ">Not Started</div>
+                </div>
+              </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCorners}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={containers.map((i) => i.id)}>
+                  {containers.map((container) => (
+                    <Container
+                      id={container.id}
+                      title={container.title}
+                      key={container.id}
+                      onAddItem={() => {
+                        setShowAddItemModal(true);
+                        setCurrentContainerId(container.id);
+                      }}
+                    >
+                      <SortableContext items={container.items.map((i) => i.id)}>
+                        <div className="flex items-start flex-col gap-y-4">
+                          {container.items.map((i) => (
+                            <Items
+                              title={i.title}
+                              id={i.id}
+                              key={i.id}
+                              assigned_to={i.assigned_to || []}
+                              task_deadline={i.task_deadline || ""}
+                            />
+                          ))}
+                        </div>
+                      </SortableContext>
+                    </Container>
+                  ))}
+                </SortableContext>
+                <DragOverlay adjustScale={false}>
+                  {/* Drag Overlay For item Item */}
+                  {activeId && activeId.toString().includes("item") && (
+                    <Items
+                      id={activeId}
+                      title={findItemTitle(activeId)}
+                      assigned_to={findItemAssigneeDetails(activeId) || []}
+                      task_deadline={findItemDeadline(activeId) || ""}
+                    />
+                  )}
+                  {/* Drag Overlay For Container */}
+                  {activeId && activeId.toString().includes("container") && (
+                    <Container
+                      id={activeId}
+                      title={findContainerTitle(activeId)}
+                    >
+                      {findContainerItems(activeId).map((i) => (
                         <Items
+                          key={i.id}
                           title={i.title}
                           id={i.id}
-                          key={i.id}
                           assigned_to={i.assigned_to || []}
                           task_deadline={i.task_deadline || ""}
                         />
                       ))}
-                    </div>
-                  </SortableContext>
-                </Container>
-              ))}
-            </SortableContext>
-            <DragOverlay adjustScale={false}>
-              {/* Drag Overlay For item Item */}
-              {activeId && activeId.toString().includes("item") && (
-                <Items
-                  id={activeId}
-                  title={findItemTitle(activeId)}
-                  assigned_to={findItemAssigneeDetails(activeId) || []}
-                  task_deadline={findItemDeadline(activeId) || ""}
-                />
-              )}
-              {/* Drag Overlay For Container */}
-              {activeId && activeId.toString().includes("container") && (
-                <Container id={activeId} title={findContainerTitle(activeId)}>
-                  {findContainerItems(activeId).map((i) => (
-                    <Items
-                      key={i.id}
-                      title={i.title}
-                      id={i.id}
-                      assigned_to={i.assigned_to || []}
-                      task_deadline={i.task_deadline || ""}
-                    />
-                  ))}
-                </Container>
-              )}
-            </DragOverlay>
-          </DndContext>
+                    </Container>
+                  )}
+                </DragOverlay>
+              </DndContext>
+            </>
+          )}
         </div>
       </div>
     </div>

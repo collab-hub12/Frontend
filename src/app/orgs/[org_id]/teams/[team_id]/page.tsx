@@ -68,7 +68,7 @@ export default async function Teams({
       <Toaster position="bottom-left" reverseOrder={false} />
       <div className="flex justify-between items-center bg-[#181622] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold dark:text-white text-white">
+          <h1 className="text-3xl font-semibold text-white ">
             {teamMemberDetailsWithTeam.name.toUpperCase()}
           </h1>
         </div>
@@ -83,7 +83,7 @@ export default async function Teams({
                 key={user.id}
                 width={40}
                 height={40}
-                className="border-2 border-white rounded-full dark:border-gray-800"
+                className="border-2 rounded-full border-gray-800"
                 src={user.picture}
                 alt={user.name}
               />
@@ -95,13 +95,13 @@ export default async function Teams({
       <KanbanBoard data={tasks} org_id={org_id} team_id={team_id} />
       <div className="flex gap-4 w-full pt-6 flex-col md:flex-row">
         <div className="flex flex-col basis-[50%] w-full ">
-          <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
+          <h1 className="text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
             Access to the user
           </h1>
           <JoinedUser data={teamMemberDetailsWithTeam?.users as User[]} />
         </div>
         <div className="flex flex-col basis-[50%] w-full">
-          <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
+          <h1 className="text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
             Members in the organisation
           </h1>
           <Member org_id={org_id} />

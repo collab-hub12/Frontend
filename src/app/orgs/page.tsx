@@ -26,7 +26,7 @@ export default async function Orgs() {
 
   return (
     <div
-      className={` ${spaceGrotesk.className} flex flex-col p-6 md:p-10 w-full !dark:bg-[#13111C]`}
+      className={` ${spaceGrotesk.className} flex flex-col p-6 md:p-10 w-full !bg-[#13111C]`}
     >
       <div className="flex justify-between">
         <div className="flex flex-col">

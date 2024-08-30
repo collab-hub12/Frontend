@@ -75,11 +75,15 @@ export default async function Landing() {
   return (
     <>
       <div className="w-full bg-dot-white/[0.2] relative flex items-center justify-center flex-col bg-fixed !bg-[#13111C]">
-        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         <nav className="fixed w-full top-0 left-0 z-50 flex items-center px-5 pt-5">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between w-full md:w-3/12 bg-primary-v3/10 border border-[#474E85] py-3 px-6 rounded-full backdrop-blur-3xl">
-            <img src="/assets/flint_logo.svg" className="w-16 h-16 md:w-8 md:h-8" alt="Flint Logo" />
+              <img
+                src="/assets/flint_logo.svg"
+                className="w-16 h-16 md:w-8 md:h-8"
+                alt="Flint Logo"
+              />
               <div className="flex items-center gap-3 ml-8">
                 <a
                   className="text-sm font-medium text-neutral-200 hover:text-[#474E85] transition font-secondary"
@@ -156,17 +160,17 @@ export default async function Landing() {
             subtitle={textData[1].subtitle}
           />
           <div className="flex flex-wrap justify-center py-10 gap-4">
-          <ReusablePriceCard
-          planName={plans[0].planName}
-          price={plans[0].price}
-          features={plans[0].features}
-          />
-          <ReusablePriceCard
-          planName={plans[1].planName}
-          price={plans[1].price}
-          features={plans[1].features}
-          />
-          {/* <ReusablePriceCard
+            <ReusablePriceCard
+              planName={plans[0].planName}
+              price={plans[0].price}
+              features={plans[0].features}
+            />
+            <ReusablePriceCard
+              planName={plans[1].planName}
+              price={plans[1].price}
+              features={plans[1].features}
+            />
+            {/* <ReusablePriceCard
           planName={plans[2].planName}
           price={plans[2].price}
           features={plans[2].features}

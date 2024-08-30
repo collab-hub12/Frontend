@@ -30,13 +30,13 @@ const page = async ({
     <div className="flex flex-col w-full gap-6 h-50vh p-10">
       <div className="flex px-10 justify-between items-center bg-[#181622] py-4 rounded-md shadow-2xl drop-shadow-xl">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold dark:text-white text-white">
+          <h1 className="text-3xl font-semibold text-white text-white">
             {taskDetail.title.toUpperCase()}
           </h1>
         </div>
         <Button
           variant="outline"
-          className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+          className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
         >
           {taskDetail.task_progress}
         </Button>
@@ -52,7 +52,7 @@ const page = async ({
                 key={user.id}
                 width={40}
                 height={40}
-                className="border-2 border-white rounded-full dark:border-gray-800"
+                className="border-2 border-white rounded-full border-gray-800"
                 src={user.picture}
                 alt={user.name}
               />
@@ -84,7 +84,7 @@ const page = async ({
               </div>
             </div>
           </div>
-          <div className="rounded-md border-dotted dark:border-slate-800 border-2 p-6  gap-4 flex flex-col">
+          <div className="rounded-md border-dotted border-slate-800 border-2 p-6  gap-4 flex flex-col">
             <h1 className="font-bold text-[20px]">DESCRIPTION</h1>
             {/* Description of the task */}
             <h1 className="text-[14px] text-grey">{taskDetail.task_desc}</h1>

@@ -114,7 +114,7 @@ export const columns: ColumnDef<User>[] = [
           <DropdownMenu>
             <DropdownMenuTrigger
               asChild
-              className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+              className="border-[#52297A] text-[#BF93EC]  hover:text-white"
             >
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
@@ -247,7 +247,7 @@ export default function Member({ org_id, team_id }: propType) {
           />
         </div>
       </div>
-      <div className="rounded-md border dark:border-slate-800 h-[300px] overflow-auto">
+      <div className="rounded-md border border-slate-800 h-[300px] overflow-auto">
         <Table className="relative w-full">
           <TableBody>
             {table.getRowModel().rows?.length ? (
@@ -255,12 +255,12 @@ export default function Member({ org_id, team_id }: propType) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="flex items-center justify-between w-full dark:border-slate-800 h-[60px]"
+                  className="flex items-center justify-between w-full border-slate-800 h-[60px]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="flex items-center justify-start dark:border-slate-800"
+                      className="flex items-center justify-start border-slate-800"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

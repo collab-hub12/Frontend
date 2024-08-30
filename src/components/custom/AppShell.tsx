@@ -16,7 +16,7 @@ const AppShell = ({
 }) => {
   const isMobile = useIsMobile();
   return (
-    <div className="w-screen min-h-screen flex-1 flex">
+    <div className="w-screen min-h-screen flex-1 flex bg-[#13111C]">
       <div className="flex flex-1">
         {/*------------------------Sidebar--------------------*/}
         <div className="hidden md:block">
@@ -26,15 +26,12 @@ const AppShell = ({
         {/*------------------------Sidebar Ends--------------------*/}
         <div className="flex flex-col flex-1 ">
           {/*------------------------Top Bar--------------------*/}
-          <div className="px-[22px]   py-4   border-[0.5px] dark:border-[#1E293B] flex items-center justify-between  text  text-center ">
+          <div className="px-[22px]   py-4   border-[0.5px] border-[#1E293B] flex items-center justify-between  text  text-center ">
             <Image src={FlintLogo} alt="Flint Logo" className="w-16 h-10" />
 
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center justify-center">
                 {childrenTopBar}
-              </div>
-              <div className="flex items-center justify-center">
-                <ThemeToggle />
               </div>
             </div>
           </div>

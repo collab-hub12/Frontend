@@ -118,7 +118,7 @@ function Flow({
 
           <Button
             variant="outline"
-            className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+            className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
             onClick={() => {
               const node_id = uuid();
               const node = {

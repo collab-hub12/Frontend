@@ -41,7 +41,7 @@ const SearchMember = () => {
         />
         {searchResults.map(() => {
           return (
-            <div className="rounded-md border dark:border-slate-800  overflow-auto">
+            <div className="rounded-md border border-slate-800  overflow-auto">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0">

@@ -39,6 +39,13 @@ import api from "@/utilities/axios";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import useIsMobile from "@/hooks/useIsMobile";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 const inter = Inter({ subsets: ["latin"] });
 
 export type DNDType = {
@@ -312,100 +319,99 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
   }
 
   return (
-    <div className="py-10">
-      <Modal
-        showModal={showAddContainerModal}
-        setShowModal={setShowAddContainerModal}
-      >
-        <form action={addTaskAction} className="px-10 flex flex-col gap-2">
-          <div className="flex justify-end w-full">
-            <X
-              onClick={() => setShowAddContainerModal(false)}
-              className="cursor-pointer"
-            />
-          </div>
-          <label>Task Title</label>
-          <Input type="text" placeholder="Task Title" name="taskTitle" />
-          <label>Task Description</label>
-          <Textarea
-            placeholder="Task Description"
-            name="taskDescription"
-            className="w-full"
-          />
-          <label>Task Progress</label>
-          <div className="flex items-center space-x-4 text-sm">
-            {" "}
-            <label>
-              <input
-                type="radio"
-                name="taskProgress"
-                value="Done"
-                className="border-2 border-solid border-[#1967D2]"
-              />{" "}
-              Done
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="InProgress" /> In
-              Progress
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="InReview" /> In
-              Review
-            </label>
-            <label>
-              <input type="radio" name="taskProgress" value="NotStarted" /> Not
-              Started
-            </label>
-          </div>
-          <label>Task Deadline</label>
-          <div className="w-full items-center justify-center flex">
-            <DayPicker
-              mode="single"
-              selected={selected}
-              onSelect={setSelected}
-              footer={
-                selected && (
-                  <Input
-                    type="text"
-                    placeholder="Task Deadline"
-                    name="taskDeadline"
-                    value={selected.toLocaleDateString()}
-                    readOnly
-                  />
-                )
-              }
-            />
-          </div>
-          <div className="justify-center flex items-center gap-1 pt-2">
+    <div className="py-10 px-10 flex flex-col gap-2 ">
+      <AlertDialog>
+        <div className="flex items-center justify-end gap-y-4">
+          <AlertDialogTrigger asChild>
             <Button
               variant="outline"
-              className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+              className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
             >
               <PlusIcon className="w-4 h-4" />
               Add Task
             </Button>
+          </AlertDialogTrigger>
+        </div>
+        <AlertDialogContent className="text-white border-[#52297A] border-[0.5px]">
+          <div className="flex flex-col w-full">
+            <div className="flex justify-end w-full">
+              <AlertDialogCancel className="border-none">
+                <X />
+              </AlertDialogCancel>
+            </div>
+            <form action={addTaskAction} className="flex flex-col gap-2">
+              <label>Task Title</label>
+              <Input type="text" placeholder="Task Title" name="taskTitle" />
+              <label>Task Description</label>
+              <Textarea
+                placeholder="Task Description"
+                name="taskDescription"
+                className="w-full"
+              />
+              <label>Task Progress</label>
+              <div className="flex items-center space-x-4 text-sm">
+                <label>
+                  <input
+                    type="radio"
+                    name="taskProgress"
+                    value="Done"
+                    className="border-2 border-solid border-[#1967D2]"
+                  />{" "}
+                  Done
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="InProgress" />{" "}
+                  In Progress
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="InReview" /> In
+                  Review
+                </label>
+                <label>
+                  <input type="radio" name="taskProgress" value="NotStarted" />{" "}
+                  Not Started
+                </label>
+              </div>
+              <label>Task Deadline</label>
+              <div className="w-full items-center justify-center flex">
+                <DayPicker
+                  mode="single"
+                  selected={selected}
+                  onSelect={setSelected}
+                  footer={
+                    selected && (
+                      <Input
+                        type="text"
+                        placeholder="Task Deadline"
+                        name="taskDeadline"
+                        value={selected.toLocaleDateString()}
+                        readOnly
+                      />
+                    )
+                  }
+                />
+              </div>
+              <div className="flex justify-center items-center">
+                <AlertDialogAction
+                  type="submit"
+                  className="flex gap-2 bg-[#52297A] text-white hover:bg-[#5a377d] hover:text-white"
+                >
+                  Add Task
+                </AlertDialogAction>
+              </div>
+            </form>
           </div>
-        </form>
-      </Modal>
+        </AlertDialogContent>
+      </AlertDialog>
 
-      <div className="flex items-center justify-end gap-y-4">
-        <Button
-          variant="outline"
-          className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
-          onClick={() => setShowAddContainerModal(true)}
-        >
-          <PlusIcon className="w-4 h-4" />
-          Add Task
-        </Button>
-      </div>
-      <div className="mt-10">
+      <div className="mt-10 ">
         <div
-          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-4"} gap-6`}
+          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-4"} gap-6 `}
         >
           {isMobile ? (
             containers.map((container) => (
-              <div key={container.id} className="mb-8">
-                <h2 className="font-bold dark:text-[#8491A4] text-[#8491A4] mb-4">
+              <div key={container.id} className="mb-8 ">
+                <h2 className="font-bold  text-[#8491A4] mb-4 ">
                   {container.title}
                 </h2>
                 <div className="flex flex-col gap-y-4">
@@ -425,30 +431,22 @@ export default function KanbanBoard({ data, org_id, team_id }: PropType) {
             <>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center ">
-                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                    In Review
-                  </div>
+                  <div className="font-bold  text-[#8491A4] ">In Review</div>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center ">
-                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                    In Progress
-                  </div>
+                  <div className="font-bold  text-[#8491A4] ">In Progress</div>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center ">
-                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                    Done
-                  </div>
+                  <div className="font-bold  text-[#8491A4] ">Done</div>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center ">
-                  <div className="font-bold dark:text-[#8491A4] text-[#8491A4] ">
-                    Not Started
-                  </div>
+                  <div className="font-bold  text-[#8491A4] ">Not Started</div>
                 </div>
               </div>
               <DndContext

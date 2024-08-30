@@ -23,7 +23,7 @@ export default async function AvatarUsage() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="rounded-full border-1 dark:border-[#52297A]">
+          <Avatar className="rounded-full border-1 border-[#52297A]">
             <AvatarImage src={data?.picture} alt="ok" />
             <AvatarFallback>
               {data?.name.substr(0, 2).toUpperCase()}
@@ -34,7 +34,7 @@ export default async function AvatarUsage() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none dark:text-[#BF93EC] ">
+            <p className="text-sm font-medium leading-none text-[#BF93EC] ">
               {data?.name}
             </p>
             <p className="text-xs leading-none text-muted-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#C6BEE5] via-[#7B89D4] to-[#C6BEE5]">

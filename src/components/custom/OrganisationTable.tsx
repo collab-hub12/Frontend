@@ -98,7 +98,7 @@ export const columns: ColumnDef<Org>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger
             asChild
-            className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+            className="border-[#52297A] text-[#BF93EC]  hover:text-white"
           >
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
@@ -107,7 +107,7 @@ export const columns: ColumnDef<Org>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="dark:border-[#52297A]  dark:text-[#BF93EC]  hover:text-white"
+            className="border-[#52297A]  text-[#BF93EC]  hover:text-white"
           >
             <DropdownMenuLabel>Buckle Up</DropdownMenuLabel>
             <DropdownMenuItem>Edit Organisation</DropdownMenuItem>
@@ -179,13 +179,13 @@ export function OrganisationTable({ data }: propType) {
             <AlertDialogTrigger asChild>
               <Button
                 variant="outline"
-                className="flex flex-row gap-1 dark:border-[#52297A] dark:text-[#BF93EC] hover:dark:bg-[#52297A] hover:text-white"
+                className="flex flex-row gap-1 border-[#52297A] text-[#BF93EC] hover:bg-[#52297A] hover:text-white"
               >
                 <PlusIcon className="w-4 h-4" />
                 Create Organisation
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="dark:text-white dark:border-[#52297A] dark:border-[0.5px]">
+            <AlertDialogContent className="text-white border-[#52297A] border-[0.5px]">
               <div className="flex flex-col w-full">
                 <div className="flex justify-end w-full">
                   <AlertDialogCancel className="border-none">
@@ -206,7 +206,7 @@ export function OrganisationTable({ data }: propType) {
                   <div className="flex justify-center items-center">
                     <AlertDialogAction
                       type="submit"
-                      className="flex gap-2 dark:bg-[#52297A] dark:text-white hover:dark:bg-[#5a377d] hover:dark:text-white"
+                      className="flex gap-2 bg-[#52297A] text-white hover:bg-[#5a377d] hover:text-white"
                     >
                       Create Organisation
                     </AlertDialogAction>
@@ -244,19 +244,19 @@ export function OrganisationTable({ data }: propType) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md border dark:border-slate-800 h-auto w-full flex flex-col">
+      <div className="rounded-md border border-slate-800 h-auto w-full flex flex-col">
         <Table className="relative w-full">
           <TableHeader className="flex items-center w-full">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="flex items-center w-full dark:border-slate-800"
+                className="flex items-center w-full border-slate-800"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="flex items-center w-full justify-center dark:border-slate-800"
+                      className="flex items-center w-full justify-center border-slate-800"
                     >
                       {header.isPlaceholder
                         ? null
@@ -276,12 +276,12 @@ export function OrganisationTable({ data }: propType) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="flex items-center w-full  dark:border-slate-800 h-[60px]"
+                  className="flex items-center w-full  border-slate-800 h-[60px]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="flex items-center w-full justify-center dark:border-slate-800"
+                      className="flex items-center w-full justify-center border-slate-800"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

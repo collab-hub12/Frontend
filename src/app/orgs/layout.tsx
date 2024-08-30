@@ -29,19 +29,12 @@ export default function ChildrenLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+      <body
+        className={`${spaceGrotesk.className} min-h-screen flex flex-col bg-[#13111C] text-white`}
       >
-        <body
-          className={`${spaceGrotesk.className} min-h-screen flex flex-col dark:bg-[#13111C]`}
-        >
-          <AppShell childrenTopBar={<AvatarUsage />}>{children}</AppShell>
-        </body>
-        <LandingFooter />
-      </ThemeProvider>
+        <AppShell childrenTopBar={<AvatarUsage />}>{children}</AppShell>
+      </body>
+      <LandingFooter />
     </html>
   );
 }

@@ -44,19 +44,19 @@ export default async function Teams({
       <Toaster position="bottom-left" reverseOrder={false} />
       <div className="flex  justify-between bg-[#181622] px-10 py-4 rounded-md shadow-2xl drop-shadow-xl w-full">
         <div className="flex  flex-col md:flex-row justify-between w-full">
-          <h1 className="text-xl md:text-3xl font-semibold dark:text-white text-white ">
+          <h1 className="text-xl md:text-3xl font-semibold  text-white ">
             {(orgDetailResponse as Org)?.org_name.toUpperCase()}
           </h1>
           <div className="flex gap-2">
             <div className="px-6 rounded-md flex gap-2 items-center ">
               <Building color="#8491A4" />
-              <h1 className=" dark:text-[#8491A4] text-[#8491A4] text-sm md:text-base">
+              <h1 className="  text-[#8491A4] text-sm md:text-base">
                 {(orgDetailResponse as Org)?.org_desc}
               </h1>
             </div>
             <div className="px-6 rounded-md flex gap-2 items-center ">
               <MapPin color="#8491A4" />
-              <h1 className="text-sm md:text-base dark:text-[#8491A4] text-[#8491A4]">
+              <h1 className="text-sm md:text-base  text-[#8491A4]">
                 {(orgDetailResponse as Org)?.location}
               </h1>
             </div>
@@ -69,13 +69,13 @@ export default async function Teams({
       />
       <div className="flex flex-col md:flex-row gap-4 w-full pt-6">
         <div className="flex flex-col basis-[50%] w-full ">
-          <h1 className="dark:text-[#8491A4] text-[#8491A4] text-2xl font-semibold ">
+          <h1 className="text-[#8491A4] text-2xl font-semibold ">
             Users with access
           </h1>
           <JoinedUser data={memberDetailsOfOrg as User[]} />
         </div>
         <div className="flex flex-col basis-[50%] w-full">
-          <h1 className="dark:text-[#BF93EC] text-[#8491A4] text-2xl font-semibold ">
+          <h1 className="text-[#BF93EC]  text-2xl font-semibold ">
             Users pool
           </h1>
           <Member />

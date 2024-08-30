@@ -160,7 +160,7 @@ export const columns: ColumnDef<User>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger
             asChild
-            className="dark:border-[#52297A] dark:text-[#BF93EC]  hover:text-white"
+            className="border-[#52297A] text-[#BF93EC]  hover:text-white"
           >
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
@@ -169,7 +169,7 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="dark:border-[#52297A]  dark:text-[#BF93EC]  hover:text-white"
+            className="border-[#52297A]  text-[#BF93EC]  hover:text-white"
           >
             <DropdownMenuLabel>Power Ups</DropdownMenuLabel>
             <DropdownMenuItem>
@@ -240,19 +240,19 @@ export function JoinedUser({ data }: propType) {
           />
         </div>
       </div>
-      <div className="rounded-md border dark:border-slate-800 h-[300px]">
+      <div className="rounded-md border border-slate-800 h-[300px]">
         <Table className="relative w-full">
           <TableHeader className="flex items-center w-full">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="flex items-center w-full dark:border-slate-800 sticky top-0"
+                className="flex items-center w-full border-slate-800 sticky top-0"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="flex items-center w-full justify-center dark:border-slate-800 sticky top-0"
+                      className="flex items-center w-full justify-center border-slate-800 sticky top-0"
                     >
                       {header.isPlaceholder
                         ? null
@@ -275,12 +275,12 @@ export function JoinedUser({ data }: propType) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="flex items-center w-full dark:border-slate-800 h-[60px]"
+                    className="flex items-center w-full border-slate-800 h-[60px]"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="flex items-center w-full justify-center dark:border-slate-800"
+                        className="flex items-center w-full justify-center border-slate-800"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { spaceGrotesk } from "@/utilities/font";
 import { cn } from "@/lib/utils";
@@ -9,72 +9,86 @@ import { Button } from "@/components/ui/button";
 
 const tabs = ["Activity", "Request", "What's New"];
 
-const activityData = {
-  "Past 7 Days": [
-    "UI for mobile responsiveness",
-    "UI Design for the Invitation/Rejection Page",
-    "Lorem ipsum doret",
-    "UI for mobile responsiveness",
-    "UI for mobile responsiveness Lorem ipsum doret",
-  ],
-  Earlier: [
-    "frontend update",
-    "UI for mobile responsiveness",
-    "UI for mobile responsiveness",
-  ],
-};
-
-const requestData = {
-  Pending: ["Request for project access", "Invitation to collaborate"],
-  Completed: ["Access granted to Project X", "Collaboration request accepted"],
-};
-
-const whatsNewData = {
-  "Latest Updates": [
-    "New feature: Dark mode",
-    "Performance improvements",
-    "Bug fixes in the dashboard",
-  ],
+const initialData = {
+  Activity: {
+    "Past 7 Days": [
+      "UI Design for the Invitation/Rejection Page",
+      "Lorem ipsum doret",
+    ],
+    Earlier: ["frontend update", "UI for mobile responsiveness"],
+  },
+  Request: {
+    Pending: ["Request for project access", "Invitation to collaborate"],
+    Completed: [
+      "Access granted to Project X",
+      "Collaboration request accepted",
+    ],
+  },
+  "What's New": {
+    "Latest Updates": [
+      "New feature: Dark mode",
+      "Performance improvements",
+      "Bug fixes in the dashboard",
+    ],
+  },
 };
 
 export default function Notifications() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [currentData, setCurrentData] =
-    useState<Record<string, string[]>>(activityData);
-  const [doneItems, setDoneItems] = useState<
-    { item: string; originalSection: string }[]
-  >([]);
-
-  useEffect(() => {
-    switch (activeTab) {
-      case "Activity":
-        setCurrentData(activityData);
-        break;
-      case "Request":
-        setCurrentData(requestData);
-        break;
-      case "What's New":
-        setCurrentData(whatsNewData);
-        break;
-      default:
-        setCurrentData(activityData);
-    }
-    setDoneItems([]);
-  }, [activeTab]);
+  const [data, setData] = useState(initialData);
+  const [doneItems, setDoneItems] = useState<Record<string, string[]>>({
+    Activity: [],
+    Request: [],
+    "What's New": [],
+  });
 
   const handleCheck = (item: string, sectionTitle: string) => {
-    setCurrentData((prevData) => ({
+    setData((prevData) => ({
       ...prevData,
-      [sectionTitle]: prevData[sectionTitle].filter((i) => i !== item),
+      [activeTab]: {
+        ...prevData[activeTab as keyof typeof prevData],
+        [sectionTitle]: (
+          prevData[activeTab as keyof typeof prevData] as Record<
+            string,
+            string[]
+          >
+        )[sectionTitle].filter((i: string) => i !== item),
+      },
     }));
-    setDoneItems((prev) => [...prev, { item, originalSection: sectionTitle }]);
+    setDoneItems((prev) => ({
+      ...prev,
+      [activeTab]: [...prev[activeTab], item],
+    }));
   };
 
-  const handleUncheck = (item: string, originalSection: string) => {
-    setDoneItems((prev) => prev.filter((i) => i.item !== item));
-    setCurrentData((prevData) => ({
+  const handleUncheck = (item: string) => {
+    setDoneItems((prev) => ({
+      ...prev,
+      [activeTab]: prev[activeTab].filter((i) => i !== item),
+    }));
+    const originalSection =
+      Object.keys(data[activeTab as keyof typeof data]).find((section) =>
+        (
+          initialData[activeTab as keyof typeof initialData] as Record<
+            string,
+            string[]
+          >
+        )[section]?.includes(item)
+      ) ?? Object.keys(data[activeTab as keyof typeof data])[0];
+    setData((prevData) => ({
       ...prevData,
-      [originalSection]: [...prevData[originalSection], item],
+      [activeTab]: {
+        ...prevData[activeTab as keyof typeof prevData],
+        [originalSection]: [
+          ...(
+            prevData[activeTab as keyof typeof prevData] as Record<
+              string,
+              string[]
+            >
+          )[originalSection as keyof (typeof prevData)[keyof typeof prevData]],
+          item,
+        ],
+      },
     }));
   };
 
@@ -85,23 +99,20 @@ export default function Notifications() {
       <h1 className="text-lg md:text-3xl font-semibold mb-4">Notifications</h1>
       <TabBar tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-        {Object.entries(currentData).map(([title, notifications]) => (
-          <NotificationSection
-            key={title}
-            title={title}
-            notifications={notifications}
-            onCheck={(item) => handleCheck(item, title)}
-          />
-        ))}
+        {Object.entries(data[activeTab as keyof typeof data]).map(
+          ([title, notifications]) => (
+            <NotificationSection
+              key={title}
+              title={title}
+              notifications={notifications as string[]}
+              onCheck={(item) => handleCheck(item, title)}
+            />
+          )
+        )}
         <NotificationSection
           title="Done"
-          notifications={doneItems.map((item) => item.item)}
-          onUncheck={(item) => {
-            const doneItem = doneItems.find((i) => i.item === item);
-            if (doneItem) {
-              handleUncheck(item, doneItem.originalSection);
-            }
-          }}
+          notifications={doneItems[activeTab]}
+          onUncheck={handleUncheck}
           isDoneSection
         />
       </div>
@@ -124,8 +135,10 @@ function TabBar({
         <Button
           key={tab}
           variant="outline"
-          className={`flex flex-row gap-1 bg-transparent ${
-            activeTab === tab ? "border-[#52297A] text-[#BF93EC]" : "text-white"
+          className={`flex flex-row gap-1 ${
+            activeTab === tab
+              ? "border-[#52297A] text-[#BF93EC] "
+              : "text-white"
           }`}
           onClick={() => setActiveTab(tab)}
         >
@@ -196,14 +209,13 @@ function NotificationItem({
         />
         <div
           className={cn(
-            "w-4 h-4 border !border-[#424244] rounded-full",
-            isDone && " !border-[#9A74BF] "
+            "w-4 h-4 border  border-[#424244] rounded-full",
+            isDone && "border-[#BF93EC]"
           )}
         >
           <Check
             size={16}
-            strokeWidth={3}
-            className={cn("text-[#424244]", isDone && " text-[#9A74BF]")}
+            className={cn("text-[#424244]", isDone && "text-[#BF93EC]")}
           />
         </div>
       </div>
